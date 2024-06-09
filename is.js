@@ -10,6 +10,18 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 
+// Función para obtener el nombre del juego desde un ID
+async function obtenerNombreJuego(juegoId) {
+  try {
+    const response = await fetch(`https://api.roblox.com/games/get?id=${juegoId}`);
+    const data = await response.json();
+    return data.name;
+  } catch (error) {
+    console.error("Error al obtener el nombre del juego:", error);
+    return null;
+  }
+}
+
 async function obtenerScripts() {
   const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
   const scriptNames = await response.text();
@@ -20,10 +32,14 @@ async function obtenerScripts() {
     const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`; 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
+    const juegoId = name.split('/')[0];
+    const nombreJuego = await obtenerNombreJuego(juegoId);
+    
     scriptsConContenido.push({
-      titulo: name,
+      titulo: nombreJuego || "Nombre no encontrado", 
       contenido: contenidoScript,
-      url: `https://github.com/OneCreatorX-New/TwoDev/blob/main/${name}.lua`
+      url: `https://github.com/OneCreatorX-New/TwoDev/blob/main/${name}.lua`,
+      idJuego: juegoId
     });
   }
 
@@ -55,15 +71,13 @@ function mostrarScripts() {
       <h2>${script.titulo}</h2>
       <pre id="script-${i + 1}">${script.contenido}</pre>
       <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-      <button onclick="compartirScript('${script.titulo}')">Compartir</button>
+      <button onclick="compartirScript('${script.idJuego}')">Compartir</button>
     `;
     contenedorScripts.appendChild(divScript);
 
-    // Espacio para el anuncio
     if ((i + 1) % 1 === 0 && i + 1 < fin) {
       const divAnuncio = document.createElement("div");
       divAnuncio.classList.add("anuncios");
-      // Aquí se agrega el código de AdSense
       divAnuncio.innerHTML = `
         <ins class="adsbygoogle"
              style="display:block"
@@ -110,7 +124,7 @@ busquedaInput.addEventListener("input", () => {
     mostrarScripts();
     return;
   }
-  const scriptsFiltrados = scriptsOriginales.filter(script => script.titulo.toLowerCase().includes(terminoBusqueda));
+  const scriptsFiltrados = scriptsOriginales.filter(script => script.titulo.toLowerCase().includes(terminoBusqueda) || script.idJuego.toString() === terminoBusqueda);
   scripts = scriptsFiltrados;
   paginaActual = 0;
   mostrarScripts();
