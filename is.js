@@ -10,7 +10,7 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 
-// Función para obtener el ID y el nombre del juego desde la URL
+// Funció
 function obtenerInfoJuego(urlJuego) {
   const partesUrl = urlJuego.split('/');
   const nombreJuego = partesUrl[partesUrl.length - 1];
@@ -25,15 +25,15 @@ async function obtenerScripts() {
 
   const scriptsConContenido = [];
   for (const name of scriptNamesArray) {
-    // Obtener información del juego desde la URL
+    // Obtener i
     const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    // Crear la URL del script en GitHub 
+    // Crear
     const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua`;
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
     scriptsConContenido.push({
-      titulo: nombreJuego, // Nombre del juego como título
+      titulo: nombreJuego, // Nombre 
       contenido: contenidoScript,
       url: name, // URL completa del juego en Roblox
       idJuego: juegoId,
