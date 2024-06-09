@@ -10,6 +10,14 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 
+// Función para obtener el ID y el nombre del juego desde la URL
+function obtenerInfoJuego(urlJuego) {
+  const partesUrl = urlJuego.split('/');
+  const juegoId = partesUrl[partesUrl.length - 1];
+  const nombreJuego = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
+  return { juegoId, nombreJuego };
+}
+
 async function obtenerScripts() {
   const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
   const scriptNames = await response.text();
@@ -20,11 +28,8 @@ async function obtenerScripts() {
     const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`; 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
-    // Obtener el ID del juego del nombre del script
-    const juegoId = name.split('/')[0];
-
-    // Obtener el nombre del juego desde la URL
-    const nombreJuego = obtenerNombreJuego(juegoId);
+    // Obtener información del juego desde la URL
+    const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
     scriptsConContenido.push({
       titulo: nombreJuego,
@@ -35,18 +40,6 @@ async function obtenerScripts() {
   }
 
   return scriptsConContenido;
-}
-
-// Función para obtener el nombre del juego desde la URL
-function obtenerNombreJuego(juegoId) {
-  const url = `https://www.roblox.com/games/${juegoId}`;
-  const partesUrl = url.split('/');
-
-  // El nombre del juego es el penúltimo elemento de la URL
-  const nombreJuego = partesUrl[partesUrl.length - 2];
-
-  // Reemplazar "-" por espacios
-  return nombreJuego.replace(/-/g, ' ');
 }
 
 function compartirScript(nombreScript) {
@@ -75,6 +68,7 @@ function mostrarScripts() {
       <pre id="script-${i + 1}">${script.contenido}</pre>
       <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
       <button onclick="compartirScript('${script.idJuego}')">Compartir</button>
+      <button onclick="window.open('https://www.roblox.com/games/${script.idJuego}');">Ir al Juego</button>
     `;
     contenedorScripts.appendChild(divScript);
 
