@@ -4,168 +4,193 @@ const anteriorBtn = document.getElementById("anterior");
 const siguienteBtn = document.getElementById("siguiente");
 const infoPagina = document.getElementById("info-pagina");
 
+const filtroTodosBtn = document.getElementById("filtro-todos");
+const filtroUniversalesBtn = document.getElementById("filtro-universales");
+const filtroJuegosBtn = document.getElementById("filtro-juegos");
+
 let scriptsMostrados = 0;
 let scriptsPorPagina = 5;
 let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
+let filtroActual = "todos";
 
 function obtenerInfoJuego(urlJuego) {
-  if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
-    const partesUrl = urlJuego.split('/');
-    const nombreJuego = partesUrl[partesUrl.length - 1]; 
-    const juegoId = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
-    return { juegoId, nombreJuego };
-  } else {
-    return { juegoId: '', nombreJuego: urlJuego }; 
-  }
+    if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
+        const partesUrl = urlJuego.split('/');
+        const nombreJuego = partesUrl[partesUrl.length - 1].replace(/-/g, ' ');
+        const juegoId = partesUrl[partesUrl.length - 2];
+        return { juegoId, nombreJuego };
+    } else {
+        return { juegoId: '', nombreJuego: urlJuego };
+    }
 }
 
 async function obtenerScripts() {
-  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
-  const scriptNames = await response.text();
-  const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
+    const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
+    const scriptNames = await response.text();
+    const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
 
-  const scriptsConContenido = [];
-  for (const name of scriptNamesArray) {
-    const { juegoId, nombreJuego } = obtenerInfoJuego(name);
+    const scriptsConContenido = [];
+    for (const name of scriptNamesArray) {
+        const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`; 
+        const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`; 
+        const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
 
-    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
+        scriptsConContenido.push({
+            titulo: nombreJuego, 
+            contenido: contenidoScript,
+            url: name, 
+            idJuego: juegoId,
+            nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`
+        });
+    }
 
-    scriptsConContenido.push({
-      titulo: nombreJuego, 
-      contenido: contenidoScript,
-      url: name, 
-      idJuego: juegoId,
-      nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`
-    });
-  }
-
-  return scriptsConContenido;
+    return scriptsConContenido;
 }
 
 function compartirScript(nombreScript) {
-  const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`; 
-  navigator.clipboard.writeText(urlCompartir)
-    .then(() => {
-      console.log("URL copiada al portapapeles");
-    })
-    .catch(err => {
-      console.error("Error al copiar: ", err);
-    });
+    const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
+    navigator.clipboard.writeText(urlCompartir)
+        .then(() => {
+            console.log("URL copiada al portapapeles");
+        })
+        .catch(err => {
+            console.error("Error al copiar: ", err);
+        });
 }
 
 function mostrarScripts() {
-  contenedorScripts.innerHTML = '';
+    contenedorScripts.innerHTML = '';
 
-  const inicio = paginaActual * scriptsPorPagina;
-  const fin = Math.min(inicio + scriptsPorPagina, scripts.length);
+    const scriptsFiltrados = scripts.filter(script => {
+        if (filtroActual === "universales") {
+            return !script.url.includes('roblox.com') && !script.url.includes('games.roblox.com');
+        } else if (filtroActual === "juegos") {
+            return script.url.includes('roblox.com') || script.url.includes('games.roblox.com');
+        }
+        return true;
+    });
 
-  for (let i = inicio; i < fin; i++) {
-    const script = scripts[i];
-    const divScript = document.createElement("div");
-    divScript.classList.add("script");
-    divScript.innerHTML = `
-      <h2>${script.titulo}</h2>
-      <pre id="script-${i + 1}">${script.contenido}</pre>
-      <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-      <button onclick="compartirScript('${script.titulo}')">Compartir</button>
-      ${script.idJuego ? `<button onclick="window.open('${script.url}');">Ir al Juego</button>` : ''}
-    `;
-    contenedorScripts.appendChild(divScript);
+    const inicio = paginaActual * scriptsPorPagina;
+    const fin = Math.min(inicio + scriptsPorPagina, scriptsFiltrados.length);
 
-    if ((i + 1) % 1 === 0 && i + 1 < fin) {
-      const divAnuncio = document.createElement("div");
-      divAnuncio.classList.add("anuncios");
-      divAnuncio.innerHTML = `
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6026238594380398"
-             data-ad-slot="2569100541"
-             data-ad-format="autorelaxed"
-             data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      `;
-      contenedorScripts.appendChild(divAnuncio);
+    for (let i = inicio; i < fin; i++) {
+        const script = scriptsFiltrados[i];
+        const divScript = document.createElement("div");
+        divScript.classList.add("script");
+        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
+        contenedorScripts.appendChild(divScript);
+
+        if ((i + 1) % 1 === 0 && i + 1 < fin) {
+            const divAnuncio = document.createElement("div");
+            divAnuncio.classList.add("anuncios");
+            divAnuncio.innerHTML = `
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-6026238594380398"
+                     data-ad-slot="2569100541"
+                     data-ad-format="autorelaxed"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            `;
+            contenedorScripts.appendChild(divAnuncio);
+        }
     }
-  }
 
-  actualizarBotonesNavegacion();
+    actualizarBotonesNavegacion();
 }
 
 function actualizarBotonesNavegacion() {
-  anteriorBtn.style.display = paginaActual > 0 ? 'inline-block' : 'none';
-  siguienteBtn.style.display = (paginaActual + 1) * scriptsPorPagina < scripts.length ? 'inline-block' : 'none';
-  infoPagina.textContent = `Página ${paginaActual + 1} de ${Math.ceil(scripts.length / scriptsPorPagina)}`;
+    anteriorBtn.style.display = paginaActual > 0 ? 'inline-block' : 'none';
+    siguienteBtn.style.display = (paginaActual + 1) * scriptsPorPagina < scripts.length ? 'inline-block' : 'none';
+    infoPagina.textContent = `Página ${paginaActual + 1} de ${Math.ceil(scripts.length / scriptsPorPagina)}`;
 }
 
 anteriorBtn.addEventListener("click", () => {
-  if (paginaActual > 0) {
-    paginaActual--;
-    mostrarScripts();
-  }
+    if (paginaActual > 0) {
+        paginaActual--;
+        mostrarScripts();
+    }
 });
 
 siguienteBtn.addEventListener("click", () => {
-  if ((paginaActual + 1) * scriptsPorPagina < scripts.length) {
-    paginaActual++;
-    mostrarScripts();
-  }
+    if ((paginaActual + 1) * scriptsPorPagina < scripts.length) {
+        paginaActual++;
+        mostrarScripts();
+    }
 });
 
 busquedaInput.addEventListener("input", () => {
-  const terminoBusqueda = busquedaInput.value.toLowerCase();
-  if (terminoBusqueda === "") {
-    scripts = scriptsOriginales;
+    const terminoBusqueda = busquedaInput.value.toLowerCase();
+    if (terminoBusqueda === "") {
+        scripts = scriptsOriginales;
+        paginaActual = 0;
+        mostrarScripts();
+        return;
+    }
+
+    const scriptsFiltrados = scriptsOriginales.filter(script =>
+        script.titulo.toLowerCase().includes(terminoBusqueda)
+    );
+    scripts = scriptsFiltrados;
     paginaActual = 0;
     mostrarScripts();
-    return;
-  }
-
-  const scriptsFiltrados = scriptsOriginales.filter(script => 
-    script.titulo.toLowerCase().includes(terminoBusqueda) 
-  ); 
-  scripts = scriptsFiltrados;
-  paginaActual = 0;
-  mostrarScripts();
 });
 
 async function iniciar() {
-  scripts = await obtenerScripts();
-  scriptsOriginales = [...scripts];
-  mostrarScripts();
+    scripts = await obtenerScripts();
+    scriptsOriginales = [...scripts];
+    mostrarScripts();
 }
 
 function copiarAlPortapapeles(elemento) {
-  navigator.clipboard.writeText(elemento.textContent)
-    .then(() => {
-      console.log("URL copiada al portapapeles");
-    })
-    .catch(err => {
-      console.error("Error al copiar: ", err);
-    });
+    navigator.clipboard.writeText(elemento.textContent)
+        .then(() => {
+            console.log("URL copiada al portapapeles");
+        })
+        .catch(err => {
+            console.error("Error al copiar: ", err);
+        });
 }
+
+filtroTodosBtn.addEventListener("click", () => {
+    filtroActual = "todos";
+    paginaActual = 0;
+    mostrarScripts();
+});
+
+filtroUniversalesBtn.addEventListener("click", () => {
+    filtroActual = "universales";
+    paginaActual = 0;
+    mostrarScripts();
+});
+
+filtroJuegosBtn.addEventListener("click", () => {
+    filtroActual = "juegos";
+    paginaActual = 0;
+    mostrarScripts();
+});
 
 iniciar();
 
-const urlParams = new URLSearchParams(window.location.search); 
+const urlParams = new URLSearchParams(window.location.search);
 const nombreScript = urlParams.get('script');
 
 async function inici() {
-  scripts = await obtenerScripts();
-  scriptsOriginales = [...scripts];
-  mostrarScripts();
+    scripts = await obtenerScripts();
+    scriptsOriginales = [...scripts];
+    mostrarScripts();
 
-  setTimeout(() => {
-    if (nombreScript) {
-      busquedaInput.value = nombreScript;
-      busquedaInput.dispatchEvent(new Event('input'));
-    }
-  }, 500);
+    setTimeout(() => {
+        if (nombreScript) {
+            busquedaInput.value = nombreScript;
+            busquedaInput.dispatchEvent(new Event('input'));
+        }
+    }, 500);
 }
 
 inici();
