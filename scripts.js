@@ -11,7 +11,7 @@ let paginaActual = 0;
 let scriptsOriginales = [];
 
 async function obtenerScripts() {
-  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/OneDev/blob/main/Test/scripts.txt");
+  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/oneDev/main/Test/scripts.txt?token=GHSAT0AAAAAACTMSKSKLXPBFSXQPTZPBSCUZTFSAMA");
   const scriptNames = await response.text();
   const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
 
