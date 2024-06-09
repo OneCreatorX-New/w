@@ -7,6 +7,11 @@ const infoPagina = document.getElementById("info-pagina");
 const filtroTodosBtn = document.getElementById("filtro-todos");
 const filtroUniversalesBtn = document.getElementById("filtro-universales");
 const filtroJuegosBtn = document.getElementById("filtro-juegos");
+const mostrarRecientesBtn = document.getElementById("mostrar-recientes");
+const mostrarAntiguosBtn = document.getElementById("mostrar-antiguos");
+const discordInvitacionBtn = document.getElementById("discord-invitacion");
+const youtubeBtn = document.getElementById("youtube");
+const enviarMensajeBtn = document.getElementById("enviar-mensaje");
 
 let scriptsMostrados = 0;
 let scriptsPorPagina = 5;
@@ -173,6 +178,46 @@ filtroJuegosBtn.addEventListener("click", () => {
     filtroActual = "juegos";
     paginaActual = 0;
     mostrarScripts();
+});
+
+mostrarRecientesBtn.addEventListener("click", () => {
+    scripts.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    paginaActual = 0;
+    mostrarScripts();
+});
+
+mostrarAntiguosBtn.addEventListener("click", () => {
+    scripts.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    paginaActual = 0;
+    mostrarScripts();
+});
+
+discordInvitacionBtn.addEventListener("click", () => {
+    window.open("https://discord.com/invite/qfRWu3pGXm", "_blank");
+});
+
+youtubeBtn.addEventListener("click", () => {
+    window.open("https://youtube.com/@onecreatorx", "_blank");
+});
+
+enviarMensajeBtn.addEventListener("click", () => {
+    const mensaje = prompt("Ingrese su mensaje:");
+    if (mensaje) {
+        fetch("https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content: mensaje })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Mensaje enviado:", data);
+        })
+        .catch(error => {
+            console.error("Error al enviar el mensaje:", error);
+        });
+    }
 });
 
 iniciar();
