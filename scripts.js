@@ -11,7 +11,7 @@ let paginaActual = 0;
 let scriptsOriginales = [];
 
 async function obtenerScripts() {
-  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/scripts.txt");
+  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/OneDev/blob/main/Test/scripts.txt");
   const scriptNames = await response.text();
   const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
 
@@ -31,7 +31,7 @@ async function obtenerScripts() {
 }
 
 function compartirScript(nombreScript) {
-  const urlCompartir = `https://onecreatorx-new.github.io/v1/?script=${encodeURIComponent(nombreScript)}`;
+  const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
   navigator.clipboard.writeText(urlCompartir)
     .then(() => {
       console.log("URL copiada al portapapeles");
@@ -123,20 +123,19 @@ function copiarAlPortapapeles(elemento) {
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search); 
-const nombreScript = urlParams.get('script'); // Obtiene el valor del parámetro 'script'
+const nombreScript = urlParams.get('script');
 
-// Ejecuta el filtro después de que se carguen los scripts
 async function inici() {
   scripts = await obtenerScripts();
   scriptsOriginales = [...scripts];
   mostrarScripts();
 
-  // Simula la escritura en el buscador después de 2 segundos
+ 
   setTimeout(() => {
-    // Solo si nombreScript tiene un valor, se simula la escritura
+    
     if (nombreScript) {
-      busquedaInput.value = nombreScript; // Asigna el nombre del script al buscador
-      busquedaInput.dispatchEvent(new Event('input')); // Activa el evento 'input' del buscador
+      busquedaInput.value = nombreScript;
+      busquedaInput.dispatchEvent(new Event('input'));
     }
   }, 500);
 }
