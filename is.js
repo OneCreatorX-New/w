@@ -66,7 +66,7 @@ function mostrarScripts() {
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-6026238594380398"
-             data-ad-slot="7066803388"
+             data-ad-slot="2569100541"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
