@@ -33,7 +33,7 @@ async function obtenerScripts() {
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
     scriptsConContenido.push({
-      titulo: nombreJuego,
+      titulo: nombreJuego, // Nombre del juego como título
       contenido: contenidoScript,
       url: name, // URL completa del juego en Roblox
       idJuego: juegoId
@@ -154,7 +154,9 @@ async function inici() {
   scriptsOriginales = [...scripts];
   mostrarScripts();
 
+ 
   setTimeout(() => {
+    
     if (nombreScript) {
       busquedaInput.value = nombreScript;
       busquedaInput.dispatchEvent(new Event('input'));
