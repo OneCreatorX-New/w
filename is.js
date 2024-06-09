@@ -30,7 +30,7 @@ async function obtenerScripts() {
   for (const name of scriptNamesArray) {
     const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId || nombreJuego}.lua`;
+    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`; 
 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
 
@@ -39,7 +39,7 @@ async function obtenerScripts() {
       contenido: contenidoScript,
       url: name, 
       idJuego: juegoId,
-      nombreArchivo: `${juegoId || nombreJuego}.lua`
+      nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`
     });
   }
 
