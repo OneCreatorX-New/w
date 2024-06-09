@@ -25,16 +25,17 @@ async function obtenerScripts() {
 
   const scriptsConContenido = [];
   for (const name of scriptNamesArray) {
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`; 
-    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
-
     // Obtener información del juego desde la URL
     const { juegoId, nombreJuego } = obtenerInfoJuego(name);
+
+    // Crear la URL del script en GitHub 
+    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua`;
+    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
     scriptsConContenido.push({
       titulo: nombreJuego,
       contenido: contenidoScript,
-      url: `https://github.com/OneCreatorX-New/TwoDev/blob/main/${name}.lua`,
+      url: name, // URL completa del juego en Roblox
       idJuego: juegoId
     });
   }
@@ -68,7 +69,7 @@ function mostrarScripts() {
       <pre id="script-${i + 1}">${script.contenido}</pre>
       <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
       <button onclick="compartirScript('${script.idJuego}')">Compartir</button>
-      <button onclick="window.open('https://www.roblox.com/games/${script.idJuego}');">Ir al Juego</button>
+      <button onclick="window.open('${script.url}');">Ir al Juego</button>
     `;
     contenedorScripts.appendChild(divScript);
 
@@ -153,9 +154,7 @@ async function inici() {
   scriptsOriginales = [...scripts];
   mostrarScripts();
 
- 
   setTimeout(() => {
-    
     if (nombreScript) {
       busquedaInput.value = nombreScript;
       busquedaInput.dispatchEvent(new Event('input'));
