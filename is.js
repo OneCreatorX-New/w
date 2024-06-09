@@ -62,7 +62,17 @@ function mostrarScripts() {
     if ((i + 1) % 1 === 0 && i + 1 < fin) {
       const divAnuncio = document.createElement("div");
       divAnuncio.classList.add("anuncios");
-      divAnuncio.innerHTML = `Anuncio ${Math.floor(i / 1) + 1}`;
+      divAnuncio.innerHTML = `
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6026238594380398"
+             data-ad-slot="7066803388"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      `;
       contenedorScripts.appendChild(divAnuncio);
     }
   }
