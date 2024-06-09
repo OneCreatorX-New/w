@@ -1,0 +1,92 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+  background: url('https://cdn.glitch.global/706d91f8-f56f-463d-be4e-df45dbe7dead/InShot_20240608_223126415.jpg?v=1717896698262') no-repeat center center fixed;
+  background-size: cover;
+  color: #333333;
+}
+
+.header {
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+  padding: 10px;
+  text-align: center;
+}
+
+h1 {
+  color: #ffffff; /* Texto blanco */
+  margin: 0;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+#contenido {
+  width: 80%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  padding: 20px;
+  border-radius: 8px;
+  overflow: hidden; /* Evita que el contenido se sobresalga */
+}
+
+.script {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.anuncios {
+  height: 100px;
+  background-color: #eeeeee;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+  color: #333333;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-x: auto;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #333333;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#navegacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#info-pagina {
+  margin: 0 10px;
+}
