@@ -32,18 +32,18 @@ async function obtenerScripts() {
 
     const rutaScript = juegoId ?
       `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua` : 
-      '';
+      `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${nombreJuego}.lua`;
 
     const contenidoScript = juegoId ? 
       `loadstring(game:HttpGet("${rutaScript}"))()`: 
-      '';
+      `loadstring(game:HttpGet("${rutaScript}"))()`; 
 
     scriptsConContenido.push({
       titulo: nombreJuego, 
       contenido: contenidoScript,
       url: name, 
       idJuego: juegoId,
-      nombreArchivo: juegoId ? `${juegoId}.lua` : ''
+      nombreArchivo: juegoId ? `${juegoId}.lua` : `${nombreJuego}.lua`
     });
   }
 
