@@ -30,20 +30,16 @@ async function obtenerScripts() {
   for (const name of scriptNamesArray) {
     const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    const rutaScript = juegoId ?
-      `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua` : 
-      `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${nombreJuego}.lua`;
+    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId || nombreJuego}.lua`;
 
-    const contenidoScript = juegoId ? 
-      `loadstring(game:HttpGet("${rutaScript}"))()`: 
-      `loadstring(game:HttpGet("${rutaScript}"))()`; 
+    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
 
     scriptsConContenido.push({
       titulo: nombreJuego, 
       contenido: contenidoScript,
       url: name, 
       idJuego: juegoId,
-      nombreArchivo: juegoId ? `${juegoId}.lua` : `${nombreJuego}.lua`
+      nombreArchivo: `${juegoId || nombreJuego}.lua`
     });
   }
 
@@ -51,7 +47,7 @@ async function obtenerScripts() {
 }
 
 function compartirScript(nombreScript) {
-  const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
+  const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`; 
   navigator.clipboard.writeText(urlCompartir)
     .then(() => {
       console.log("URL copiada al portapapeles");
@@ -75,7 +71,7 @@ function mostrarScripts() {
       <h2>${script.titulo}</h2>
       <pre id="script-${i + 1}">${script.contenido}</pre>
       <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-      <button onclick="compartirScript('${script.idJuego}')">Compartir</button>
+      <button onclick="compartirScript('${script.titulo}')">Compartir</button>
       ${script.idJuego ? `<button onclick="window.open('${script.url}');">Ir al Juego</button>` : ''}
     `;
     contenedorScripts.appendChild(divScript);
@@ -129,7 +125,10 @@ busquedaInput.addEventListener("input", () => {
     mostrarScripts();
     return;
   }
-  const scriptsFiltrados = scriptsOriginales.filter(script => script.titulo.toLowerCase().includes(terminoBusqueda) || script.idJuego.toString() === terminoBusqueda);
+
+  const scriptsFiltrados = scriptsOriginales.filter(script => 
+    script.titulo.toLowerCase().includes(terminoBusqueda) 
+  ); 
   scripts = scriptsFiltrados;
   paginaActual = 0;
   mostrarScripts();
@@ -144,7 +143,7 @@ async function iniciar() {
 function copiarAlPortapapeles(elemento) {
   navigator.clipboard.writeText(elemento.textContent)
     .then(() => {
-      console.log("Texto copiado al portapapeles");
+      console.log("URL copiada al portapapeles");
     })
     .catch(err => {
       console.error("Error al copiar: ", err);
