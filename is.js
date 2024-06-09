@@ -10,12 +10,15 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 
-// Funció
 function obtenerInfoJuego(urlJuego) {
-  const partesUrl = urlJuego.split('/');
-  const nombreJuego = partesUrl[partesUrl.length - 1];
-  const juegoId = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
-  return { juegoId, nombreJuego };
+  if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
+    const partesUrl = urlJuego.split('/');
+    const nombreJuego = partesUrl[partesUrl.length - 1]; 
+    const juegoId = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
+    return { juegoId, nombreJuego };
+  } else {
+    return { juegoId: '', nombreJuego: urlJuego }; 
+  }
 }
 
 async function obtenerScripts() {
@@ -25,19 +28,22 @@ async function obtenerScripts() {
 
   const scriptsConContenido = [];
   for (const name of scriptNamesArray) {
-    // Obtener i
     const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    // Crear
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua`;
-    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
+    const rutaScript = juegoId ?
+      `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${juegoId}.lua` : 
+      '';
+
+    const contenidoScript = juegoId ? 
+      `loadstring(game:HttpGet("${rutaScript}"))()`: 
+      '';
 
     scriptsConContenido.push({
-      titulo: nombreJuego, // Nombre 
+      titulo: nombreJuego, 
       contenido: contenidoScript,
-      url: name, // URL completa del juego en Roblox
+      url: name, 
       idJuego: juegoId,
-      nombreArchivo: `${juegoId}.lua` // Nombre del archivo del script
+      nombreArchivo: juegoId ? `${juegoId}.lua` : ''
     });
   }
 
@@ -70,7 +76,7 @@ function mostrarScripts() {
       <pre id="script-${i + 1}">${script.contenido}</pre>
       <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
       <button onclick="compartirScript('${script.idJuego}')">Compartir</button>
-      <button onclick="window.open('${script.url}');">Ir al Juego</button>
+      ${script.idJuego ? `<button onclick="window.open('${script.url}');">Ir al Juego</button>` : ''}
     `;
     contenedorScripts.appendChild(divScript);
 
@@ -155,9 +161,7 @@ async function inici() {
   scriptsOriginales = [...scripts];
   mostrarScripts();
 
- 
   setTimeout(() => {
-    
     if (nombreScript) {
       busquedaInput.value = nombreScript;
       busquedaInput.dispatchEvent(new Event('input'));
