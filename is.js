@@ -59,20 +59,21 @@ function mostrarScripts() {
     `;
     contenedorScripts.appendChild(divScript);
 
+    // Espacio para el anuncio
     if ((i + 1) % 1 === 0 && i + 1 < fin) {
       const divAnuncio = document.createElement("div");
       divAnuncio.classList.add("anuncios");
+      // Aquí se agrega el código de AdSense
       divAnuncio.innerHTML = `
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6026238594380398"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-6026238594380398"
-     data-ad-slot="2569100541"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6026238594380398"
+             data-ad-slot="2569100541"
+             data-ad-format="autorelaxed"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       `;
       contenedorScripts.appendChild(divAnuncio);
     }
