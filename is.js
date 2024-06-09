@@ -10,18 +10,6 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 
-// Función para obtener el nombre del juego desde un ID
-async function obtenerNombreJuego(juegoId) {
-  try {
-    const response = await fetch(`https://api.roblox.com/games/get?id=${juegoId}`);
-    const data = await response.json();
-    return data.name;
-  } catch (error) {
-    console.error("Error al obtener el nombre del juego:", error);
-    return null;
-  }
-}
-
 async function obtenerScripts() {
   const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
   const scriptNames = await response.text();
@@ -32,11 +20,14 @@ async function obtenerScripts() {
     const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`; 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
+    // Obtener el ID del juego del nombre del script
     const juegoId = name.split('/')[0];
-    const nombreJuego = await obtenerNombreJuego(juegoId);
-    
+
+    // Obtener el nombre del juego desde la URL
+    const nombreJuego = obtenerNombreJuego(juegoId);
+
     scriptsConContenido.push({
-      titulo: nombreJuego || "Nombre no encontrado", 
+      titulo: nombreJuego,
       contenido: contenidoScript,
       url: `https://github.com/OneCreatorX-New/TwoDev/blob/main/${name}.lua`,
       idJuego: juegoId
@@ -44,6 +35,18 @@ async function obtenerScripts() {
   }
 
   return scriptsConContenido;
+}
+
+// Función para obtener el nombre del juego desde la URL
+function obtenerNombreJuego(juegoId) {
+  const url = `https://www.roblox.com/games/${juegoId}`;
+  const partesUrl = url.split('/');
+
+  // El nombre del juego es el penúltimo elemento de la URL
+  const nombreJuego = partesUrl[partesUrl.length - 2];
+
+  // Reemplazar "-" por espacios
+  return nombreJuego.replace(/-/g, ' ');
 }
 
 function compartirScript(nombreScript) {
