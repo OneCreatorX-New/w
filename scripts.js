@@ -17,7 +17,6 @@ async function obtenerScripts() {
 
   const scriptsConContenido = [];
   for (const name of scriptNamesArray) {
-    // Corrección de la URL
     const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`; 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
