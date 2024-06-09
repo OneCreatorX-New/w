@@ -13,8 +13,8 @@ let scriptsOriginales = [];
 // Función para obtener el ID y el nombre del juego desde la URL
 function obtenerInfoJuego(urlJuego) {
   const partesUrl = urlJuego.split('/');
-  const juegoId = partesUrl[partesUrl.length - 1];
-  const nombreJuego = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
+  const nombreJuego = partesUrl[partesUrl.length - 1];
+  const juegoId = partesUrl[partesUrl.length - 2].replace(/-/g, ' ');
   return { juegoId, nombreJuego };
 }
 
