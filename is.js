@@ -36,7 +36,8 @@ async function obtenerScripts() {
       titulo: nombreJuego, // Nombre del juego como título
       contenido: contenidoScript,
       url: name, // URL completa del juego en Roblox
-      idJuego: juegoId
+      idJuego: juegoId,
+      nombreArchivo: `${juegoId}.lua` // Nombre del archivo del script
     });
   }
 
