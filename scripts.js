@@ -11,13 +11,14 @@ let paginaActual = 0;
 let scriptsOriginales = [];
 
 async function obtenerScripts() {
-  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/oneDev/main/Test/scripts.txt?token=GHSAT0AAAAAACTMSKSKLXPBFSXQPTZPBSCUZTFSAMA");
+  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/Test/scripts.txt?token=GHSAT0AAAAAACTMSKSKLXPBFSXQPTZPBSCUZTFSAMA");
   const scriptNames = await response.text();
   const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
 
   const scriptsConContenido = [];
   for (const name of scriptNamesArray) {
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(name)}.lua`;
+    // Corrección de la URL
+    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/Test/${encodeURIComponent(name)}.lua`; 
     const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
 
     scriptsConContenido.push({
