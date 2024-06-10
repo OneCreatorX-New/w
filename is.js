@@ -195,9 +195,19 @@ masAntiguosBtn.addEventListener("click", () => {
 
 const webhookUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x"; // Reemplaza con tu URL
 
+const mensajeDiscordInput = document.getElementById("mensaje-discord"); 
+const enviarMensajeBtn = document.getElementById("enviar-mensaje");
+
+
 enviarMensajeBtn.addEventListener("click", () => {
-    const mensaje = {
-        content: `Nuevo mensaje del sitio web: ${document.location.href}`
+    const mensaje = mensajeDiscordInput.value; // Obtén el mensaje del textarea
+    if (mensaje.trim() === "") {
+        alert("Por favor, ingresa un mensaje.");
+        return;
+    }
+
+    const mensajeDiscord = {
+        content: mensaje
     };
 
     fetch(webhookUrl, {
@@ -205,15 +215,22 @@ enviarMensajeBtn.addEventListener("click", () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(mensaje)
+        body: JSON.stringify(mensajeDiscord)
     })
     .then(response => {
         console.log("Mensaje enviado correctamente");
+        // Puedes añadir aquí una notificación al usuario, por ejemplo:
+        alert("Mensaje enviado correctamente.");
+        // También podrías limpiar el campo de texto:
+        mensajeDiscordInput.value = ""; 
     })
     .catch(error => {
         console.error("Error al enviar el mensaje:", error);
+        // Si hay un error, podrías mostrar un mensaje al usuario
+        alert("Error al enviar el mensaje. Intenta de nuevo.");
     });
 });
+
 
 iniciar();
 
