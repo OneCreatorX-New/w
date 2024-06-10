@@ -7,6 +7,10 @@ const infoPagina = document.getElementById("info-pagina");
 const filtroTodosBtn = document.getElementById("filtro-todos");
 const filtroUniversalesBtn = document.getElementById("filtro-universales");
 const filtroJuegosBtn = document.getElementById("filtro-juegos");
+const linkDiscordBtn = document.getElementById("link-discord");
+const linkYoutubeBtn = document.getElementById("link-youtube");
+const masAntiguosBtn = document.getElementById("mas-antiguos");
+const enviarMensajeBtn = document.getElementById("enviar-mensaje");
 
 let scriptsMostrados = 0;
 let scriptsPorPagina = 5;
@@ -173,6 +177,42 @@ filtroJuegosBtn.addEventListener("click", () => {
     filtroActual = "juegos";
     paginaActual = 0;
     mostrarScripts();
+});
+
+linkDiscordBtn.addEventListener("click", () => {
+    window.open("https://discord.com/invite/FmnsXr8wY3", "_blank"); 
+});
+
+linkYoutubeBtn.addEventListener("click", () => {
+    window.open("https://youtube.com/@onecreatorx", "_blank"); 
+});
+
+masAntiguosBtn.addEventListener("click", () => {
+    scripts.reverse();
+    paginaActual = 0;
+    mostrarScripts();
+});
+
+const webhookUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x"; // Reemplaza con tu URL
+
+enviarMensajeBtn.addEventListener("click", () => {
+    const mensaje = {
+        content: `Nuevo mensaje del sitio web: ${document.location.href}`
+    };
+
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(mensaje)
+    })
+    .then(response => {
+        console.log("Mensaje enviado correctamente");
+    })
+    .catch(error => {
+        console.error("Error al enviar el mensaje:", error);
+    });
 });
 
 iniciar();
