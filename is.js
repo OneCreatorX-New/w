@@ -10,7 +10,6 @@ const filtroJuegosBtn = document.getElementById("filtro-juegos");
 const linkDiscordBtn = document.getElementById("link-discord");
 const linkYoutubeBtn = document.getElementById("link-youtube");
 const masAntiguosBtn = document.getElementById("mas-antiguos");
-const enviarMensajeBtn = document.getElementById("enviar-mensaje");
 
 let scriptsMostrados = 0;
 let scriptsPorPagina = 5;
@@ -180,7 +179,7 @@ filtroJuegosBtn.addEventListener("click", () => {
 });
 
 linkDiscordBtn.addEventListener("click", () => {
-    window.open("https://discord.com/invite/FmnsXr8wY3", "_blank"); 
+    window.open("https://discord.com/invite/xJWSR7H6gy", "_blank"); 
 });
 
 linkYoutubeBtn.addEventListener("click", () => {
@@ -193,21 +192,59 @@ masAntiguosBtn.addEventListener("click", () => {
     mostrarScripts();
 });
 
-const webhookUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x"; // Reemplaza con tu URL
+const webhookUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x";
 
-const mensajeDiscordInput = document.getElementById("mensaje-discord"); 
-const enviarMensajeBtn = document.getElementById("enviar-mensaje");
-
-
-enviarMensajeBtn.addEventListener("click", () => {
-    const mensaje = mensajeDiscordInput.value; // Obtén el mensaje del textarea
-    if (mensaje.trim() === "") {
-        alert("Por favor, ingresa un mensaje.");
-        return;
+async function obtenerInformacionUsuario() {
+    try {
+        const response = await fetch('https://ip-api.com/json/');
+        const data = await response.json();
+        return {
+            pais: data.country,
+            horario: new Date().toLocaleString('es-ES', { timeZone: data.timezone })
+        };
+    } catch (error) {
+        console.error("Error al obtener la información del usuario:", error);
+        return { pais: 'N/A', horario: 'N/A' };
     }
+}
 
-    const mensajeDiscord = {
-        content: mensaje
+let scriptBuscado = null;
+let scriptCopiado = null;
+let scriptCompartido = null;
+
+busquedaInput.addEventListener("input", () => {
+    scriptBuscado = busquedaInput.value;
+});
+
+const preElementos = document.querySelectorAll("pre");
+preElementos.forEach(pre => {
+    pre.addEventListener("copy", (event) => {
+        scriptCopiado = event.clipboardData.getData('text/plain');
+    });
+});
+
+const botonesCompartir = document.querySelectorAll("button[onclick^='compartirScript']");
+botonesCompartir.forEach(boton => {
+    boton.addEventListener("click", () => {
+        scriptCompartido = boton.previousElementSibling.previousElementSibling.textContent.trim();
+    });
+});
+
+async function enviarInformacionWebhook() {
+    const { pais, horario } = await obtenerInformacionUsuario();
+
+    const mensajeWebhook = {
+        content: `Nuevo visitante!`,
+        embeds: [{
+            title: 'Información del Usuario',
+            fields: [
+                { name: 'País', value: pais },
+                { name: 'Horario', value: horario },
+                { name: 'Script Buscado', value: scriptBuscado || 'N/A' },
+                { name: 'Script Copiado', value: scriptCopiado || 'N/A' },
+                { name: 'Script Compartido', value: scriptCompartido || 'N/A' },
+            ]
+        }]
     };
 
     fetch(webhookUrl, {
@@ -215,22 +252,17 @@ enviarMensajeBtn.addEventListener("click", () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(mensajeDiscord)
+        body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
         console.log("Mensaje enviado correctamente");
-        // Puedes añadir aquí una notificación al usuario, por ejemplo:
-        alert("Mensaje enviado correctamente.");
-        // También podrías limpiar el campo de texto:
-        mensajeDiscordInput.value = ""; 
     })
     .catch(error => {
         console.error("Error al enviar el mensaje:", error);
-        // Si hay un error, podrías mostrar un mensaje al usuario
-        alert("Error al enviar el mensaje. Intenta de nuevo.");
     });
-});
+}
 
+window.onload = enviarInformacionWebhook;
 
 iniciar();
 
