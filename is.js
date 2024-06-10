@@ -291,4 +291,3 @@ async function inici() {
 
 inici();
 
-enviarInformacionWebhook()
