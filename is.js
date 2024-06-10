@@ -196,11 +196,18 @@ const webhookUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1Z
 
 async function obtenerInformacionUsuario() {
     try {
-        const response = await fetch('https://ip-api.com/json/');
-        const data = await response.json();
+        const ipAddress = await fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => data.ip);
+
+        const response = await fetch(`https://ipapi.co/${ipAddress}/country_name`);
+        const pais = await response.text();
+
+        const horario = new Date().toLocaleString('es-ES', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }); 
+
         return {
-            pais: data.country,
-            horario: new Date().toLocaleString('es-ES', { timeZone: data.timezone })
+            pais,
+            horario
         };
     } catch (error) {
         console.error("Error al obtener la información del usuario:", error);
