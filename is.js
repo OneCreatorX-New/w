@@ -291,3 +291,52 @@ async function inici() {
 
 inici();
 
+// Agrega el botón Bypass
+const bypassButton = document.createElement("button");
+bypassButton.textContent = "Bypass";
+bypassButton.addEventListener("click", () => {
+  // Crea la ventana modal
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.innerHTML = `
+    <div class="modal-content">
+      <span class="close">×</span>
+      <h3>Bypass</h3>
+      <p>Fluxus, Codex, Delta</p>
+      <p>Send Link n wait 1-5 minutes</p>
+      <textarea id="bypass-link" placeholder="Ingrese el link"></textarea>
+      <button id="send-bypass-link">Enviar</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Agrega el evento para cerrar la ventana modal
+  const closeButton = modal.querySelector(".close");
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(modal);
+  });
+
+  // Agrega el evento para enviar el link al webhook
+  const sendLinkButton = modal.querySelector("#send-bypass-link");
+  sendLinkButton.addEventListener("click", () => {
+    const bypassLink = modal.querySelector("#bypass-link").value;
+    const message = `/bypass link:${bypassLink}`;
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content: message }),
+    })
+      .then((response) => {
+        console.log("Enlace de bypass enviado correctamente");
+      })
+      .catch((error) => {
+        console.error("Error al enviar el enlace de bypass:", error);
+      });
+    document.body.removeChild(modal);
+  });
+});
+
+// Agrega el botón al documento
+document.body.appendChild(bypassButton);
