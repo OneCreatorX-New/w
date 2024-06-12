@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="google-adsense-account" content="ca-pub-6026238594380398">
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6026238594380398"
-      crossorigin="anonymous"
-    ></script>
-    <title>OneCreatorX - Scripts</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="header">
-      <h1>Repositorio de Scripts</h1>
+<head>
+  <meta charset="UTF-8">
+  <title>OneCreatorX - Scripts</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>Repositorio de Scripts</h1>
+  </div>
+
+  <input type="text" id="busqueda" placeholder="Buscar scripts... [ID Game] o [Name Game]" />
+
+  <div id="filtros">
+    <button id="filtro-todos">Todos</button>
+    <button id="filtro-universales">Universales</button>
+    <button id="filtro-juegos">Juegos</button>
+    <button id="link-discord">Discord</button> 
+    <button id="link-youtube">YouTube</button>
+    <button id="mas-antiguos">Antiguos-Recientes</button>
+  </div>
+
+  <div id="contenido">
+    <div id="scripts-principales"></div> 
+    <div id="navegacion">
+      <button id="anterior">< Anterior</button>
+      <span id="info-pagina"></span>
+      <button id="siguiente">Siguiente ></button>
     </div>
+  </div>
 
-    <input type="text" id="busqueda" placeholder="Buscar scripts... [ID Game] o [Name Game]" />
-
-    <div id="filtros">
-      <button id="filtro-todos">Todos</button>
-      <button id="filtro-universales">Universales</button>
-      <button id="filtro-juegos">Juegos</button>
-      <button id="link-discord">Discord</button> 
-      <button id="link-youtube">YouTube</button>
-      <button id="mas-antiguos">Antiguos-Recientes</button>
-    </div>
-
-    <div id="contenido">
-      <div id="scripts-principales"></div>
-      <div id="navegacion">
-        <button id="anterior">< Anterior</button>
-        <span id="info-pagina"></span>
-        <button id="siguiente">Siguiente ></button>
+  <div id="script-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">×</span>
+      <div class="modal-header">
+        <h2 id="modal-game-title"></h2>
+      </div>
+      <div class="modal-body">
+        <img id="modal-game-image" src="" alt="">
+        <pre id="modal-script-content"></pre>
+        <button id="modal-copy-button">Copiar</button>
+        <button id="modal-share-button" style="display: none;">Compartir</button>
+        <p id="modal-script-description"></p>
       </div>
     </div>
+  </div>
 
-    <script src="is.js"></script>
-  </body>
+  <script src="is.js"></script> </body>
 </html>
