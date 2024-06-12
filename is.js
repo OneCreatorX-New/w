@@ -11,16 +11,6 @@ const linkDiscordBtn = document.getElementById("link-discord");
 const linkYoutubeBtn = document.getElementById("link-youtube");
 const masAntiguosBtn = document.getElementById("mas-antiguos");
 
-// Modal elements
-const scriptModal = document.getElementById('script-modal');
-const modalGameTitle = document.getElementById('modal-game-title');
-const modalGameImage = document.getElementById('modal-game-image');
-const modalScriptContent = document.getElementById('modal-script-content');
-const modalCopyButton = document.getElementById('modal-copy-button');
-const modalShareButton = document.getElementById('modal-share-button');
-const modalScriptDescription = document.getElementById('modal-script-description');
-const closeModalButton = document.querySelector('.close-modal');
-
 let scriptsMostrados = 0;
 let scriptsPorPagina = 5;
 let scripts = [];
@@ -29,130 +19,50 @@ let scriptsOriginales = [];
 let filtroActual = "todos";
 
 function obtenerInfoJuego(urlJuego) {
-  if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
-    const partesUrl = urlJuego.split('/');
-    const nombreJuego = partesUrl[partesUrl.length - 1].replace(/-/g, ' ');
-    const juegoId = partesUrl[partesUrl.length - 2];
-    return { juegoId, nombreJuego };
-  } else {
-    return { juegoId: '', nombreJuego: urlJuego };
-  }
+    if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
+        const partesUrl = urlJuego.split('/');
+        const nombreJuego = partesUrl[partesUrl.length - 1].replace(/-/g, ' ');
+        const juegoId = partesUrl[partesUrl.length - 2];
+        return { juegoId, nombreJuego };
+    } else {
+        return { juegoId: '', nombreJuego: urlJuego };
+    }
 }
 
 async function obtenerScripts() {
-  const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
-  const scriptNames = await response.text();
-  const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
+    const response = await fetch("https://raw.githubusercontent.com/OneCreatorX-New/w/gh-pages/scripts.txt");
+    const scriptNames = await response.text();
+    const scriptNamesArray = scriptNames.split('\n').filter(name => name.trim() !== '').reverse();
 
-  const scriptsConContenido = [];
-  for (const name of scriptNamesArray) {
-    const { juegoId, nombreJuego } = obtenerInfoJuego(name);
-    const [titulo, descripcion] = name.split('/'); // Separar título y descripción
+    const scriptsConContenido = [];
+    for (const name of scriptNamesArray) {
+        const { juegoId, nombreJuego } = obtenerInfoJuego(name);
 
-    const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`;
-    const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`;
+        const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`; 
+        const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
 
-    scriptsConContenido.push({
-      titulo: titulo.trim(),
-      contenido: contenidoScript,
-      url: name,
-      idJuego: juegoId,
-      nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`,
-      descripcion: descripcion ? descripcion.trim() : null // Agregar descripción si existe
-    });
-  }
+        scriptsConContenido.push({
+            titulo: nombreJuego, 
+            contenido: contenidoScript,
+            url: name, 
+            idJuego: juegoId,
+            nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`
+        });
+    }
 
-  return scriptsConContenido;
+    return scriptsConContenido;
 }
 
 function compartirScript(nombreScript) {
-  const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
-  navigator.clipboard.writeText(urlCompartir)
-    .then(() => {
-      console.log("URL copiada al portapapeles");
-    })
-    .catch(err => {
-      console.error("Error al copiar: ", err);
-    });
+    const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
+    navigator.clipboard.writeText(urlCompartir)
+        .then(() => {
+            console.log("URL copiada al portapapeles");
+        })
+        .catch(err => {
+            console.error("Error al copiar: ", err);
+        });
 }
-
-function mostrarScripts() {
-  contenedorScripts.innerHTML = '';
-
-  const scriptsFiltrados = scripts.filter(script => {
-    if (filtroActual === "universales") {
-      return !script.url.includes('roblox.com') && !script.url.includes('games.roblox.com');
-    } else if (filtroActual === "juegos") {
-      return script.url.includes('roblox.com') || script.url.includes('games.roblox.com');
-    }
-    return true;
-  });
-
-  const inicio = paginaActual * scriptsPorPagina;
-  const fin = Math.min(inicio + scriptsPorPagina, scriptsFiltrados.length);
-
-  for (let i = inicio; i < fin; i++) {
-    const script = scriptsFiltrados[i];
-    const divScript = document.createElement("div");
-    divScript.classList.add("script-preview");
-    divScript.dataset.scriptId = script.idJuego; // Agregar data-script-id para identificar el script
-    divScript.innerHTML = `<h2>${script.titulo}</h2>`; // Mostrar solo el título
-    contenedorScripts.appendChild(divScript);
-
-    // Agregar evento click al título para abrir la modal
-    divScript.addEventListener('click', () => {
-      abrirModal(script);
-    });
-  }
-
-  actualizarBotonesNavegacion();
-}
-
-function abrirModal(script) {
-  modalGameTitle.textContent = script.titulo;
-  modalScriptContent.textContent = script.contenido;
-
-  if (script.idJuego) {
-    modalGameImage.src = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/img/games/${script.idJuego}.png`;
-    modalGameImage.style.display = 'block';
-  } else {
-    modalGameImage.style.display = 'none';
-  }
-
-  if (script.url) {
-    modalShareButton.style.display = 'block';
-    modalShareButton.onclick = () => compartirScript(script.titulo);
-  } else {
-    modalShareButton.style.display = 'none';
-  }
-
-  modalScriptDescription.textContent = script.descripcion || ''; // Mostrar descripción si existe
-
-  scriptModal.style.display = 'block';
-}
-
-function cerrarModal() {
-  scriptModal.style.display = 'none';
-}
-
-closeModalButton.addEventListener('click', cerrarModal);
-
-// Cerrar la modal al hacer clic fuera del contenido
-window.onclick = function(event) {
-  if (event.target == scriptModal) {
-    cerrarModal();
-  }
-}
-
-modalCopyButton.addEventListener('click', () => {
-  navigator.clipboard.writeText(modalScriptContent.textContent)
-    .then(() => {
-      console.log("Script copiado al portapapeles");
-    })
-    .catch(err => {
-      console.error("Error al copiar: ", err);
-    });
-});
 
 function mostrarScripts() {
     contenedorScripts.innerHTML = '';
@@ -380,53 +290,3 @@ async function inici() {
 }
 
 inici();
-
-// Agrega el botón Bypass
-const bypassButton = document.createElement("button");
-bypassButton.textContent = "Bypass";
-bypassButton.addEventListener("click", () => {
-  // Crea la ventana modal
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
-  modal.innerHTML = `
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h3>Bypass</h3>
-      <p>Fluxus, Codex, Delta</p>
-      <p>Send Link n wait 1-5 minutes</p>
-      <textarea id="bypass-link" placeholder="Ingrese el link"></textarea>
-      <button id="send-bypass-link">Enviar</button>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  // Agrega el evento para cerrar la ventana modal
-  const closeButton = modal.querySelector(".close");
-  closeButton.addEventListener("click", () => {
-    document.body.removeChild(modal);
-  });
-
-  // Agrega el evento para enviar el link al webhook
-  const sendLinkButton = modal.querySelector("#send-bypass-link");
-  sendLinkButton.addEventListener("click", () => {
-    const bypassLink = modal.querySelector("#bypass-link").value;
-    const message = `/bypass link:${bypassLink}`;
-    fetch(webhookUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ content: message }),
-    })
-      .then((response) => {
-        console.log("Enlace de bypass enviado correctamente");
-      })
-      .catch((error) => {
-        console.error("Error al enviar el enlace de bypass:", error);
-      });
-    document.body.removeChild(modal);
-  });
-});
-
-// Agrega el botón al documento
-document.body.appendChild(bypassButton);
