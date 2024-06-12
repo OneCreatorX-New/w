@@ -12,7 +12,7 @@ const linkYoutubeBtn = document.getElementById("link-youtube");
 const masAntiguosBtn = document.getElementById("mas-antiguos");
 
 let scriptsMostrados = 0;
-let scriptsPorPagina = 5;
+let scriptsPorPagina = 4;
 let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
