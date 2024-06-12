@@ -1,4 +1,3 @@
-/* Estilos generales */
 body {
   font-family: 'Arial', sans-serif;
   margin: 20px;
@@ -8,13 +7,13 @@ body {
 }
 
 .header {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
   padding: 10px;
   text-align: center;
 }
 
 h1 {
-  color: #ffffff;
+  color: #ffffff; /* Texto blanco */
   margin: 0;
 }
 
@@ -30,108 +29,44 @@ input[type="text"] {
 #contenido {
   width: 80%;
   margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
   padding: 20px;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: hidden; /* Evita que el contenido se sobresalga */
 }
 
-/* Estilos para la lista de scripts */
-#scripts-principales {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajusta el ancho de las columnas según el espacio disponible */
-  grid-gap: 20px;
-}
-
-.script-preview {
+.script {
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
+  margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Agregar una transición suave al pasar el cursor */
 }
 
-.script-preview:hover {
-  background-color: #f2f2f2; /* Cambiar el color de fondo al pasar el cursor */
+.anuncios {
+  height: 100px;
+  background-color: #eeeeee;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.script-preview h2 {
+h2 {
   margin-top: 0;
   color: #333333;
 }
 
-/* Estilos para la ventana modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
-  position: relative; /* Para posicionar el botón de cierre */
-}
-
-.close-modal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.modal-header {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-.modal-body {
-  background-size: cover;
-  background-position: center;
-  color: white; /* Cambiar el color del texto a blanco */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Agregar sombra al texto para mejorar la legibilidad */
-}
-
-#modal-game-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  margin-bottom: 20px;
-}
-
-#modal-script-content {
+pre {
   white-space: pre-wrap;
   overflow-x: auto;
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente para el código */
+  background-color: #f9f9f9;
   padding: 10px;
   border-radius: 4px;
   font-family: 'Courier New', Courier, monospace;
-  color: #ffffff; /* Cambiar el color del código a blanco */
+  color: #333333;
 }
 
-#modal-copy-button,
-#modal-share-button {
+button {
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
@@ -141,17 +76,10 @@ input[type="text"] {
   margin: 10px;
 }
 
-#modal-copy-button:hover,
-#modal-share-button:hover {
+button:hover {
   background-color: #45a049;
 }
 
-#modal-script-description {
-  margin-top: 20px;
-  color: white; /* Cambiar el color de la descripción a blanco */
-}
-
-/* Estilos para la paginación */
 #navegacion {
   display: flex;
   justify-content: center;
