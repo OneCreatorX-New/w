@@ -53,17 +53,18 @@ async function obtenerScripts() {
     return scriptsConContenido;
 }
 
-function compartirScript(nombreScript) {
-    const urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
+function compartirScript(nombreScript, idJuego) {
+    let urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
+    if (idJuego) {
+        urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}&id=${encodeURIComponent(idJuego)}`;
+    }
     navigator.clipboard.writeText(urlCompartir)
         .then(() => {
-            console.log("URL copiada al portapapeles");
-            // Cambiar el texto del botón a "✓ Copiado" temporalmente
-            const botonCompartir = event.target; // Obtén el botón actual
+            const botonCompartir = event.target;
             botonCompartir.textContent = "✓ Copiado";
             setTimeout(() => {
                 botonCompartir.textContent = "Compartir";
-            }, 1000); // Regresar al texto original después de 1 segundo
+            }, 1000);
             enviarInformacionWebhook(nombreScript, 'Compartido');
         })
         .catch(err => {
@@ -90,7 +91,7 @@ function mostrarScripts() {
         const script = scriptsFiltrados[i];
         const divScript = document.createElement("div");
         divScript.classList.add("script");
-        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
+        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
         contenedorScripts.appendChild(divScript);
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
@@ -156,20 +157,17 @@ async function iniciar() {
     scriptsOriginales = [...scripts];
     mostrarScripts();
 
-    // Mostrar el cuadro de diálogo de bienvenida
     mostrarDialogoBienvenida();
 }
 
 function copiarAlPortapapeles(elemento) {
     navigator.clipboard.writeText(elemento.textContent)
         .then(() => {
-            console.log("URL copiada al portapapeles");
-            // Cambiar el texto del botón a "✓ Copiado" temporalmente
-            const botonCopiar = event.target; // Obtén el botón actual
+            const botonCopiar = event.target; 
             botonCopiar.textContent = "✓ Copiado";
             setTimeout(() => {
                 botonCopiar.textContent = "Copiar";
-            }, 1000); // Regresar al texto original después de 1 segundo
+            }, 1000);
             enviarInformacionWebhook(elemento.textContent, 'Copiado');
         })
         .catch(err => {
@@ -217,7 +215,6 @@ async function obtenerInformacionUsuario() {
             .then(response => response.json())
             .then(data => data.ip);
 
-        // Usar cache para el país
         let pais = localStorage.getItem('pais');
         if (!pais) {
             const response = await fetch(`https://ipapi.co/${ipAddress}/country_name`);
@@ -286,7 +283,6 @@ async function enviarInformacionWebhook(script, accion) {
         body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
-        console.log("Mensaje enviado correctamente");
         // Reiniciar los eventos después de enviar
         eventos.scriptBuscado = null;
         eventos.scriptCopiado = null;
@@ -299,21 +295,17 @@ async function enviarInformacionWebhook(script, accion) {
 
 // Función para mostrar el cuadro de diálogo de bienvenida
 function mostrarDialogoBienvenida() {
-    // Crea un div para el cuadro de diálogo
     const dialogo = document.createElement('div');
     dialogo.id = 'dialogoBienvenida';
     dialogo.classList.add('dialogoBienvenida');
 
-    // Crea un div para el contenido del cuadro de diálogo
     const contenidoDialogo = document.createElement('div');
     contenidoDialogo.classList.add('contenidoDialogo');
 
-    // Agrega el mensaje de bienvenida traducido
     const mensajeBienvenida = document.createElement('p');
     mensajeBienvenida.id = 'mensajeBienvenida';
     contenidoDialogo.appendChild(mensajeBienvenida);
 
-    // Crea un botón para cerrar el diálogo
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btnCerrar');
     btnCerrar.textContent = 'Cerrar';
@@ -322,26 +314,22 @@ function mostrarDialogoBienvenida() {
     });
     contenidoDialogo.appendChild(btnCerrar);
 
-    // Agrega el contenido al cuadro de diálogo
     dialogo.appendChild(contenidoDialogo);
 
-    // Agrega el cuadro de diálogo al cuerpo del documento
     document.body.appendChild(dialogo);
 
-    // Obtiene el país del usuario
     obtenerInformacionUsuario()
         .then(({ pais }) => {
-            // Traduce el mensaje de bienvenida según el país
             let mensaje = '';
             switch (pais) {
                 case 'Spain':
-                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, Agregando los Viejos y Nuevos Scripts";
+                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, ya Agregando los viejos y nuevos, Gracias por la Visita";
                     break;
                 case 'United States':
-                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, Adding Old and New";
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, already Adding old and new Scripts,Thanks for the visit";
                     break;
                 default:
-                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, Adding Old and New";
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, already Adding old and new Scripts,Thanks for the visit";
                     break;
             }
             mensajeBienvenida.textContent = mensaje;
@@ -353,6 +341,7 @@ iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
 const nombreScript = urlParams.get('script');
+const idJuego = urlParams.get('id');
 
 async function inici() {
     scripts = await obtenerScripts();
