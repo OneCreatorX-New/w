@@ -168,19 +168,19 @@ function copiarAlPortapapeles(elemento) {
 }
 
 filtroTodosBtn.addEventListener("click", () => {
-    filtroActual = "todos";
+    filtroActual = "Todos";
     paginaActual = 0;
     mostrarScripts();
 });
 
 filtroUniversalesBtn.addEventListener("click", () => {
-    filtroActual = "universales";
+    filtroActual = "Universales";
     paginaActual = 0;
     mostrarScripts();
 });
 
 filtroJuegosBtn.addEventListener("click", () => {
-    filtroActual = "juegos";
+    filtroActual = "Juegos";
     paginaActual = 0;
     mostrarScripts();
 });
@@ -226,7 +226,6 @@ async function obtenerInformacionUsuario() {
     }
 }
 
-// Objeto para almacenar los eventos
 const eventos = {
     scriptBuscado: null,
     scriptCopiado: null,
@@ -275,7 +274,6 @@ async function enviarInformacionWebhook(script, accion) {
         body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
-        // Reiniciar los eventos después de enviar
         eventos.scriptBuscado = null;
         eventos.scriptCopiado = null;
         eventos.scriptCompartido = null;
@@ -285,7 +283,6 @@ async function enviarInformacionWebhook(script, accion) {
     });
 }
 
-// Función para mostrar el cuadro de diálogo de bienvenida
 function mostrarDialogoBienvenida() {
     const dialogo = document.createElement('div');
     dialogo.id = 'dialogoBienvenida';
@@ -300,7 +297,7 @@ function mostrarDialogoBienvenida() {
 
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btnCerrar');
-    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.textContent = 'OK Bro';
     btnCerrar.addEventListener('click', () => {
         document.body.removeChild(dialogo);
     });
@@ -314,11 +311,11 @@ function mostrarDialogoBienvenida() {
         .then(({ pais }) => {
             let mensaje = '';
             switch (pais) {
-                case 'Spain':
-                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox.";
+                case 'Argentina':
+                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, Todavía no se incluye ni el 90% de todos los Scripts de mi Repositorio. Gracias por la Visita";
                     break;
                 case 'United States':
-                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox.";
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, not even 90% of all the Scripts in my Repository are included yet. Thanks for the visit";
                     break;
                 default:
                     mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox.";
@@ -328,7 +325,6 @@ function mostrarDialogoBienvenida() {
         });
 }
 
-// Función para mostrar una notificación
 function mostrarNotificacion(mensaje) {
     const notificacion = document.createElement('div');
     notificacion.classList.add('notificacion');
@@ -340,7 +336,6 @@ function mostrarNotificacion(mensaje) {
     }, 2000);
 }
 
-// Iniciar la aplicación
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
