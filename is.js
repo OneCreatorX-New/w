@@ -58,6 +58,12 @@ function compartirScript(nombreScript) {
     navigator.clipboard.writeText(urlCompartir)
         .then(() => {
             console.log("URL copiada al portapapeles");
+            // Cambiar el texto del botón a "✓ Copiado" temporalmente
+            const botonCompartir = event.target; // Obtén el botón actual
+            botonCompartir.textContent = "✓ Copiado";
+            setTimeout(() => {
+                botonCompartir.textContent = "Compartir";
+            }, 1000); // Regresar al texto original después de 1 segundo
             enviarInformacionWebhook(nombreScript, 'Compartido');
         })
         .catch(err => {
@@ -149,12 +155,21 @@ async function iniciar() {
     scripts = await obtenerScripts();
     scriptsOriginales = [...scripts];
     mostrarScripts();
+
+    // Mostrar el cuadro de diálogo de bienvenida
+    mostrarDialogoBienvenida();
 }
 
 function copiarAlPortapapeles(elemento) {
     navigator.clipboard.writeText(elemento.textContent)
         .then(() => {
             console.log("URL copiada al portapapeles");
+            // Cambiar el texto del botón a "✓ Copiado" temporalmente
+            const botonCopiar = event.target; // Obtén el botón actual
+            botonCopiar.textContent = "✓ Copiado";
+            setTimeout(() => {
+                botonCopiar.textContent = "Copiar";
+            }, 1000); // Regresar al texto original después de 1 segundo
             enviarInformacionWebhook(elemento.textContent, 'Copiado');
         })
         .catch(err => {
@@ -282,9 +297,58 @@ async function enviarInformacionWebhook(script, accion) {
     });
 }
 
-// Eliminar la llamada a enviarInformacionWebhook al cargar la página
-// window.onload = enviarInformacionWebhook;
+// Función para mostrar el cuadro de diálogo de bienvenida
+function mostrarDialogoBienvenida() {
+    // Crea un div para el cuadro de diálogo
+    const dialogo = document.createElement('div');
+    dialogo.id = 'dialogoBienvenida';
+    dialogo.classList.add('dialogoBienvenida');
 
+    // Crea un div para el contenido del cuadro de diálogo
+    const contenidoDialogo = document.createElement('div');
+    contenidoDialogo.classList.add('contenidoDialogo');
+
+    // Agrega el mensaje de bienvenida traducido
+    const mensajeBienvenida = document.createElement('p');
+    mensajeBienvenida.id = 'mensajeBienvenida';
+    contenidoDialogo.appendChild(mensajeBienvenida);
+
+    // Crea un botón para cerrar el diálogo
+    const btnCerrar = document.createElement('button');
+    btnCerrar.classList.add('btnCerrar');
+    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.addEventListener('click', () => {
+        document.body.removeChild(dialogo);
+    });
+    contenidoDialogo.appendChild(btnCerrar);
+
+    // Agrega el contenido al cuadro de diálogo
+    dialogo.appendChild(contenidoDialogo);
+
+    // Agrega el cuadro de diálogo al cuerpo del documento
+    document.body.appendChild(dialogo);
+
+    // Obtiene el país del usuario
+    obtenerInformacionUsuario()
+        .then(({ pais }) => {
+            // Traduce el mensaje de bienvenida según el país
+            let mensaje = '';
+            switch (pais) {
+                case 'Spain':
+                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, Agregando los Viejos y Nuevos Scripts";
+                    break;
+                case 'United States':
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, Adding Old and New";
+                    break;
+                default:
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, Adding Old and New";
+                    break;
+            }
+            mensajeBienvenida.textContent = mensaje;
+        });
+}
+
+// Iniciar la aplicación
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
