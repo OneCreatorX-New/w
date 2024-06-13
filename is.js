@@ -234,7 +234,6 @@ async function obtenerInformacionUsuario() {
     }
 }
 
-// Objeto para almacenar los eventos
 const eventos = {
     scriptBuscado: null,
     scriptCopiado: null,
@@ -283,7 +282,6 @@ async function enviarInformacionWebhook(script, accion) {
         body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
-        // Reiniciar los eventos después de enviar
         eventos.scriptBuscado = null;
         eventos.scriptCopiado = null;
         eventos.scriptCompartido = null;
@@ -293,7 +291,6 @@ async function enviarInformacionWebhook(script, accion) {
     });
 }
 
-// Función para mostrar el cuadro de diálogo de bienvenida
 function mostrarDialogoBienvenida() {
     const dialogo = document.createElement('div');
     dialogo.id = 'dialogoBienvenida';
@@ -308,7 +305,7 @@ function mostrarDialogoBienvenida() {
 
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btnCerrar');
-    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.textContent = 'OK BRO';
     btnCerrar.addEventListener('click', () => {
         document.body.removeChild(dialogo);
     });
@@ -336,7 +333,6 @@ function mostrarDialogoBienvenida() {
         });
 }
 
-// Iniciar la aplicación
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
