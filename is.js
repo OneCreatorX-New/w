@@ -171,6 +171,8 @@ filtroTodosBtn.addEventListener("click", () => {
     filtroActual = "todos";
     paginaActual = 0;
     mostrarScripts();
+
+    window.location.href = "https://onerepositoryx.online/";
 });
 
 filtroUniversalesBtn.addEventListener("click", () => {
