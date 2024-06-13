@@ -60,11 +60,7 @@ function compartirScript(nombreScript, idJuego) {
     }
     navigator.clipboard.writeText(urlCompartir)
         .then(() => {
-            const botonCompartir = event.target;
-            botonCompartir.textContent = "✓ Copiado";
-            setTimeout(() => {
-                botonCompartir.textContent = "Compartir";
-            }, 1000);
+            mostrarNotificacion("¡Enlace copiado al portapapeles!");
             enviarInformacionWebhook(nombreScript, 'Compartido');
         })
         .catch(err => {
@@ -163,11 +159,7 @@ async function iniciar() {
 function copiarAlPortapapeles(elemento) {
     navigator.clipboard.writeText(elemento.textContent)
         .then(() => {
-            const botonCopiar = event.target; 
-            botonCopiar.textContent = "✓ Copiado";
-            setTimeout(() => {
-                botonCopiar.textContent = "Copiar";
-            }, 1000);
+            mostrarNotificacion("¡Script copiado al portapapeles!");
             enviarInformacionWebhook(elemento.textContent, 'Copiado');
         })
         .catch(err => {
@@ -234,6 +226,7 @@ async function obtenerInformacionUsuario() {
     }
 }
 
+// Objeto para almacenar los eventos
 const eventos = {
     scriptBuscado: null,
     scriptCopiado: null,
@@ -282,6 +275,7 @@ async function enviarInformacionWebhook(script, accion) {
         body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
+        // Reiniciar los eventos después de enviar
         eventos.scriptBuscado = null;
         eventos.scriptCopiado = null;
         eventos.scriptCompartido = null;
@@ -291,6 +285,7 @@ async function enviarInformacionWebhook(script, accion) {
     });
 }
 
+// Función para mostrar el cuadro de diálogo de bienvenida
 function mostrarDialogoBienvenida() {
     const dialogo = document.createElement('div');
     dialogo.id = 'dialogoBienvenida';
@@ -305,7 +300,7 @@ function mostrarDialogoBienvenida() {
 
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btnCerrar');
-    btnCerrar.textContent = 'OK BRO';
+    btnCerrar.textContent = 'Cerrar';
     btnCerrar.addEventListener('click', () => {
         document.body.removeChild(dialogo);
     });
@@ -320,19 +315,32 @@ function mostrarDialogoBienvenida() {
             let mensaje = '';
             switch (pais) {
                 case 'Spain':
-                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, ya Agregando los viejos y nuevos, Gracias por la Visita";
+                    mensaje = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox.";
                     break;
                 case 'United States':
-                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, already Adding old and new Scripts,Thanks for the visit";
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox.";
                     break;
                 default:
-                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, already Adding old and new Scripts,Thanks for the visit";
+                    mensaje = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox.";
                     break;
             }
             mensajeBienvenida.textContent = mensaje;
         });
 }
 
+// Función para mostrar una notificación
+function mostrarNotificacion(mensaje) {
+    const notificacion = document.createElement('div');
+    notificacion.classList.add('notificacion');
+    notificacion.textContent = mensaje;
+    document.body.appendChild(notificacion);
+
+    setTimeout(() => {
+        document.body.removeChild(notificacion);
+    }, 2000);
+}
+
+// Iniciar la aplicación
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
