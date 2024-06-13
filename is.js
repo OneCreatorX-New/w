@@ -58,6 +58,7 @@ function compartirScript(nombreScript) {
     navigator.clipboard.writeText(urlCompartir)
         .then(() => {
             console.log("URL copiada al portapapeles");
+            enviarInformacionWebhook(nombreScript, 'Compartido');
         })
         .catch(err => {
             console.error("Error al copiar: ", err);
@@ -154,6 +155,7 @@ function copiarAlPortapapeles(elemento) {
     navigator.clipboard.writeText(elemento.textContent)
         .then(() => {
             console.log("URL copiada al portapapeles");
+            enviarInformacionWebhook(elemento.textContent, 'Copiado');
         })
         .catch(err => {
             console.error("Error al copiar: ", err);
@@ -200,8 +202,13 @@ async function obtenerInformacionUsuario() {
             .then(response => response.json())
             .then(data => data.ip);
 
-        const response = await fetch(`https://ipapi.co/${ipAddress}/country_name`);
-        const pais = await response.text();
+        // Usar cache para el país
+        let pais = localStorage.getItem('pais');
+        if (!pais) {
+            const response = await fetch(`https://ipapi.co/${ipAddress}/country_name`);
+            pais = await response.text();
+            localStorage.setItem('pais', pais);
+        }
 
         const horario = new Date().toLocaleString('es-ES', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }); 
 
@@ -215,29 +222,32 @@ async function obtenerInformacionUsuario() {
     }
 }
 
-let scriptBuscado = null;
-let scriptCopiado = null;
-let scriptCompartido = null;
+// Objeto para almacenar los eventos
+const eventos = {
+    scriptBuscado: null,
+    scriptCopiado: null,
+    scriptCompartido: null
+};
 
 busquedaInput.addEventListener("input", () => {
-    scriptBuscado = busquedaInput.value;
+    eventos.scriptBuscado = busquedaInput.value;
 });
 
 const preElementos = document.querySelectorAll("pre");
 preElementos.forEach(pre => {
     pre.addEventListener("copy", (event) => {
-        scriptCopiado = event.clipboardData.getData('text/plain');
+        eventos.scriptCopiado = event.clipboardData.getData('text/plain');
     });
 });
 
 const botonesCompartir = document.querySelectorAll("button[onclick^='compartirScript']");
 botonesCompartir.forEach(boton => {
     boton.addEventListener("click", () => {
-        scriptCompartido = boton.previousElementSibling.previousElementSibling.textContent.trim();
+        eventos.scriptCompartido = boton.previousElementSibling.previousElementSibling.textContent.trim();
     });
 });
 
-async function enviarInformacionWebhook() {
+async function enviarInformacionWebhook(script, accion) {
     const { pais, horario } = await obtenerInformacionUsuario();
 
     const mensajeWebhook = {
@@ -247,9 +257,8 @@ async function enviarInformacionWebhook() {
             fields: [
                 { name: 'País', value: pais },
                 { name: 'Horario', value: horario },
-                { name: 'Script Buscado', value: scriptBuscado || 'N/A' },
-                { name: 'Script Copiado', value: scriptCopiado || 'N/A' },
-                { name: 'Script Compartido', value: scriptCompartido || 'N/A' },
+                { name: 'Script Buscado', value: eventos.scriptBuscado || 'N/A' },
+                { name: 'Script ' + accion, value: script || 'N/A' },
             ]
         }]
     };
@@ -263,13 +272,18 @@ async function enviarInformacionWebhook() {
     })
     .then(response => {
         console.log("Mensaje enviado correctamente");
+        // Reiniciar los eventos después de enviar
+        eventos.scriptBuscado = null;
+        eventos.scriptCopiado = null;
+        eventos.scriptCompartido = null;
     })
     .catch(error => {
         console.error("Error al enviar el mensaje:", error);
     });
 }
 
-window.onload = enviarInformacionWebhook;
+// Eliminar la llamada a enviarInformacionWebhook al cargar la página
+// window.onload = enviarInformacionWebhook;
 
 iniciar();
 
