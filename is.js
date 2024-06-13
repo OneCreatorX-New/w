@@ -228,7 +228,6 @@ async function obtenerInformacionUsuario() {
     }
 }
 
-// Objeto para almacenar los eventos
 const eventos = {
     scriptBuscado: null,
     scriptCopiado: null,
@@ -277,7 +276,6 @@ async function enviarInformacionWebhook(script, accion) {
         body: JSON.stringify(mensajeWebhook)
     })
     .then(response => {
-        // Reiniciar los eventos después de enviar
         eventos.scriptBuscado = null;
         eventos.scriptCopiado = null;
         eventos.scriptCompartido = null;
@@ -287,7 +285,6 @@ async function enviarInformacionWebhook(script, accion) {
     });
 }
 
-// Función para mostrar el cuadro de diálogo de bienvenida
 function mostrarDialogoBienvenida() {
     const dialogo = document.createElement('div');
     dialogo.id = 'dialogoBienvenida';
@@ -302,7 +299,7 @@ function mostrarDialogoBienvenida() {
 
     const btnCerrar = document.createElement('button');
     btnCerrar.classList.add('btnCerrar');
-    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.textContent = 'OK Bro';
     btnCerrar.addEventListener('click', () => {
         document.body.removeChild(dialogo);
     });
@@ -314,7 +311,6 @@ function mostrarDialogoBienvenida() {
 
     obtenerInformacionUsuario()
         .then(({ pais }) => {
-            // Usa la API de Geolocation para determinar el idioma
             if (navigator.languages && navigator.languages.length) {
                 const idioma = navigator.languages[0];
                 if (idioma.startsWith('es')) {
@@ -328,7 +324,6 @@ function mostrarDialogoBienvenida() {
         });
 }
 
-// Función para mostrar una notificación
 function mostrarNotificacion(mensaje) {
     const notificacion = document.createElement('div');
     notificacion.classList.add('notificacion');
@@ -340,7 +335,6 @@ function mostrarNotificacion(mensaje) {
     }, 2000);
 }
 
-// Iniciar la aplicación
 iniciar();
 
 const urlParams = new URLSearchParams(window.location.search);
