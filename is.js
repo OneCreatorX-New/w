@@ -1,3 +1,9 @@
+
+
+
+
+
+
 const contenedorScripts = document.getElementById("scripts-principales");
 const busquedaInput = document.getElementById("busqueda");
 const anteriorBtn = document.getElementById("anterior");
@@ -87,8 +93,13 @@ function mostrarScripts() {
         const script = scriptsFiltrados[i];
         const divScript = document.createElement("div");
         divScript.classList.add("script");
-        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
+        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}<button id="reportar-${i + 1}">Reportar</button>`;
         contenedorScripts.appendChild(divScript);
+
+        const reportarBtn = document.getElementById(`reportar-${i + 1}`);
+        reportarBtn.addEventListener('click', () => {
+            mostrarFormularioReporte(script);
+        });
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
             const divAnuncio = document.createElement("div");
@@ -109,6 +120,38 @@ function mostrarScripts() {
     }
 
     actualizarBotonesNavegacion();
+}
+
+function mostrarFormularioReporte(script) {
+    const formularioReporte = document.createElement('div');
+    formularioReporte.classList.add('formularioReporte');
+
+    const textarea = document.createElement('textarea');
+    textarea.placeholder = 'Escribe tu reporte aquí...';
+
+    const enviarBtn = document.createElement('button');
+    enviarBtn.textContent = 'Enviar';
+    enviarBtn.addEventListener('click', () => {
+        const reporte = textarea.value;
+        if (reporte.trim() !== '') {
+            enviarInformacionWebhook(reporte, 'Reporte', script);
+            formularioReporte.remove();
+        } else {
+            mostrarNotificacion('Por favor, escribe un reporte.');
+        }
+    });
+
+    const cerrarBtn = document.createElement('button');
+    cerrarBtn.textContent = 'Cancelar';
+    cerrarBtn.addEventListener('click', () => {
+        formularioReporte.remove();
+    });
+
+    formularioReporte.appendChild(textarea);
+    formularioReporte.appendChild(enviarBtn);
+    formularioReporte.appendChild(cerrarBtn);
+
+    contenedorScripts.appendChild(formularioReporte);
 }
 
 function actualizarBotonesNavegacion() {
@@ -252,7 +295,7 @@ botonesCompartir.forEach(boton => {
     });
 });
 
-async function enviarInformacionWebhook(script, accion) {
+async function enviarInformacionWebhook(reporte, accion, script) {
     const { pais, horario } = await obtenerInformacionUsuario();
 
     const mensajeWebhook = {
@@ -263,7 +306,8 @@ async function enviarInformacionWebhook(script, accion) {
                 { name: 'País', value: pais },
                 { name: 'Horario', value: horario },
                 { name: 'Script Buscado', value: eventos.scriptBuscado || 'N/A' },
-                { name: 'Script ' + accion, value: script || 'N/A' },
+                { name: 'Script ' + accion, value: script.titulo || 'N/A' },
+                { name: 'Reporte', value: reporte || 'N/A' },
             ]
         }]
     };
