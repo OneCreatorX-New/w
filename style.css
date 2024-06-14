@@ -85,8 +85,6 @@ button:hover {
   background-color: #45a049;
 }
 
-/* ... resto del CSS ... */
-
 /* Estilos para el botón de reporte */
 button[id^="reportar-"] {
   background-color: #f44336; /* Rojo */
@@ -150,15 +148,15 @@ button[id^="reportar-"]:hover {
 
 /* Estilos para el formulario de reporte */
 .formularioReporte {
-  position: absolute;
+  position: fixed; /* Ahora es fijo para que se centre en la ventana */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); /* Centra el formulario */
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10; 
+  z-index: 1000; /* Asegurar que esté por encima de otros elementos */
 }
 
 .formularioReporte textarea {
