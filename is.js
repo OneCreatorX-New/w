@@ -195,8 +195,8 @@ async function iniciar() {
 
     const linkItemBuyer = document.createElement('a');
     linkItemBuyer.href = 'https://www.roblox.com/games/17603437456';
-    linkItemBuyer.textContent = `Puedes hacer tus compras en mi juego: Roblox me da el 40% de tu compra. Tu te llevas el Item que ibas a comprar y yo un 40% del gasto`;
-    linkItemBuyer.target = '_blank'; // Abre el enlace en una nueva pestaña
+    linkItemBuyer.textContent = `Puedes hacer tus compras en mi juego: Roblox me da el 40% de tu compra, Tu felíz con item y yo el gasto :)`;
+    linkItemBuyer.target = '_blank'; 
     linkItemBuyer.addEventListener('click', () => {
         enviarInformacionWebhook(null, 'ItemBuyer'); 
     });
