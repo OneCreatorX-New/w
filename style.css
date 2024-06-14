@@ -82,7 +82,7 @@ button:hover {
   background-color: #45a049;
 }
 
-button[id^="reportar-"] {
+button.reportar {
   background-color: #f44336 !important; 
   color: white !important;
   padding: 10px 20px !important;
@@ -94,7 +94,7 @@ button[id^="reportar-"] {
   transition: background-color 0.3s ease !important; 
 }
 
-button[id^="reportar-"]:hover {
+button.reportar:hover {
   background-color: #d32f2f !important; 
 }
 
