@@ -38,7 +38,11 @@ async function obtenerScripts() {
 
     const scriptsConContenido = [];
     for (const name of scriptNamesArray) {
-        const { juegoId, nombreJuego } = obtenerInfoJuego(name);
+        const partes = name.split("|");
+        const scriptName = partes[0].trim(); 
+        const pasteDropUrl = partes[1]?.trim();
+
+        const { juegoId, nombreJuego } = obtenerInfoJuego(scriptName);
 
         const rutaScript = `https://raw.githubusercontent.com/OneCreatorX-New/TwoDev/main/${encodeURIComponent(juegoId || nombreJuego)}.lua`; 
         const contenidoScript = `loadstring(game:HttpGet("${rutaScript}"))()`; 
@@ -46,9 +50,10 @@ async function obtenerScripts() {
         scriptsConContenido.push({
             titulo: nombreJuego, 
             contenido: contenidoScript,
-            url: name, 
+            url: scriptName, 
             idJuego: juegoId,
-            nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`
+            nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`,
+            pasteDropUrl: pasteDropUrl
         });
     }
 
@@ -90,19 +95,15 @@ function mostrarScripts() {
         const divScript = document.createElement("div");
         divScript.classList.add("script");
 
-        const partesScript = script.url.split("|");
-        const scriptUrl = partesScript[0].trim();
-        const pasteDropUrl = partesScript[1]?.trim();
-        const tienePasteDrop = pasteDropUrl !== undefined;
-
         divScript.innerHTML = `
             <h2>${script.titulo}</h2>
             <pre id="script-${i + 1}">${script.contenido}</pre>
             <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-            ${tienePasteDrop ? `<button onclick="window.open('${pasteDropUrl}', '_blank')">PasteDrop</button>` : ''}
+            ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">PasteDrop</button>` : ''}
             <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
             <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
             ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
+            ${script.idJuego ? `<button onclick="window.open('https://www.roblox.com/games/17603437456', '_blank')">Item Buyer</button>` : ''} 
         `;
         contenedorScripts.appendChild(divScript);
 
