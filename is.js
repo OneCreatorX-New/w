@@ -17,6 +17,7 @@ let scripts = [];
 let paginaActual = 0;
 let scriptsOriginales = [];
 let filtroActual = "todos";
+let dialogoSoporte = null;
 
 function obtenerInfoJuego(urlJuego) {
     if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
@@ -87,7 +88,7 @@ function mostrarScripts() {
         const script = scriptsFiltrados[i];
         const divScript = document.createElement("div");
         divScript.classList.add("script");
-        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
+        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button><button onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
         contenedorScripts.appendChild(divScript);
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
@@ -333,6 +334,85 @@ function mostrarNotificacion(mensaje) {
     setTimeout(() => {
         document.body.removeChild(notificacion);
     }, 2000);
+}
+
+function mostrarDialogoSoporte(nombreScript) {
+    if (dialogoSoporte) {
+        dialogoSoporte.remove();
+        dialogoSoporte = null;
+    }
+
+    dialogoSoporte = document.createElement('div');
+    dialogoSoporte.id = 'dialogoSoporte';
+    dialogoSoporte.classList.add('dialogoSoporte');
+
+    const contenidoDialogo = document.createElement('div');
+    contenidoDialogo.classList.add('contenidoDialogo');
+
+    const titulo = document.createElement('h2');
+    titulo.textContent = `Reportar problema con: ${nombreScript}`;
+    contenidoDialogo.appendChild(titulo);
+
+    const textarea = document.createElement('textarea');
+    textarea.placeholder = "Describe el problema...";
+    contenidoDialogo.appendChild(textarea);
+
+    const btnEnviar = document.createElement('button');
+    btnEnviar.textContent = 'Enviar Reporte';
+    btnEnviar.addEventListener('click', () => {
+        const mensaje = textarea.value.trim();
+        if (mensaje) {
+            enviarReporte(nombreScript, mensaje);
+            dialogoSoporte.remove();
+            dialogoSoporte = null;
+            mostrarNotificacion("Reporte enviado!");
+        } else {
+            mostrarNotificacion("Por favor, ingresa un mensaje.");
+        }
+    });
+    contenidoDialogo.appendChild(btnEnviar);
+
+    const btnCerrar = document.createElement('button');
+    btnCerrar.textContent = 'Cancelar';
+    btnCerrar.addEventListener('click', () => {
+        dialogoSoporte.remove();
+        dialogoSoporte = null;
+    });
+    contenidoDialogo.appendChild(btnCerrar);
+
+    dialogoSoporte.appendChild(contenidoDialogo);
+    document.body.appendChild(dialogoSoporte);
+}
+
+async function enviarReporte(nombreScript, mensaje) {
+    const { pais, horario } = await obtenerInformacionUsuario();
+
+    const mensajeWebhook = {
+        content: `Nuevo reporte!`,
+        embeds: [{
+            title: 'Reporte de Script',
+            fields: [
+                { name: 'Script', value: nombreScript },
+                { name: 'Mensaje', value: mensaje },
+                { name: 'País', value: pais },
+                { name: 'Horario', value: horario }
+            ]
+        }]
+    };
+
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(mensajeWebhook)
+    })
+    .then(response => {
+        console.log('Reporte enviado correctamente.');
+    })
+    .catch(error => {
+        console.error("Error al enviar el reporte:", error);
+    });
 }
 
 iniciar();
