@@ -88,7 +88,14 @@ function mostrarScripts() {
         const script = scriptsFiltrados[i];
         const divScript = document.createElement("div");
         divScript.classList.add("script");
-        divScript.innerHTML = `<h2>${script.titulo}</h2><pre id="script-${i + 1}">${script.contenido}</pre><button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button><button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button><button onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}`;
+        divScript.innerHTML = `
+            <h2>${script.titulo}</h2>
+            <pre id="script-${i + 1}">${script.contenido}</pre>
+            <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
+            <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
+            <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
+            ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
+        `;
         contenedorScripts.appendChild(divScript);
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
