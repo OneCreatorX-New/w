@@ -195,7 +195,7 @@ async function iniciar() {
 
     const linkItemBuyer = document.createElement('a');
     linkItemBuyer.href = 'https://www.roblox.com/games/17603437456';
-    linkItemBuyer.textContent = `Puedes hacer tus compras en mi juego: Roblox me da el 40% de tu compra, Tu felíz con item y yo el gasto :)`;
+    linkItemBuyer.textContent = `Puedes hacer tus compras en mi juego: Roblox me da el 40% de tu compra, Tu felíz con item y yo también :)`;
     linkItemBuyer.target = '_blank'; 
     linkItemBuyer.addEventListener('click', () => {
         enviarInformacionWebhook(null, 'ItemBuyer'); 
@@ -204,7 +204,7 @@ async function iniciar() {
 
     const linkPaypal = document.createElement('a');
     linkPaypal.href = 'https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA';
-    linkPaypal.textContent = `Haz una donación directa a través de PayPal.`;
+    linkPaypal.textContent = `  Oh también puedes hacer una donación directa a través de PayPal.`;
     linkPaypal.addEventListener('click', () => {
         enviarInformacionWebhook(null, 'DonacionPayPal'); 
     });
