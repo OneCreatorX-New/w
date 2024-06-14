@@ -83,19 +83,19 @@ button:hover {
 }
 
 button[id^="reportar-"] {
-  background-color: #f44336; 
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background-color 0.3s ease; 
+  background-color: #f44336 !important; 
+  color: white !important;
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  transition: background-color 0.3s ease !important; 
 }
 
 button[id^="reportar-"]:hover {
-  background-color: #d32f2f; 
+  background-color: #d32f2f !important; 
 }
 
 #navegacion {
