@@ -18,6 +18,7 @@ let paginaActual = 0;
 let scriptsOriginales = [];
 let filtroActual = "todos";
 let dialogoSoporte = null;
+let dialogoApoyo = null;
 
 function obtenerInfoJuego(urlJuego) {
     if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
@@ -88,10 +89,17 @@ function mostrarScripts() {
         const script = scriptsFiltrados[i];
         const divScript = document.createElement("div");
         divScript.classList.add("script");
+
+        const partesScript = script.url.split("|");
+        const scriptUrl = partesScript[0].trim();
+        const pasteDropUrl = partesScript[1]?.trim();
+        const tienePasteDrop = pasteDropUrl !== undefined;
+
         divScript.innerHTML = `
             <h2>${script.titulo}</h2>
             <pre id="script-${i + 1}">${script.contenido}</pre>
             <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
+            ${tienePasteDrop ? `<button onclick="window.open('${pasteDropUrl}', '_blank')">PasteDrop</button>` : ''}
             <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
             <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
             ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
@@ -162,6 +170,59 @@ async function iniciar() {
     mostrarScripts();
 
     mostrarDialogoBienvenida();
+
+    const contenedorFiltros = document.getElementById("filtros"); 
+    const btnApoyame = document.createElement("button");
+    btnApoyame.id = "btn-apoyame";
+    btnApoyame.textContent = "Apóyame";
+    contenedorFiltros.appendChild(btnApoyame);
+
+    const dialogoApoyo = document.createElement('div');
+    dialogoApoyo.id = 'dialogoApoyo';
+    dialogoApoyo.classList.add('dialogoApoyo');
+
+    const contenidoDialogoApoyo = document.createElement('div');
+    contenidoDialogoApoyo.classList.add('contenidoDialogo');
+
+    const mensajeApoyo = document.createElement('p');
+    mensajeApoyo.id = 'mensajeApoyo';
+    mensajeApoyo.textContent = `Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:`;
+    contenidoDialogoApoyo.appendChild(mensajeApoyo);
+
+    const linkPasteDrop = document.createElement('p');
+    linkPasteDrop.textContent = `Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.`;
+    contenidoDialogoApoyo.appendChild(linkPasteDrop);
+
+    const linkItemBuyer = document.createElement('p');
+    linkItemBuyer.textContent = `Compra un item en mi juego: Roblox me da el 40% de tu compra.`;
+    linkItemBuyer.addEventListener('click', () => {
+        window.open('https://www.roblox.com/games/[TuGameId]', '_blank');
+        enviarInformacionWebhook(null, 'ItemBuyer'); 
+    });
+    contenidoDialogoApoyo.appendChild(linkItemBuyer);
+
+    const linkPaypal = document.createElement('a');
+    linkPaypal.href = '[TuLinkPayPal]';
+    linkPaypal.textContent = `Haz una donación directa a través de PayPal.`;
+    linkPaypal.addEventListener('click', () => {
+        enviarInformacionWebhook(null, 'DonacionPayPal'); 
+    });
+    contenidoDialogoApoyo.appendChild(linkPaypal);
+
+    const btnCerrarApoyo = document.createElement('button');
+    btnCerrarApoyo.classList.add('btnCerrar');
+    btnCerrarApoyo.textContent = 'Cerrar';
+    btnCerrarApoyo.addEventListener('click', () => {
+        document.body.removeChild(dialogoApoyo);
+    });
+    contenidoDialogoApoyo.appendChild(btnCerrarApoyo);
+
+    dialogoApoyo.appendChild(contenidoDialogoApoyo);
+
+    btnApoyame.addEventListener('click', () => {
+        document.body.appendChild(dialogoApoyo);
+        enviarInformacionWebhook(null, 'ClickApoyame'); 
+    });
 }
 
 function copiarAlPortapapeles(elemento) {
