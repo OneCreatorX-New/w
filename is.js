@@ -103,7 +103,6 @@ function mostrarScripts() {
             <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
             <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
             ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
-            ${script.idJuego ? `<button onclick="window.open('https://www.roblox.com/games/17603437456', '_blank')">Item Buyer</button>` : ''} 
         `;
         contenedorScripts.appendChild(divScript);
 
@@ -194,10 +193,11 @@ async function iniciar() {
     linkPasteDrop.textContent = `Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.`;
     contenidoDialogoApoyo.appendChild(linkPasteDrop);
 
-    const linkItemBuyer = document.createElement('p');
-    linkItemBuyer.textContent = `Compra un item en mi juego: Roblox me da el 40% de tu compra. Tu te llevas el Item que ibas a comprar y yo un 40% del gasto`;
+    const linkItemBuyer = document.createElement('a');
+    linkItemBuyer.href = 'https://www.roblox.com/games/17603437456';
+    linkItemBuyer.textContent = `Puedes hacer tus compras en mi juego: Roblox me da el 40% de tu compra. Tu te llevas el Item que ibas a comprar y yo un 40% del gasto`;
+    linkItemBuyer.target = '_blank'; // Abre el enlace en una nueva pestaña
     linkItemBuyer.addEventListener('click', () => {
-        window.open('https://www.roblox.com/games/17603437456', '_blank');
         enviarInformacionWebhook(null, 'ItemBuyer'); 
     });
     contenidoDialogoApoyo.appendChild(linkItemBuyer);
