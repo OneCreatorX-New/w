@@ -99,7 +99,7 @@ function mostrarScripts() {
             <h2>${script.titulo}</h2>
             <pre id="script-${i + 1}">${script.contenido}</pre>
             <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-            ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">PasteDrop</button>` : ''}
+            ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">Paste-Drop</button>` : ''}
             <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
             <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
             ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
