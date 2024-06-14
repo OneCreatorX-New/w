@@ -194,15 +194,15 @@ async function iniciar() {
     contenidoDialogoApoyo.appendChild(linkPasteDrop);
 
     const linkItemBuyer = document.createElement('p');
-    linkItemBuyer.textContent = `Compra un item en mi juego: Roblox me da el 40% de tu compra.`;
+    linkItemBuyer.textContent = `Compra un item en mi juego: Roblox me da el 40% de tu compra. Tu te llevas el Item que ibas a comprar y yo un 40% del gasto`;
     linkItemBuyer.addEventListener('click', () => {
-        window.open('https://www.roblox.com/games/[TuGameId]', '_blank');
+        window.open('https://www.roblox.com/games/17603437456', '_blank');
         enviarInformacionWebhook(null, 'ItemBuyer'); 
     });
     contenidoDialogoApoyo.appendChild(linkItemBuyer);
 
     const linkPaypal = document.createElement('a');
-    linkPaypal.href = '[TuLinkPayPal]';
+    linkPaypal.href = 'https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA';
     linkPaypal.textContent = `Haz una donación directa a través de PayPal.`;
     linkPaypal.addEventListener('click', () => {
         enviarInformacionWebhook(null, 'DonacionPayPal'); 
