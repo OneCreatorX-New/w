@@ -1,67 +1,70 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Open Sans', sans-serif; /* Tipografía moderna */
   margin: 20px;
-  background: url('https://cdn.glitch.global/706d91f8-f56f-463d-be4e-df45dbe7dead/InShot_20240608_223126415.jpg?v=1717896698262') no-repeat center center fixed;
-  background-size: cover;
+  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0); /* Degradado suave para fondo */
   color: #333333;
 }
 
 .header {
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
-  padding: 10px;
+  background-color: #333; /* Azul oscuro */
+  padding: 20px;
   text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 h1 {
-  color: #ffffff; /* Texto blanco */
+  color: #fff; /* Blanco */
   margin: 0;
+  font-size: 2.5em; /* Tamaño de título más grande */
 }
 
 input[type="text"] {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   box-sizing: border-box;
   margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 #contenido {
   width: 80%;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  margin: 20px auto;
+  background-color: #fff; /* Blanco */
   padding: 20px;
-  border-radius: 8px;
-  overflow: hidden; /* Evita que el contenido se sobresalga */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
 }
 
 .script {
-  background-color: #ffffff;
-  border-radius: 8px;
+  background-color: #fff;
+  border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .anuncios {
   height: 100px;
-  background-color: #eeeeee;
+  background-color: #eee;
   margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 h2 {
   margin-top: 0;
   color: #333333;
+  font-size: 1.5em;
 }
 
 pre {
   white-space: pre-wrap;
   overflow-x: auto;
   background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 15px;
+  border-radius: 5px;
   font-family: 'Courier New', Courier, monospace;
   color: #333333;
 }
@@ -69,20 +72,22 @@ pre {
 button {
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   margin: 10px;
-  transition: background-color 0.3s ease; /* Transición suave al hover */
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 button:hover {
   background-color: #45a049;
 }
 
+/* ... resto del CSS ... */
+
 /* Estilos para el botón de reporte */
-#reportar-1, #reportar-2, #reportar-3, /* ... y así para todos los IDs del botón */
 button[id^="reportar-"] {
   background-color: #f44336; /* Rojo */
   color: white;
@@ -92,34 +97,25 @@ button[id^="reportar-"] {
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
-  transition: background-color 0.3s ease; /* Transición suave al hover */
+  transition: background-color 0.3s ease; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 button[id^="reportar-"]:hover {
   background-color: #d32f2f; /* Rojo más oscuro al hover */
 }
 
-#navegacion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-#info-pagina {
-  margin: 0 10px;
-}
-
+/* Estilos para la ventana de diálogo */
 .dialogoBienvenida {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 20px;
   z-index: 1000;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
 }
 
 .contenidoDialogo {
@@ -134,19 +130,22 @@ button[id^="reportar-"]:hover {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
+/* Estilos para la notificación */
 .notificacion {
   position: fixed;
-  top: 10px; /* Ajusta según sea necesario */
-  left: 50%; /* Coloca la mitad del ancho del elemento en el centro */
-  transform: translateX(-50%); /* Centra horizontalmente el elemento */
+  top: 10px; 
+  left: 50%; 
+  transform: translateX(-50%); 
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
   opacity: 0.9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 /* Estilos para el formulario de reporte */
@@ -157,9 +156,9 @@ button[id^="reportar-"]:hover {
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Asegurar que esté por encima de otros elementos */
+  z-index: 10; 
 }
 
 .formularioReporte textarea {
@@ -170,6 +169,7 @@ button[id^="reportar-"]:hover {
   border-radius: 5px;
   resize: vertical;
   margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .formularioReporte button {
@@ -180,6 +180,7 @@ button[id^="reportar-"]:hover {
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .formularioReporte button:first-child { /* Botón "Enviar" */
@@ -190,4 +191,19 @@ button[id^="reportar-"]:hover {
 .formularioReporte button:last-child { /* Botón "Cancelar" */
   background-color: #f44336; /* Rojo */
   color: white;
+}
+
+/* Responsividad para dispositivos móviles */
+@media (max-width: 768px) {
+  #contenido {
+    width: 95%;
+  }
+
+  .script {
+    margin-bottom: 10px; /* Reducir el margen inferior */
+  }
+
+  .anuncios {
+    height: 70px; /* Reducir la altura */
+  }
 }
