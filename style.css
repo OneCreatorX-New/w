@@ -1,27 +1,22 @@
-/* Estilos para el cuerpo de la página */
 body {
   font-family: 'Arial', sans-serif;
   margin: 20px;
-  /* Imagen de fondo */
   background: url('https://cdn.glitch.global/706d91f8-f56f-463d-be4e-df45dbe7dead/InShot_20240608_223126415.jpg?v=1717896698262') no-repeat center center fixed;
   background-size: cover;
   color: #333333;
 }
 
-/* Estilos para el encabezado */
 .header {
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   text-align: center;
 }
 
-/* Estilos para el título principal */
 h1 {
-  color: #ffffff; /* Texto blanco */
+  color: #ffffff;
   margin: 0;
 }
 
-/* Estilos para la caja de búsqueda */
 input[type="text"] {
   width: 100%;
   padding: 10px;
@@ -31,17 +26,16 @@ input[type="text"] {
   margin-bottom: 20px;
 }
 
-/* Estilos para el contenedor del contenido */
-#contenido {
+#main-content {
+  position: relative; 
   width: 80%;
-  margin: 0 auto;
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  margin: 20px auto;
+  background-color: rgba(255, 255, 255, 0.9); 
   padding: 20px;
   border-radius: 8px;
-  overflow: hidden; /* Evita que el contenido se sobresalga */
+  overflow: hidden; 
 }
 
-/* Estilos para cada script */
 .script {
   background-color: #ffffff;
   border-radius: 8px;
@@ -50,7 +44,6 @@ input[type="text"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para el área de anuncios */
 .anuncios {
   height: 100px;
   background-color: #eeeeee;
@@ -59,13 +52,11 @@ input[type="text"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para los subtítulos */
 h2 {
   margin-top: 0;
   color: #333333;
 }
 
-/* Estilos para el código fuente */
 pre {
   white-space: pre-wrap;
   overflow-x: auto;
@@ -76,7 +67,6 @@ pre {
   color: #333333;
 }
 
-/* Estilos generales para los botones */
 button {
   background-color: #4CAF50;
   color: white;
@@ -85,17 +75,15 @@ button {
   border-radius: 4px;
   cursor: pointer;
   margin: 10px;
-  transition: background-color 0.3s ease; /* Transición suave al hover */
+  transition: background-color 0.3s ease; 
 }
 
-/* Estilos al pasar el ratón por encima del botón */
 button:hover {
   background-color: #45a049;
 }
 
-/* Estilos para el botón de reporte */
 button[id^="reportar-"] {
-  background-color: #f44336; /* Rojo */
+  background-color: #f44336; 
   color: white;
   padding: 10px 20px;
   border: none;
@@ -103,15 +91,13 @@ button[id^="reportar-"] {
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
-  transition: background-color 0.3s ease; /* Transición suave al hover */
+  transition: background-color 0.3s ease; 
 }
 
-/* Estilos al pasar el ratón por encima del botón de reporte */
 button[id^="reportar-"]:hover {
-  background-color: #d32f2f; /* Rojo más oscuro al hover */
+  background-color: #d32f2f; 
 }
 
-/* Estilos para la barra de navegación */
 #navegacion {
   display: flex;
   justify-content: center;
@@ -119,30 +105,26 @@ button[id^="reportar-"]:hover {
   margin-top: 20px;
 }
 
-/* Estilos para la información de la página */
 #info-pagina {
   margin: 0 10px;
 }
 
-/* Estilos para el cuadro de diálogo de bienvenida */
-.dialogoBienvenida {
+.dialogoBienvenida, .dialogoSoporte { 
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 20px;
   z-index: 1000;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3); 
 }
 
-/* Estilos para el contenido del cuadro de diálogo */
 .contenidoDialogo {
   text-align: center;
 }
 
-/* Estilos para el botón de cierre del cuadro de diálogo */
 .btnCerrar {
   background-color: #4CAF50;
   color: white;
@@ -151,36 +133,35 @@ button[id^="reportar-"]:hover {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilos para la notificación */
 .notificacion {
   position: fixed;
-  top: 10px; /* Ajusta según sea necesario */
-  left: 50%; /* Coloca la mitad del ancho del elemento en el centro */
-  transform: translateX(-50%); /* Centra horizontalmente el elemento */
+  top: 10px; 
+  left: 50%; 
+  transform: translateX(-50%); 
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
   opacity: 0.9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilos para el formulario de reporte */
 .formularioReporte {
-  position: fixed; /* Ahora es fijo para que se centre en la ventana */
+  position: absolute; 
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centra el formulario */
+  transform: translate(-50%, -50%); 
   background-color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Asegurar que esté por encima de otros elementos */
+  z-index: 1000; 
 }
 
-/* Estilos para el área de texto del formulario de reporte */
 .formularioReporte textarea {
   width: 100%;
   height: 100px;
@@ -189,9 +170,9 @@ button[id^="reportar-"]:hover {
   border-radius: 5px;
   resize: vertical;
   margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilos para los botones del formulario de reporte */
 .formularioReporte button {
   padding: 10px 20px;
   border: none;
@@ -200,16 +181,29 @@ button[id^="reportar-"]:hover {
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilos para el botón "Enviar" */
 .formularioReporte button:first-child { 
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50; 
   color: white;
 }
 
-/* Estilos para el botón "Cancelar" */
 .formularioReporte button:last-child { 
-  background-color: #f44336; /* Rojo */
+  background-color: #f44336; 
   color: white;
+}
+
+@media (max-width: 768px) {
+  #contenido {
+    width: 95%;
+  }
+
+  .script {
+    margin-bottom: 10px; 
+  }
+
+  .anuncios {
+    height: 70px; 
+  }
 }
