@@ -82,6 +82,7 @@ function compartirScript(nombreScript, idJuego) {
     }
 }
 
+
 function mostrarScripts() {
     contenedorScripts.innerHTML = '';
 
