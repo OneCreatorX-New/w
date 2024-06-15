@@ -19,6 +19,7 @@ let scriptsOriginales = [];
 let filtroActual = "todos";
 let dialogoSoporte = null;
 let dialogoApoyo = null;
+let dialogoInfo = null; // Variable global para el cuadro de diálogo de info
 
 function obtenerInfoJuego(urlJuego) {
     if (urlJuego.includes('roblox.com') || urlJuego.includes('games.roblox.com')) {
@@ -39,8 +40,9 @@ async function obtenerScripts() {
     const scriptsConContenido = [];
     for (const name of scriptNamesArray) {
         const partes = name.split("|");
-        const scriptName = partes[0].trim(); 
+        const scriptName = partes[0].trim();
         const pasteDropUrl = partes[1]?.trim();
+        const descripcion = partes[2]?.trim(); 
 
         const { juegoId, nombreJuego } = obtenerInfoJuego(scriptName);
 
@@ -53,7 +55,8 @@ async function obtenerScripts() {
             url: scriptName, 
             idJuego: juegoId,
             nombreArchivo: `${encodeURIComponent(juegoId || nombreJuego)}.lua`,
-            pasteDropUrl: pasteDropUrl
+            pasteDropUrl: pasteDropUrl,
+            descripcion: descripcion
         });
     }
 
@@ -104,6 +107,13 @@ function mostrarScripts() {
             <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
             ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
         `;
+
+        if (script.descripcion) {
+            divScript.innerHTML += `
+                <button onclick="mostrarDialogoInfo('${script.titulo}', '${script.descripcion}')">Info</button>
+            `;
+        }
+
         contenedorScripts.appendChild(divScript);
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
@@ -486,6 +496,40 @@ async function enviarReporte(nombreScript, mensaje) {
     .catch(error => {
         console.error("Error al enviar el reporte:", error);
     });
+}
+
+function mostrarDialogoInfo(nombreScript, descripcion) {
+    if (dialogoInfo) {
+        dialogoInfo.remove();
+        dialogoInfo = null;
+    }
+
+    dialogoInfo = document.createElement('div');
+    dialogoInfo.id = 'dialogoInfo';
+    dialogoInfo.classList.add('dialogoInfo');
+
+    const contenidoDialogo = document.createElement('div');
+    contenidoDialogo.classList.add('contenidoDialogo');
+
+    const titulo = document.createElement('h2');
+    titulo.textContent = `Información sobre: ${nombreScript}`;
+    contenidoDialogo.appendChild(titulo);
+
+    const descripcionP = document.createElement('p');
+    descripcionP.textContent = descripcion;
+    contenidoDialogo.appendChild(descripcionP);
+
+    const btnCerrar = document.createElement('button');
+    btnCerrar.classList.add('btnCerrar');
+    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.addEventListener('click', () => {
+        document.body.removeChild(dialogoInfo);
+        dialogoInfo = null; // Restablecer la variable global
+    });
+    contenidoDialogo.appendChild(btnCerrar);
+
+    dialogoInfo.appendChild(contenidoDialogo);
+    document.body.appendChild(dialogoInfo);
 }
 
 iniciar();
