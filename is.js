@@ -156,9 +156,13 @@ busquedaInput.addEventListener("input", () => {
         return;
     }
 
-    const scriptsFiltrados = scriptsOriginales.filter(script =>
-        script.titulo.toLowerCase().includes(terminoBusqueda)
-    );
+    const scriptsFiltrados = scriptsOriginales.filter(script => {
+        if (terminoBusqueda.match(/^[0-9]+$/)) {
+            return script.idJuego === terminoBusqueda;
+        } else {
+            return script.titulo.toLowerCase().includes(terminoBusqueda);
+        }
+    });
     scripts = scriptsFiltrados;
     paginaActual = 0;
     mostrarScripts();
