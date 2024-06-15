@@ -61,18 +61,25 @@ async function obtenerScripts() {
 }
 
 function compartirScript(nombreScript, idJuego) {
-    let urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}`;
     if (idJuego) {
-        urlCompartir = `https://onerepositoryx.online/?script=${encodeURIComponent(nombreScript)}&id=${encodeURIComponent(idJuego)}`;
+        navigator.clipboard.writeText(idJuego)
+            .then(() => {
+                mostrarNotificacion("¡ID del juego copiado al portapapeles!");
+                enviarInformacionWebhook(idJuego, 'ID Compartido');
+            })
+            .catch(err => {
+                console.error("Error al copiar: ", err);
+            });
+    } else {
+        navigator.clipboard.writeText(nombreScript)
+            .then(() => {
+                mostrarNotificacion("¡Nombre del script copiado al portapapeles!");
+                enviarInformacionWebhook(nombreScript, 'Nombre Compartido');
+            })
+            .catch(err => {
+                console.error("Error al copiar: ", err);
+            });
     }
-    navigator.clipboard.writeText(urlCompartir)
-        .then(() => {
-            mostrarNotificacion("¡Enlace copiado al portapapeles!");
-            enviarInformacionWebhook(nombreScript, 'Compartido');
-        })
-        .catch(err => {
-            console.error("Error al copiar: ", err);
-        });
 }
 
 function mostrarScripts() {
@@ -95,15 +102,66 @@ function mostrarScripts() {
         const divScript = document.createElement("div");
         divScript.classList.add("script");
 
-        divScript.innerHTML = `
-            <h2>${script.titulo}</h2>
-            <pre id="script-${i + 1}">${script.contenido}</pre>
-            <button onclick="copiarAlPortapapeles(this.previousElementSibling)">Copiar</button>
-            ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">Paste-Drop</button>` : ''}
-            <button onclick="compartirScript('${script.titulo}', '${script.idJuego}')">Compartir</button>
-            <button class="reportar" onclick="mostrarDialogoSoporte('${script.titulo}')">Reportar</button>
-            ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank">Ir al Juego</a>` : ''}
-        `;
+        // Crea el elemento <pre> con el contenido del script, pero no lo renderiza
+        const preScript = document.createElement("pre");
+        preScript.id = `script-${i + 1}`;
+        preScript.textContent = script.contenido; 
+        divScript.appendChild(preScript);
+
+        // Añade el botón de "Copiar" 
+        const botonCopiar = document.createElement("button");
+        botonCopiar.textContent = "Copiar";
+        botonCopiar.addEventListener('click', () => {
+            // Selecciona el texto del script
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(preScript);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Copia el texto seleccionado
+            document.execCommand('copy');
+            mostrarNotificacion("¡Script copiado al portapapeles!");
+            enviarInformacionWebhook(preScript.textContent, 'Copiado');
+        });
+        divScript.appendChild(botonCopiar);
+
+        // Añade el botón de Paste-Drop
+        if (script.pasteDropUrl) {
+            const botonPasteDrop = document.createElement("button");
+            botonPasteDrop.textContent = "Paste-Drop";
+            botonPasteDrop.addEventListener('click', () => {
+                window.open(script.pasteDropUrl, '_blank');
+            });
+            divScript.appendChild(botonPasteDrop);
+        }
+
+        // Añade el botón de "Compartir"
+        const botonCompartir = document.createElement("button");
+        botonCompartir.textContent = "Compartir";
+        botonCompartir.addEventListener('click', () => {
+            compartirScript(script.titulo, script.idJuego);
+        });
+        divScript.appendChild(botonCompartir);
+
+        // Añade el botón de "Reportar"
+        const botonReportar = document.createElement("button");
+        botonReportar.classList.add("reportar");
+        botonReportar.textContent = "Reportar";
+        botonReportar.addEventListener('click', () => {
+            mostrarDialogoSoporte(script.titulo);
+        });
+        divScript.appendChild(botonReportar);
+
+        // Añade el enlace al juego (si hay uno)
+        if (script.idJuego) {
+            const enlaceJuego = document.createElement("a");
+            enlaceJuego.href = `https://www.roblox.com/games/${script.idJuego}`;
+            enlaceJuego.target = "_blank";
+            enlaceJuego.textContent = "Ir al Juego";
+            divScript.appendChild(enlaceJuego);
+        }
+
         contenedorScripts.appendChild(divScript);
 
         if ((i + 1) % 1 === 0 && i + 1 < fin) {
@@ -157,7 +215,8 @@ busquedaInput.addEventListener("input", () => {
     }
 
     const scriptsFiltrados = scriptsOriginales.filter(script =>
-        script.titulo.toLowerCase().includes(terminoBusqueda)
+        script.titulo.toLowerCase().includes(terminoBusqueda) || 
+        script.idJuego && script.idJuego.toString().toLowerCase().includes(terminoBusqueda)
     );
     scripts = scriptsFiltrados;
     paginaActual = 0;
@@ -226,6 +285,7 @@ async function iniciar() {
     });
 }
 
+// Esta función ya no se usa, pero se mantiene por si acaso.
 function copiarAlPortapapeles(elemento) {
     navigator.clipboard.writeText(elemento.textContent)
         .then(() => {
@@ -308,19 +368,20 @@ busquedaInput.addEventListener("input", () => {
     eventos.scriptBuscado = busquedaInput.value;
 });
 
-const preElementos = document.querySelectorAll("pre");
-preElementos.forEach(pre => {
-    pre.addEventListener("copy", (event) => {
-        eventos.scriptCopiado = event.clipboardData.getData('text/plain');
-    });
-});
+// Ya no se necesitan estos eventos.
+// const preElementos = document.querySelectorAll("pre");
+// preElementos.forEach(pre => {
+//     pre.addEventListener("copy", (event) => {
+//         eventos.scriptCopiado = event.clipboardData.getData('text/plain');
+//     });
+// });
 
-const botonesCompartir = document.querySelectorAll("button[onclick^='compartirScript']");
-botonesCompartir.forEach(boton => {
-    boton.addEventListener("click", () => {
-        eventos.scriptCompartido = boton.previousElementSibling.previousElementSibling.textContent.trim();
-    });
-});
+// const botonesCompartir = document.querySelectorAll("button[onclick^='compartirScript']");
+// botonesCompartir.forEach(boton => {
+//     boton.addEventListener("click", () => {
+//         eventos.scriptCompartido = boton.previousElementSibling.previousElementSibling.textContent.trim();
+//     });
+// });
 
 async function enviarInformacionWebhook(script, accion) {
     const { pais, horario } = await obtenerInformacionUsuario();
