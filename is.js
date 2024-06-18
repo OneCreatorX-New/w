@@ -238,6 +238,13 @@ async function iniciar() {
     document.body.appendChild(diaApo);
     envInfoWeb(null, 'ClickApoyame');
   });
+
+  // Código para crear el botón "Bypass"
+  const btnByp = document.createElement('button');
+  btnByp.id = 'btn-bypass';
+  btnByp.textContent = 'Bypass';
+  btnByp.addEventListener('click', mostrarDialogoBypass);
+  contFil.appendChild(btnByp); 
 }
 
 function copiarAlPortapapeles(elemento) {
