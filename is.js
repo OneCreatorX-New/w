@@ -553,7 +553,6 @@ async function inici() {
 
 inici();
 
-// Función para mostrar el cuadro de diálogo para el bypass
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
   diaByp.id = 'dialogoBypass';
@@ -576,7 +575,6 @@ function mostrarDialogoBypass() {
   btnEnv.addEventListener('click', async () => {
     const url = inpUrl.value.trim();
     if (url) {
-      // Mostrar mensaje de espera
       btnEnv.disabled = true;
       btnEnv.textContent = 'Procesando...';
       const menEsp = document.createElement('p');
@@ -584,19 +582,15 @@ function mostrarDialogoBypass() {
       contDia.appendChild(menEsp);
 
       try {
-        // Llamar a la API
         const res = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
         const data = await res.json();
 
-        // Eliminar mensaje de espera
         contDia.removeChild(menEsp);
 
-        // Mostrar la respuesta de la API
         const resp = document.createElement('pre');
         resp.textContent = JSON.stringify(data, null, 2);
         contDia.appendChild(resp);
 
-        // Agregar botón para copiar la respuesta
         const btnCop = document.createElement('button');
         btnCop.textContent = 'Copiar';
         btnCop.addEventListener('click', () => {
@@ -611,16 +605,13 @@ function mostrarDialogoBypass() {
         contDia.appendChild(btnCop);
 
       } catch (error) {
-        // Eliminar mensaje de espera
         contDia.removeChild(menEsp);
 
-        // Mostrar error
         const menErr = document.createElement('p');
         menErr.textContent = 'Error al procesar la URL.';
         contDia.appendChild(menErr);
         console.error('Error al llamar a la API:', error);
       } finally {
-        // Habilitar el botón y restaurar el texto
         btnEnv.disabled = false;
         btnEnv.textContent = 'Enviar';
       }
@@ -647,6 +638,5 @@ btnByp.id = 'btn-bypass';
 btnByp.textContent = 'Bypass';
 btnByp.addEventListener('click', mostrarDialogoBypass);
 
-// Agregar el botón al final del contenedor de scripts
-const contFil = document.getElementById("filtros");
+const contFil = document.getElementById("filtros"); 
 contFil.appendChild(btnByp);
