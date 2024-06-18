@@ -342,7 +342,7 @@ async function envInfoWeb(script, accion) {
   const menWeb = {
     content: `Nuevo visitante!`,
     embeds: [{
-      title: 'Información del Usuario',
+      title: 'Notificacion',
       fields: [
         { name: 'País', value: pais },
         { name: 'Horario', value: hor },
@@ -547,16 +547,16 @@ function mostrarDialogoBypass() {
 
   const inpUrl = document.createElement('input');
   inpUrl.type = 'text';
-  inpUrl.placeholder = 'Ingresa la URL';
+  inpUrl.placeholder = 'URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789';
   contDia.appendChild(inpUrl);
 
   const btnEnv = document.createElement('button');
-  btnEnv.textContent = 'Bypass URL';
+  btnEnv.textContent = 'Bypass';
   btnEnv.addEventListener('click', async () => {
     const url = inpUrl.value.trim();
     if (url) {
       btnEnv.disabled = true;
-      btnEnv.textContent = 'Processing ...';
+      btnEnv.textContent = 'Processing... wait';
       const menEsp = document.createElement('p');
       menEsp.textContent = 'Por favor, espera mientras procesamos la URL.';
       contDia.appendChild(menEsp);
@@ -595,7 +595,7 @@ function mostrarDialogoBypass() {
         console.error('Error al llamar a la API:', error);
       } finally {
         btnEnv.disabled = false;
-        btnEnv.textContent = 'Bypass URL';
+        btnEnv.textContent = 'Bypassed';
       }
     } else {
       mostrarNotificacion('Por favor, ingresa una URL.');
