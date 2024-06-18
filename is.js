@@ -553,6 +553,7 @@ async function inici() {
 
 inici();
 
+// ... (tu código JavaScript existente)
 
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
@@ -644,3 +645,5 @@ btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros");
 contFil.appendChild(btnByp);
+
+// ... (resto de tu código JavaScript)
