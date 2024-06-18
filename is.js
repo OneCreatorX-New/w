@@ -568,29 +568,35 @@ function mostrarDialogoBypass() {
         contDia.removeChild(menEsp);
 
         if (data.bypassed) {
-          const resBtn = document.createElement('button');
-          resBtn.textContent = data.bypassed;
-          resBtn.addEventListener('click', () => {
-            window.open(data.bypassed, '_blank');
-          });
-          contDia.appendChild(resBtn);
+          if (data.type === 'url') {
+            const resBtn = document.createElement('button');
+            resBtn.textContent = 'Abrir en Nueva Pestaña';
+            resBtn.addEventListener('click', () => {
+              window.open(data.bypassed, '_blank');
+            });
+            contDia.appendChild(resBtn);
+            
+            const respUrl = document.createElement('p');
+            respUrl.textContent = data.bypassed;
+            contDia.appendChild(respUrl);
+          } else {
+            const respKey = document.createElement('p');
+            respKey.textContent = data.bypassed;
+            contDia.appendChild(respKey);
 
-          const resp = document.createElement('pre');
-          resp.textContent = JSON.stringify(data, null, 2);
-          contDia.appendChild(resp);
-
-          const btnCop = document.createElement('button');
-          btnCop.textContent = 'Copiar';
-          btnCop.addEventListener('click', () => {
-            navigator.clipboard.writeText(resp.textContent)
-              .then(() => {
-                mostrarNotificacion('¡Respuesta copiada al portapapeles!');
-              })
-              .catch(err => {
-                console.error('Error al copiar:', err);
-              });
-          });
-          contDia.appendChild(btnCop);
+            const btnCop = document.createElement('button');
+            btnCop.textContent = 'Copiar';
+            btnCop.addEventListener('click', () => {
+              navigator.clipboard.writeText(data.bypassed)
+                .then(() => {
+                  mostrarNotificacion('¡Respuesta copiada al portapapeles!');
+                })
+                .catch(err => {
+                  console.error('Error al copiar:', err);
+                });
+            });
+            contDia.appendChild(btnCop);
+          }
 
           envInfoWeb(url, 'Bypass');
 
