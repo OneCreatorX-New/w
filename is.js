@@ -585,7 +585,7 @@ function mostrarDialogoBypass() {
             contDia.appendChild(respKey);
 
             const btnCop = document.createElement('button');
-            btnCop.textContent = 'Copiar';
+            btnCop.textContent = 'Copy';
             btnCop.addEventListener('click', () => {
               navigator.clipboard.writeText(data.bypassed)
                 .then(() => {
@@ -615,7 +615,7 @@ function mostrarDialogoBypass() {
         console.error('Error al llamar a la API:', error);
       } finally {
         btnEnv.disabled = false;
-        btnEnv.textContent = 'Bypassed';
+        btnEnv.textContent = 'Bypass';
       }
     } else {
       mostrarNotificacion('Por favor, ingresa una URL.');
@@ -637,7 +637,7 @@ function mostrarDialogoBypass() {
 
 const btnByp = document.createElement('button');
 btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass key';
+btnByp.textContent = 'Bypass';
 btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros");
