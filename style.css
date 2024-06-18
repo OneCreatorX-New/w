@@ -4,12 +4,16 @@ body {
   background: url('https://cdn.glitch.global/706d91f8-f56f-463d-be4e-df45dbe7dead/InShot_20240608_223126415.jpg?v=1717896698262') no-repeat center center fixed;
   background-size: cover;
   color: #333333;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido horizontalmente */
 }
 
 .header {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   text-align: center;
+  width: 100%; /* Ocupa todo el ancho */
 }
 
 h1 {
@@ -27,13 +31,13 @@ input[type="text"] {
 }
 
 #main-content {
-  position: relative; 
+  position: relative;
   width: 80%;
   margin: 20px auto;
-  background-color: rgba(255, 255, 255, 0.9); 
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: 8px;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .script {
@@ -75,7 +79,9 @@ button {
   border-radius: 4px;
   cursor: pointer;
   margin: 10px;
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.3s ease;
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
 }
 
 button:hover {
@@ -83,7 +89,7 @@ button:hover {
 }
 
 button.reportar {
-  background-color: #f44336 !important; 
+  background-color: #f44336 !important;
   color: white !important;
   padding: 10px 20px !important;
   border: none !important;
@@ -91,11 +97,12 @@ button.reportar {
   cursor: pointer !important;
   font-size: 14px !important;
   font-weight: bold !important;
-  transition: background-color 0.3s ease !important; 
+  transition: background-color 0.3s ease !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
 }
 
 button.reportar:hover {
-  background-color: #d32f2f !important; 
+  background-color: #d32f2f !important;
 }
 
 #navegacion {
@@ -109,7 +116,7 @@ button.reportar:hover {
   margin: 0 10px;
 }
 
-.dialogoBienvenida, .dialogoSoporte { 
+.dialogoBienvenida, .dialogoSoporte {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -118,7 +125,9 @@ button.reportar:hover {
   border-radius: 10px;
   padding: 20px;
   z-index: 1000;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3); 
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  width: 400px; /* Ancho del diálogo */
+  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
 }
 
 .contenidoDialogo {
@@ -133,33 +142,36 @@ button.reportar:hover {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
 }
 
 .notificacion {
   position: fixed;
-  top: 10px; 
-  left: 50%; 
-  transform: translateX(-50%); 
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
   opacity: 0.9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .formularioReporte {
-  position: absolute; 
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); 
+  transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000; 
+  z-index: 1000;
+  width: 400px; /* Ancho del diálogo */
+  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
 }
 
 .formularioReporte textarea {
@@ -170,7 +182,7 @@ button.reportar:hover {
   border-radius: 5px;
   resize: vertical;
   margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .formularioReporte button {
@@ -181,33 +193,18 @@ button.reportar:hover {
   font-size: 14px;
   font-weight: bold;
   margin-right: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.formularioReporte button:first-child { 
-  background-color: #4CAF50; 
+.formularioReporte button:first-child {
+  background-color: #4CAF50;
   color: white;
 }
 
-.formularioReporte button:last-child { 
-  background-color: #f44336; 
+.formularioReporte button:last-child {
+  background-color: #f44336;
   color: white;
 }
-
-@media (max-width: 768px) {
-  #contenido {
-    width: 95%;
-  }
-
-  .script {
-    margin-bottom: 10px; 
-  }
-
-  .anuncios {
-    height: 70px; 
-  }
-}
-
 
 /* Estilos para el botón "Apóyame" */
 #btn-apoyame {
@@ -222,16 +219,18 @@ button.reportar:hover {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  font-weight: bold; /* Fuente en negrita */
 }
 
 /* Estilos para el diálogo de apoyo */
 .dialogoApoyo {
-  position: fixed; 
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -256,6 +255,7 @@ button.reportar:hover {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
 }
 
 /* Estilos para el botón Info */
@@ -268,7 +268,9 @@ button.reportar:hover {
   border-radius: 10px;
   padding: 20px;
   z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3); 
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  width: 400px; /* Ancho del diálogo */
+  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
 }
 
 .dialogoInfo h2 {
@@ -290,7 +292,8 @@ button.reportar:hover {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
 }
 
 /* Estilos generales para el cuadro de diálogo */
@@ -305,6 +308,8 @@ button.reportar:hover {
   padding: 20px;
   z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
   display: none; /* Inicialmente oculto */
+  width: 400px; /* Ancho del diálogo */
+  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
 }
 
 .contenidoDialogo {
@@ -333,6 +338,8 @@ button.reportar:hover {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
 }
 
 .dialogoBypass button.btnCerrar {
@@ -376,7 +383,20 @@ button.reportar:hover {
   transition: background-color 0.3s ease;
   background-color: #2196F3;
   color: white;
+  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
 }
 #btn-bypass:hover {
   background-color: #1976D2;
+}
+
+/* Estilos para la sección de filtros */
+#filtros {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#filtros button {
+  margin: 0 5px; /* Espacio entre botones */
 }
