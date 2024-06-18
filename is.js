@@ -548,10 +548,11 @@ async function inici() {
       busqInp.value = nomScr;
       busqInp.dispatchEvent(new Event('input'));
     }
-  }, 500);
+  }, 100);
 }
 
 inici();
+
 
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
@@ -604,6 +605,9 @@ function mostrarDialogoBypass() {
         });
         contDia.appendChild(btnCop);
 
+        // Enviar notificación a Discord
+        envInfoWeb(url, 'Bypass');
+
       } catch (error) {
         contDia.removeChild(menEsp);
 
@@ -635,8 +639,8 @@ function mostrarDialogoBypass() {
 
 const btnByp = document.createElement('button');
 btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass Key or ads';
+btnByp.textContent = 'Bypass';
 btnByp.addEventListener('click', mostrarDialogoBypass);
 
-const contFil = document.getElementById("filtros"); 
+const contFil = document.getElementById("filtros");
 contFil.appendChild(btnByp);
