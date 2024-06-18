@@ -635,7 +635,7 @@ function mostrarDialogoBypass() {
 
 const btnByp = document.createElement('button');
 btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass';
+btnByp.textContent = 'Bypass Key or ads';
 btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros"); 
