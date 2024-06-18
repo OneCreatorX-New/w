@@ -6,14 +6,14 @@ body {
   color: #333333;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra el contenido horizontalmente */
+  align-items: center;
 }
 
 .header {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   text-align: center;
-  width: 100%; /* Ocupa todo el ancho */
+  width: 100%;
 }
 
 h1 {
@@ -80,8 +80,8 @@ button {
   cursor: pointer;
   margin: 10px;
   transition: background-color 0.3s ease;
-  font-size: 16px; /* Aumenta el tamaño de la fuente */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
@@ -89,20 +89,20 @@ button:hover {
 }
 
 button.reportar {
-  background-color: #f44336 !important;
-  color: white !important;
-  padding: 10px 20px !important;
-  border: none !important;
-  border-radius: 5px !important;
-  cursor: pointer !important;
-  font-size: 14px !important;
-  font-weight: bold !important;
-  transition: background-color 0.3s ease !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button.reportar:hover {
-  background-color: #d32f2f !important;
+  background-color: #d32f2f;
 }
 
 #navegacion {
@@ -126,8 +126,8 @@ button.reportar:hover {
   padding: 20px;
   z-index: 1000;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-  width: 400px; /* Ancho del diálogo */
-  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
+  width: 400px;
+  max-width: 90%;
 }
 
 .contenidoDialogo {
@@ -143,7 +143,7 @@ button.reportar:hover {
   cursor: pointer;
   margin-top: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  font-size: 16px;
 }
 
 .notificacion {
@@ -170,8 +170,8 @@ button.reportar:hover {
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  width: 400px; /* Ancho del diálogo */
-  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
+  width: 400px;
+  max-width: 90%;
 }
 
 .formularioReporte textarea {
@@ -206,9 +206,8 @@ button.reportar:hover {
   color: white;
 }
 
-/* Estilos para el botón "Apóyame" */
 #btn-apoyame {
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -219,11 +218,10 @@ button.reportar:hover {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
-  font-weight: bold; /* Fuente en negrita */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
 }
 
-/* Estilos para el diálogo de apoyo */
 .dialogoApoyo {
   position: fixed;
   left: 0;
@@ -244,7 +242,7 @@ button.reportar:hover {
 }
 
 .btnCerrar {
-  background-color: #f44336; /* Rojo */
+  background-color: #f44336;
   border: none;
   color: white;
   padding: 8px 16px;
@@ -255,10 +253,9 @@ button.reportar:hover {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para el botón Info */
 .dialogoInfo {
   position: fixed;
   top: 50%;
@@ -267,10 +264,10 @@ button.reportar:hover {
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  z-index: 1000;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-  width: 400px; /* Ancho del diálogo */
-  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
+  width: 400px;
+  max-width: 90%;
 }
 
 .dialogoInfo h2 {
@@ -284,8 +281,8 @@ button.reportar:hover {
   line-height: 1.5;
 }
 
-.dialogoInfo .btnCerrar { /* Reutilizando el estilo btnCerrar */
-  background-color: #4CAF50; /* Verde */
+.dialogoInfo .btnCerrar {
+  background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -293,10 +290,9 @@ button.reportar:hover {
   cursor: pointer;
   margin-top: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 16px; /* Aumenta el tamaño de la fuente */
+  font-size: 16px;
 }
 
-/* Estilos generales para el cuadro de diálogo */
 .dialogoBypass {
   position: fixed;
   top: 50%;
@@ -306,14 +302,10 @@ button.reportar:hover {
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-  display: block; /* Inicialmente visible */
-  width: 400px; /* Ancho del diálogo */
-  max-width: 90%; /* Ancho máximo para pantallas pequeñas */
-}
-
-.contenidoDialogo {
-  text-align: center;
+  z-index: 1000;
+  display: block;
+  width: 400px;
+  max-width: 90%;
 }
 
 .dialogoBypass h2 {
@@ -329,7 +321,6 @@ button.reportar:hover {
   border-radius: 5px;
 }
 
-/* Estilos para los botones */
 .dialogoBypass button {
   padding: 10px 20px;
   margin: 5px;
@@ -338,41 +329,37 @@ button.reportar:hover {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  font-size: 16px; /* Aumenta el tamaño de la fuente */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dialogoBypass button.btnCerrar {
-  background-color: #f44336; /* Rojo */
+  background-color: #f44336;
   color: #fff;
 }
 
 .dialogoBypass button.btnCerrar:hover {
-  background-color: #d32f2f; /* Rojo más oscuro */
+  background-color: #d32f2f;
 }
 
 .dialogoBypass button.btnEnviar {
-  background-color: #4CAF50; /* Verde */
+  background-color: #4CAF50;
   color: #fff;
 }
 
 .dialogoBypass button.btnEnviar:hover {
-  background-color: #45a049; /* Verde más oscuro */
+  background-color: #45a049;
 }
 
 .dialogoBypass button.btnCopiar {
-  background-color: #2196F3; /* Azul */
+  background-color: #2196F3;
   color: #fff;
 }
 
 .dialogoBypass button.btnCopiar:hover {
-  background-color: #1976D2; /* Azul más oscuro */
+  background-color: #1976D2;
 }
 
-/* Mostrar el diálogo cuando se haga clic en el botón */
-#btn-bypass:hover {
-  background-color: #4CAF50;
-}
 #btn-bypass {
   padding: 10px 20px;
   margin: 5px;
@@ -383,14 +370,14 @@ button.reportar:hover {
   transition: background-color 0.3s ease;
   background-color: #2196F3;
   color: white;
-  font-size: 16px; /* Aumenta el tamaño de la fuente */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra */
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 #btn-bypass:hover {
   background-color: #1976D2;
 }
 
-/* Estilos para la sección de filtros */
 #filtros {
   display: flex;
   justify-content: center;
@@ -398,5 +385,5 @@ button.reportar:hover {
 }
 
 #filtros button {
-  margin: 0 5px; /* Espacio entre botones */
+  margin: 0 5px;
 }
