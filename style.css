@@ -292,3 +292,91 @@ button.reportar:hover {
   margin-top: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
+
+/* Estilos generales para el cuadro de diálogo */
+.dialogoBypass {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  display: none; /* Inicialmente oculto */
+}
+
+.contenidoDialogo {
+  text-align: center;
+}
+
+.dialogoBypass h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.dialogoBypass input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Estilos para los botones */
+.dialogoBypass button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.dialogoBypass button.btnCerrar {
+  background-color: #f44336; /* Rojo */
+  color: #fff;
+}
+
+.dialogoBypass button.btnCerrar:hover {
+  background-color: #d32f2f; /* Rojo más oscuro */
+}
+
+.dialogoBypass button.btnEnviar {
+  background-color: #4CAF50; /* Verde */
+  color: #fff;
+}
+
+.dialogoBypass button.btnEnviar:hover {
+  background-color: #45a049; /* Verde más oscuro */
+}
+
+.dialogoBypass button.btnCopiar {
+  background-color: #2196F3; /* Azul */
+  color: #fff;
+}
+
+.dialogoBypass button.btnCopiar:hover {
+  background-color: #1976D2; /* Azul más oscuro */
+}
+
+/* Mostrar el diálogo cuando se haga clic en el botón */
+#btn-bypass:hover {
+  background-color: #4CAF50;
+}
+#btn-bypass {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  background-color: #2196F3;
+  color: white;
+}
+#btn-bypass:hover {
+  background-color: #1976D2;
+}
