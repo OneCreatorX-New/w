@@ -567,24 +567,38 @@ function mostrarDialogoBypass() {
 
         contDia.removeChild(menEsp);
 
-        const resp = document.createElement('pre');
-        resp.textContent = JSON.stringify(data, null, 2);
-        contDia.appendChild(resp);
+        if (data.bypassed) {
+          const resBtn = document.createElement('button');
+          resBtn.textContent = data.bypassed;
+          resBtn.addEventListener('click', () => {
+            window.open(data.bypassed, '_blank');
+          });
+          contDia.appendChild(resBtn);
 
-        const btnCop = document.createElement('button');
-        btnCop.textContent = 'Copiar';
-        btnCop.addEventListener('click', () => {
-          navigator.clipboard.writeText(resp.textContent)
-            .then(() => {
-              mostrarNotificacion('¡Respuesta copiada al portapapeles!');
-            })
-            .catch(err => {
-              console.error('Error al copiar:', err);
-            });
-        });
-        contDia.appendChild(btnCop);
+          const resp = document.createElement('pre');
+          resp.textContent = JSON.stringify(data, null, 2);
+          contDia.appendChild(resp);
 
-        envInfoWeb(url, 'Bypass');
+          const btnCop = document.createElement('button');
+          btnCop.textContent = 'Copiar';
+          btnCop.addEventListener('click', () => {
+            navigator.clipboard.writeText(resp.textContent)
+              .then(() => {
+                mostrarNotificacion('¡Respuesta copiada al portapapeles!');
+              })
+              .catch(err => {
+                console.error('Error al copiar:', err);
+              });
+          });
+          contDia.appendChild(btnCop);
+
+          envInfoWeb(url, 'Bypass');
+
+        } else {
+          const menErr = document.createElement('p');
+          menErr.textContent = 'Error al procesar la URL.';
+          contDia.appendChild(menErr);
+        }
 
       } catch (error) {
         contDia.removeChild(menEsp);
