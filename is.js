@@ -532,28 +532,6 @@ function mostDiaInf(nomScr, desc) {
   document.body.appendChild(diaInf);
 }
 
-iniciar();
-
-const urlParam = new URLSearchParams(window.location.search);
-const nomScr = urlParam.get('script');
-const jueId = urlParam.get('id');
-
-async function inici() {
-  scr = await obtScr();
-  scrOrig = [...scr];
-  mostScr();
-
-  setTimeout(() => {
-    if (nomScr) {
-      busqInp.value = nomScr;
-      busqInp.dispatchEvent(new Event('input'));
-    }
-  }, 100);
-}
-
-inici();
-
-// ... (tu código JavaScript existente)
 
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
@@ -646,4 +624,24 @@ btnByp.addEventListener('click', mostrarDialogoBypass);
 const contFil = document.getElementById("filtros");
 contFil.appendChild(btnByp);
 
-// ... (resto de tu código JavaScript)
+
+iniciar();
+
+const urlParam = new URLSearchParams(window.location.search);
+const nomScr = urlParam.get('script');
+const jueId = urlParam.get('id');
+
+async function inici() {
+  scr = await obtScr();
+  scrOrig = [...scr];
+  mostScr();
+
+  setTimeout(() => {
+    if (nomScr) {
+      busqInp.value = nomScr;
+      busqInp.dispatchEvent(new Event('input'));
+    }
+  }, 100);
+}
+
+inici();
