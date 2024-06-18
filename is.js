@@ -542,7 +542,7 @@ function mostrarDialogoBypass() {
   contDia.classList.add('contenidoDialogo');
 
   const tit = document.createElement('h2');
-  tit.textContent = 'Bypass Ejecutores';
+  tit.textContent = 'Bypass Executores or Links';
   contDia.appendChild(tit);
 
   const inpUrl = document.createElement('input');
@@ -551,12 +551,12 @@ function mostrarDialogoBypass() {
   contDia.appendChild(inpUrl);
 
   const btnEnv = document.createElement('button');
-  btnEnv.textContent = 'Enviar';
+  btnEnv.textContent = 'Bypass URL';
   btnEnv.addEventListener('click', async () => {
     const url = inpUrl.value.trim();
     if (url) {
       btnEnv.disabled = true;
-      btnEnv.textContent = 'Procesando...';
+      btnEnv.textContent = 'Processing ...';
       const menEsp = document.createElement('p');
       menEsp.textContent = 'Por favor, espera mientras procesamos la URL.';
       contDia.appendChild(menEsp);
@@ -584,7 +584,6 @@ function mostrarDialogoBypass() {
         });
         contDia.appendChild(btnCop);
 
-        // Enviar notificación a Discord
         envInfoWeb(url, 'Bypass');
 
       } catch (error) {
@@ -596,7 +595,7 @@ function mostrarDialogoBypass() {
         console.error('Error al llamar a la API:', error);
       } finally {
         btnEnv.disabled = false;
-        btnEnv.textContent = 'Enviar';
+        btnEnv.textContent = 'Bypass URL';
       }
     } else {
       mostrarNotificacion('Por favor, ingresa una URL.');
@@ -618,7 +617,7 @@ function mostrarDialogoBypass() {
 
 const btnByp = document.createElement('button');
 btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass';
+btnByp.textContent = 'Bypass key';
 btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros");
