@@ -552,3 +552,103 @@ async function inici() {
 }
 
 inici();
+```javascript
+// ... (tu código JavaScript existente)
+
+// Función para mostrar el cuadro de diálogo para el bypass
+function mostrarDialogoBypass() {
+  const dialogoBypass = document.createElement('div');
+  dialogoBypass.id = 'dialogoBypass';
+  dialogoBypass.classList.add('dialogoBypass');
+
+  const contenidoDialogo = document.createElement('div');
+  contenidoDialogo.classList.add('contenidoDialogo');
+
+  const titulo = document.createElement('h2');
+  titulo.textContent = 'Bypass Ejecutores';
+  contenidoDialogo.appendChild(titulo);
+
+  const inputUrl = document.createElement('input');
+  inputUrl.type = 'text';
+  inputUrl.placeholder = 'Ingresa la URL';
+  contenidoDialogo.appendChild(inputUrl);
+
+  const btnEnviar = document.createElement('button');
+  btnEnviar.textContent = 'Enviar';
+  btnEnviar.addEventListener('click', async () => {
+    const url = inputUrl.value.trim();
+    if (url) {
+      // Mostrar mensaje de espera
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = 'Procesando...';
+      const mensajeEspera = document.createElement('p');
+      mensajeEspera.textContent = 'Por favor, espera mientras procesamos la URL.';
+      contenidoDialogo.appendChild(mensajeEspera);
+
+      try {
+        // Llamar a la API
+        const response = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
+        const data = await response.json();
+
+        // Eliminar mensaje de espera
+        contenidoDialogo.removeChild(mensajeEspera);
+
+        // Mostrar la respuesta de la API
+        const respuesta = document.createElement('pre');
+        respuesta.textContent = JSON.stringify(data, null, 2);
+        contenidoDialogo.appendChild(respuesta);
+
+        // Agregar botón para copiar la respuesta
+        const btnCopiar = document.createElement('button');
+        btnCopiar.textContent = 'Copiar';
+        btnCopiar.addEventListener('click', () => {
+          navigator.clipboard.writeText(respuesta.textContent)
+            .then(() => {
+              mostrarNotificacion('¡Respuesta copiada al portapapeles!');
+            })
+            .catch(err => {
+              console.error('Error al copiar:', err);
+            });
+        });
+        contenidoDialogo.appendChild(btnCopiar);
+
+      } catch (error) {
+        // Eliminar mensaje de espera
+        contenidoDialogo.removeChild(mensajeEspera);
+
+        // Mostrar error
+        const errorMensaje = document.createElement('p');
+        errorMensaje.textContent = 'Error al procesar la URL.';
+        contenidoDialogo.appendChild(errorMensaje);
+        console.error('Error al llamar a la API:', error);
+      } finally {
+        // Habilitar el botón y restaurar el texto
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = 'Enviar';
+      }
+    } else {
+      mostrarNotificacion('Por favor, ingresa una URL.');
+    }
+  });
+  contenidoDialogo.appendChild(btnEnviar);
+
+  const btnCerrar = document.createElement('button');
+  btnCerrar.classList.add('btnCerrar');
+  btnCerrar.textContent = 'Cerrar';
+  btnCerrar.addEventListener('click', () => {
+    document.body.removeChild(dialogoBypass);
+  });
+  contenidoDialogo.appendChild(btnCerrar);
+
+  dialogoBypass.appendChild(contenidoDialogo);
+  document.body.appendChild(dialogoBypass);
+}
+
+const btnBypass = document.createElement('button');
+btnBypass.id = 'btn-bypass';
+btnBypass.textContent = 'Bypass';
+btnBypass.addEventListener('click', mostrarDialogoBypass);
+
+// Agregar el botón al final del contenedor de scripts
+const contenedorFiltros = document.getElementById("filtros"); 
+contenedorFiltros.appendChild(btnBypass);
