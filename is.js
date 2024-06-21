@@ -567,11 +567,7 @@ function mostrarDialogoBypass() {
 
         contDia.removeChild(menEsp);
 
-        const duracion = document.createElement('p');
-        duracion.textContent = `Duración: ${data.duration}`;
-        contDia.appendChild(duracion);
-
-        if (data.success) {
+        if (data.bypassed) {
           if (data.type === 'url') {
             const resBtn = document.createElement('button');
             resBtn.textContent = 'Abrir en Nueva Pestaña';
@@ -583,47 +579,6 @@ function mostrarDialogoBypass() {
             const respUrl = document.createElement('p');
             respUrl.textContent = data.bypassed;
             contDia.appendChild(respUrl);
-
-            const reenviarBtn = document.createElement('button');
-            reenviarBtn.textContent = 'Enviar a la API';
-            reenviarBtn.addEventListener('click', async () => {
-              btnEnv.disabled = true;
-              reenviarBtn.disabled = true;
-              try {
-                const resendRes = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(data.bypassed)}&apikey=ETHOS_YI03QUL9`);
-                const newData = await resendRes.json();
-
-                const newDuracion = document.createElement('p');
-                newDuracion.textContent = `Duración: ${newData.duration}`;
-                contDia.appendChild(newDuracion);
-
-                if (newData.success) {
-                  const newRespUrl = document.createElement('p');
-                  newRespUrl.textContent = newData.bypassed;
-                  contDia.appendChild(newRespUrl);
-
-                  const newResBtn = document.createElement('button');
-                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
-                  newResBtn.addEventListener('click', () => {
-                    window.open(newData.bypassed, '_blank');
-                  });
-                  contDia.appendChild(newResBtn);
-                } else {
-                  const menErr = document.createElement('p');
-                  menErr.textContent = 'Error al procesar la URL reenviada.';
-                  contDia.appendChild(menErr);
-                }
-              } catch (error) {
-                const menErr = document.createElement('p');
-                menErr.textContent = 'Error al procesar la URL reenviada.';
-                contDia.appendChild(menErr);
-              } finally {
-                btnEnv.disabled = false;
-                reenviarBtn.disabled = false;
-              }
-            });
-            contDia.appendChild(reenviarBtn);
-
           } else {
             const respKey = document.createElement('p');
             respKey.textContent = data.bypassed;
@@ -642,11 +597,15 @@ function mostrarDialogoBypass() {
             });
             contDia.appendChild(btnCop);
           }
+
+          envInfoWeb(url, 'Bypass');
+
         } else {
           const menErr = document.createElement('p');
           menErr.textContent = 'Error al procesar la URL.';
           contDia.appendChild(menErr);
         }
+
       } catch (error) {
         contDia.removeChild(menEsp);
 
@@ -683,6 +642,7 @@ btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros");
 contFil.appendChild(btnByp);
+
 
 iniciar();
 
