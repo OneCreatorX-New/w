@@ -562,8 +562,11 @@ function mostrarDialogoBypass() {
 
       try {
         const apiUrl = `http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(url)}&api_key=goatbypassersontop`;
+        console.log('Construyendo la URL de la API:', apiUrl);
         const res = await fetch(apiUrl);
+        console.log('Respuesta de la API recibida');
         const data = await res.json();
+        console.log('Datos JSON de la API:', data);
 
         contDia.removeChild(menEsp);
 
@@ -572,8 +575,10 @@ function mostrarDialogoBypass() {
         contDia.appendChild(duracion);
 
         if (data.success) {
+          console.log('Procesando respuesta exitosa de la API');
           if (data.key) {
             if (esURL(data.key)) {
+              console.log('La respuesta es una URL:', data.key);
               const resBtn = document.createElement('button');
               resBtn.textContent = 'Abrir en Nueva Pestaña';
               resBtn.addEventListener('click', () => {
@@ -619,6 +624,7 @@ function mostrarDialogoBypass() {
                   const menErr = document.createElement('p');
                   menErr.textContent = 'Error al procesar la URL reenviada.';
                   contDia.appendChild(menErr);
+                  console.error('Error al reenviar la URL:', error);
                 } finally {
                   btnEnv.disabled = false;
                   reenviarBtn.disabled = false;
@@ -626,6 +632,7 @@ function mostrarDialogoBypass() {
               });
               contDia.appendChild(reenviarBtn);
             } else {
+              console.log('La respuesta es una clave:', data.key);
               const respKey = document.createElement('p');
               respKey.textContent = data.key;
               contDia.appendChild(respKey);
@@ -648,10 +655,10 @@ function mostrarDialogoBypass() {
           const menErr = document.createElement('p');
           menErr.textContent = 'Error al procesar la URL.';
           contDia.appendChild(menErr);
+          console.error('Error en la respuesta de la API:', data);
         }
       } catch (error) {
         contDia.removeChild(menEsp);
-
         const menErr = document.createElement('p');
         menErr.textContent = 'Error al procesar la URL.';
         contDia.appendChild(menErr);
