@@ -561,7 +561,8 @@ function mostrarDialogoBypass() {
       contDia.appendChild(menEsp);
 
       try {
-        const apiUrl = `http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(url)}&api_key=goatbypassersontop`;
+        const encodedUrl = encodeURIComponent(url);
+        const apiUrl = `https://cors-anywhere.herokuapp.com/http://45.90.13.151:6132/api/bypass?link=${encodedUrl}&api_key=goatbypassersontop`;
         console.log('Construyendo la URL de la API:', apiUrl);
         const res = await fetch(apiUrl);
         console.log('Respuesta de la API recibida');
@@ -596,7 +597,7 @@ function mostrarDialogoBypass() {
                 btnEnv.disabled = true;
                 reenviarBtn.disabled = true;
                 try {
-                  const resendApiUrl = `http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(data.key)}&api_key=goatbypassersontop`;
+                  const resendApiUrl = `https://cors-anywhere.herokuapp.com/http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(data.key)}&api_key=goatbypassersontop`;
                   const resendRes = await fetch(resendApiUrl);
                   const newData = await resendRes.json();
 
