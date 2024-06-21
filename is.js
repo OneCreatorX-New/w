@@ -515,7 +515,7 @@ function mostDiaInf(nomScr, desc) {
   tit.textContent = `Información sobre: ${nomScr}`;
   contDia.appendChild(tit);
 
-  const descP = document.createElement('p');
+  const descPd = document.createElement('p');
   descP.textContent = desc;
   contDia.appendChild(descP);
 
@@ -531,7 +531,6 @@ function mostDiaInf(nomScr, desc) {
   diaInf.appendChild(contDia);
   document.body.appendChild(diaInf);
 }
-
 
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
@@ -562,32 +561,25 @@ function mostrarDialogoBypass() {
       contDia.appendChild(menEsp);
 
       try {
-        const res = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
+        const res = await fetch(`http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(url)}&api_key=goatbypassersontop`);
         const data = await res.json();
 
         contDia.removeChild(menEsp);
 
-        if (data.bypassed) {
-          if (data.type === 'url') {
-            const resBtn = document.createElement('button');
-            resBtn.textContent = 'Abrir en Nueva Pestaña';
-            resBtn.addEventListener('click', () => {
-              window.open(data.bypassed, '_blank');
-            });
-            contDia.appendChild(resBtn);
-            
-            const respUrl = document.createElement('p');
-            respUrl.textContent = data.bypassed;
-            contDia.appendChild(respUrl);
-          } else {
+        const duracion = document.createElement('p');
+        duracion.textContent = `Duración: ${data.duration}`;
+        contDia.appendChild(duracion);
+
+        if (data.success) {
+          if (data.key) {
             const respKey = document.createElement('p');
-            respKey.textContent = data.bypassed;
+            respKey.textContent = data.key;
             contDia.appendChild(respKey);
 
             const btnCop = document.createElement('button');
             btnCop.textContent = 'Copy';
             btnCop.addEventListener('click', () => {
-              navigator.clipboard.writeText(data.bypassed)
+              navigator.clipboard.writeText(data.key)
                 .then(() => {
                   mostrarNotificacion('¡Respuesta copiada al portapapeles!');
                 })
@@ -598,14 +590,63 @@ function mostrarDialogoBypass() {
             contDia.appendChild(btnCop);
           }
 
-          envInfoWeb(url, 'Bypass');
+          if (data.bypassed) {
+            const resBtn = document.createElement('button');
+            resBtn.textContent = 'Abrir en Nueva Pestaña';
+            resBtn.addEventListener('click', () => {
+              window.open(data.bypassed, '_blank');
+            });
+            contDia.appendChild(resBtn);
 
+            const respUrl = document.createElement('p');
+            respUrl.textContent = data.bypassed;
+            contDia.appendChild(respUrl);
+
+            const reenviarBtn = document.createElement('button');
+            reenviarBtn.textContent = 'Enviar a la API';
+            reenviarBtn.addEventListener('click', async () => {
+              btnEnv.disabled = true;
+              reenviarBtn.disabled = true;
+              try {
+                const resendRes = await fetch(`http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(data.bypassed)}&api_key=goatbypassersontop`);
+                const newData = await resendRes.json();
+
+                const newDuracion = document.createElement('p');
+                newDuracion.textContent = `Duración: ${newData.duration}`;
+                contDia.appendChild(newDuracion);
+
+                if (newData.success) {
+                  const newRespUrl = document.createElement('p');
+                  newRespUrl.textContent = newData.bypassed;
+                  contDia.appendChild(newRespUrl);
+
+                  const newResBtn = document.createElement('button');
+                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
+                  newResBtn.addEventListener('click', () => {
+                    window.open(newData.bypassed, '_blank');
+                  });
+                  contDia.appendChild(newResBtn);
+                } else {
+                  const menErr = document.createElement('p');
+                  menErr.textContent = 'Error al procesar la URL reenviada.';
+                  contDia.appendChild(menErr);
+                }
+              } catch (error) {
+                const menErr = document.createElement('p');
+                menErr.textContent = 'Error al procesar la URL reenviada.';
+                contDia.appendChild(menErr);
+              } finally {
+                btnEnv.disabled = false;
+                reenviarBtn.disabled = false;
+              }
+            });
+            contDia.appendChild(reenviarBtn);
+          }
         } else {
           const menErr = document.createElement('p');
           menErr.textContent = 'Error al procesar la URL.';
           contDia.appendChild(menErr);
         }
-
       } catch (error) {
         contDia.removeChild(menEsp);
 
@@ -642,7 +683,6 @@ btnByp.addEventListener('click', mostrarDialogoBypass);
 
 const contFil = document.getElementById("filtros");
 contFil.appendChild(btnByp);
-
 
 iniciar();
 
