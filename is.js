@@ -562,10 +562,13 @@ function mostrarDialogoBypass() {
 
       try {
         const encodedUrl = encodeURIComponent(url);
-        const apiUrl = `https://cors-anywhere.herokuapp.com/http://45.90.13.151:6132/api/bypass?link=${encodedUrl}&api_key=goatbypassersontop`;
+        // Utiliza la URL de tu servidor CORS en Glitch
+        const apiUrl = `https://cross-onecreatorx.glitch.me/?url=${encodedUrl}&api_key=goatbypassersontop`; 
         console.log('Construyendo la URL de la API:', apiUrl);
+
         const res = await fetch(apiUrl);
         console.log('Respuesta de la API recibida');
+
         const data = await res.json();
         console.log('Datos JSON de la API:', data);
 
@@ -597,7 +600,7 @@ function mostrarDialogoBypass() {
                 btnEnv.disabled = true;
                 reenviarBtn.disabled = true;
                 try {
-                  const resendApiUrl = `https://cors-anywhere.herokuapp.com/http://45.90.13.151:6132/api/bypass?link=${encodeURIComponent(data.key)}&api_key=goatbypassersontop`;
+                  const resendApiUrl = `https://cross-onecreatorx.glitch.me/?url=${encodeURIComponent(data.key)}&api_key=goatbypassersontop`;
                   const resendRes = await fetch(resendApiUrl);
                   const newData = await resendRes.json();
 
