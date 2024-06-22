@@ -562,7 +562,7 @@ function mostrarDialogoBypass() {
 
       try {
         // Utiliza el servidor CORS de Glitch:
-        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=tu-api-key`); 
+        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
         const data = await res.json();
 
         contDia.removeChild(menEsp);
