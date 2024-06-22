@@ -676,80 +676,79 @@ function mostrarDialogoBypassGeneral() {
   document.body.appendChild(diaByp);
 }
 
-// Función para el bypass Linkvertise
 function mostrarDialogoBypassLinkvertise() {
+  // Crea el elemento de contenedor para el diálogo
   const diaByp = document.createElement('div');
   diaByp.id = 'dialogoBypassLinkvertise';
-  diaByp.classList.add('dialogoBypass');
 
+  // Agrega los elementos necesarios para el formulario
   const contDia = document.createElement('div');
   contDia.classList.add('contenidoDialogo');
 
   const tit = document.createElement('h2');
-  tit.textContent = 'Bypass Linkvertise';
+  tit.textContent = 'Redirección Automática';
   contDia.appendChild(tit);
+
+  const parrafo = document.createElement('p');
+  parrafo.textContent = 'Ingrese una URL para realizar una petición:';
+  contDia.appendChild(parrafo);
 
   const inpUrl = document.createElement('input');
   inpUrl.type = 'text';
-  inpUrl.placeholder = 'Ingrese la URL aquí';
+  inpUrl.id = 'urlInput';
+  inpUrl.placeholder = 'Ingrese la URL';
   contDia.appendChild(inpUrl);
 
   const btnEnv = document.createElement('button');
-  btnEnv.textContent = 'Bypass';
-  btnEnv.addEventListener('click', async () => {
-    const url = inpUrl.value.trim();
-    if (url) {
-      btnEnv.disabled = true;
-      btnEnv.textContent = 'Procesando...';
-
-      try {
-        // Esperar 10 segundos antes de la petición a la API
-        await new Promise(resolve => setTimeout(resolve, 10000));
-
-        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`);
-        const data = await res.json();
-
-        if (data.status === 'OK' && data.type === 'url') {
-          const respUrl = document.createElement('p');
-          respUrl.textContent = `URL Bypassed: ${data.bypassed}`;
-          contDia.appendChild(respUrl);
-
-          // Redirigir a la URL obtenida después de 5 segundos
-          setTimeout(() => {
-            window.location.href = data.bypassed;
-          }, 5000); // Espera 5 segundos (5000 milisegundos)
-        } else {
-          const menErr = document.createElement('p');
-          menErr.textContent = 'Respuesta inválida o no es una URL válida.';
-          contDia.appendChild(menErr);
-        }
-      } catch (error) {
-        console.error('Error al obtener la respuesta:', error);
-        const menErr = document.createElement('p');
-        menErr.textContent = 'Error al obtener la respuesta.';
-        contDia.appendChild(menErr);
-      } finally {
-        btnEnv.disabled = false;
-        btnEnv.textContent = 'Bypass';
-      }
-    } else {
-      const menErr = document.createElement('p');
-      menErr.textContent = 'Por favor, ingrese una URL válida.';
-      contDia.appendChild(menErr);
-    }
-  });
+  btnEnv.id = 'submitButton';
+  btnEnv.textContent = 'Realizar Petición';
   contDia.appendChild(btnEnv);
 
-  const btnCer = document.createElement('button');
-  btnCer.classList.add('btnCerrar');
-  btnCer.textContent = 'Cerrar';
-  btnCer.addEventListener('click', () => {
-    document.body.removeChild(diaByp);
-  });
-  contDia.appendChild(btnCer);
+  const respDiv = document.createElement('div');
+  respDiv.id = 'response';
+  contDia.appendChild(respDiv);
 
   diaByp.appendChild(contDia);
   document.body.appendChild(diaByp);
+
+  // Agrega el event listener al botón para procesar la solicitud
+  document.getElementById('submitButton').addEventListener('click', function() {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) {
+      alert('Por favor ingrese una URL válida.');
+      return;
+    }
+
+    btnEnv.disabled = true;
+    btnEnv.textContent = 'Procesando...';
+
+    // Esperar 5 segundos antes de hacer la solicitud a la API
+    setTimeout(function() {
+      fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'OK' && data.type === 'url') {
+            const bypassedUrl = data.bypassed;
+            document.getElementById('response').innerText = `URL Bypassed: ${bypassedUrl}`;
+            
+            // Redirigir a la URL obtenida después de 5 segundos
+            setTimeout(() => {
+              window.location.href = bypassedUrl;
+            }, 5000); 
+          } else {
+            document.getElementById('response').innerText = 'Respuesta inválida o no es una URL.';
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener la respuesta:', error);
+          document.getElementById('response').innerText = 'Error al obtener la respuesta.';
+        })
+        .finally(() => {
+          btnEnv.disabled = false;
+          btnEnv.textContent = 'Realizar Petición';
+        });
+    }, 8000); // Esperar 5 segundos (5000 milisegundos)
+  });
 }
 
 // Event listeners para los botones de bypass
