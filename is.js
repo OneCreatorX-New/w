@@ -561,16 +561,9 @@ function mostrarDialogoBypass() {
       contDia.appendChild(menEsp);
 
       try {
-        const encodedUrl = encodeURIComponent(url);
-        // Utiliza la URL de tu servidor CORS en Glitch
-        const apiUrl = `https://cross-onecreatorx.glitch.me/?url=${encodedUrl}&api_key=goatbypassersontop`; 
-        console.log('Construyendo la URL de la API:', apiUrl);
-
-        const res = await fetch(apiUrl);
-        console.log('Respuesta de la API recibida');
-
+        // Utiliza el servidor CORS de Glitch:
+        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=tu-api-key`); 
         const data = await res.json();
-        console.log('Datos JSON de la API:', data);
 
         contDia.removeChild(menEsp);
 
@@ -579,90 +572,84 @@ function mostrarDialogoBypass() {
         contDia.appendChild(duracion);
 
         if (data.success) {
-          console.log('Procesando respuesta exitosa de la API');
-          if (data.key) {
-            if (esURL(data.key)) {
-              console.log('La respuesta es una URL:', data.key);
-              const resBtn = document.createElement('button');
-              resBtn.textContent = 'Abrir en Nueva Pestaña';
-              resBtn.addEventListener('click', () => {
-                window.open(data.key, '_blank');
-              });
-              contDia.appendChild(resBtn);
+          if (data.type === 'url') {
+            const resBtn = document.createElement('button');
+            resBtn.textContent = 'Abrir en Nueva Pestaña';
+            resBtn.addEventListener('click', () => {
+              window.open(data.bypassed, '_blank');
+            });
+            contDia.appendChild(resBtn);
+            
+            const respUrl = document.createElement('p');
+            respUrl.textContent = data.bypassed;
+            contDia.appendChild(respUrl);
 
-              const respUrl = document.createElement('p');
-              respUrl.textContent = data.key;
-              contDia.appendChild(respUrl);
+            const reenviarBtn = document.createElement('button');
+            reenviarBtn.textContent = 'Enviar a la API';
+            reenviarBtn.addEventListener('click', async () => {
+              btnEnv.disabled = true;
+              reenviarBtn.disabled = true;
+              try {
+                const resendRes = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(data.bypassed)}&api_key=tu-api-key`);
+                const newData = await resendRes.json();
 
-              const reenviarBtn = document.createElement('button');
-              reenviarBtn.textContent = 'Enviar a la API';
-              reenviarBtn.addEventListener('click', async () => {
-                btnEnv.disabled = true;
-                reenviarBtn.disabled = true;
-                try {
-                  const resendApiUrl = `https://cross-onecreatorx.glitch.me/?url=${encodeURIComponent(data.key)}&api_key=goatbypassersontop`;
-                  const resendRes = await fetch(resendApiUrl);
-                  const newData = await resendRes.json();
+                const newDuracion = document.createElement('p');
+                newDuracion.textContent = `Duración: ${newData.duration}`;
+                contDia.appendChild(newDuracion);
 
-                  const newDuracion = document.createElement('p');
-                  newDuracion.textContent = `Duración: ${newData.duration}`;
-                  contDia.appendChild(newDuracion);
+                if (newData.success) {
+                  const newRespUrl = document.createElement('p');
+                  newRespUrl.textContent = newData.bypassed;
+                  contDia.appendChild(newRespUrl);
 
-                  if (newData.success) {
-                    const newRespUrl = document.createElement('p');
-                    newRespUrl.textContent = newData.key;
-                    contDia.appendChild(newRespUrl);
-
-                    const newResBtn = document.createElement('button');
-                    newResBtn.textContent = 'Abrir en Nueva Pestaña';
-                    newResBtn.addEventListener('click', () => {
-                      window.open(newData.key, '_blank');
-                    });
-                    contDia.appendChild(newResBtn);
-                  } else {
-                    const menErr = document.createElement('p');
-                    menErr.textContent = 'Error al procesar la URL reenviada.';
-                    contDia.appendChild(menErr);
-                  }
-                } catch (error) {
+                  const newResBtn = document.createElement('button');
+                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
+                  newResBtn.addEventListener('click', () => {
+                    window.open(newData.bypassed, '_blank');
+                  });
+                  contDia.appendChild(newResBtn);
+                } else {
                   const menErr = document.createElement('p');
                   menErr.textContent = 'Error al procesar la URL reenviada.';
                   contDia.appendChild(menErr);
-                  console.error('Error al reenviar la URL:', error);
-                } finally {
-                  btnEnv.disabled = false;
-                  reenviarBtn.disabled = false;
                 }
-              });
-              contDia.appendChild(reenviarBtn);
-            } else {
-              console.log('La respuesta es una clave:', data.key);
-              const respKey = document.createElement('p');
-              respKey.textContent = data.key;
-              contDia.appendChild(respKey);
+              } catch (error) {
+                const menErr = document.createElement('p');
+                menErr.textContent = 'Error al procesar la URL reenviada.';
+                contDia.appendChild(menErr);
+              } finally {
+                btnEnv.disabled = false;
+                reenviarBtn.disabled = false;
+              }
+            });
+            contDia.appendChild(reenviarBtn);
 
-              const btnCop = document.createElement('button');
-              btnCop.textContent = 'Copy';
-              btnCop.addEventListener('click', () => {
-                navigator.clipboard.writeText(data.key)
-                  .then(() => {
-                    mostrarNotificacion('¡Respuesta copiada al portapapeles!');
-                  })
-                  .catch(err => {
-                    console.error('Error al copiar:', err);
-                  });
-              });
-              contDia.appendChild(btnCop);
-            }
+          } else {
+            const respKey = document.createElement('p');
+            respKey.textContent = data.bypassed;
+            contDia.appendChild(respKey);
+
+            const btnCop = document.createElement('button');
+            btnCop.textContent = 'Copy';
+            btnCop.addEventListener('click', () => {
+              navigator.clipboard.writeText(data.bypassed)
+                .then(() => {
+                  mostrarNotificacion('¡Respuesta copiada al portapapeles!');
+                })
+                .catch(err => {
+                  console.error('Error al copiar:', err);
+                });
+            });
+            contDia.appendChild(btnCop);
           }
         } else {
           const menErr = document.createElement('p');
           menErr.textContent = 'Error al procesar la URL.';
           contDia.appendChild(menErr);
-          console.error('Error en la respuesta de la API:', data);
         }
       } catch (error) {
         contDia.removeChild(menEsp);
+
         const menErr = document.createElement('p');
         menErr.textContent = 'Error al procesar la URL.';
         contDia.appendChild(menErr);
@@ -687,10 +674,6 @@ function mostrarDialogoBypass() {
 
   diaByp.appendChild(contDia);
   document.body.appendChild(diaByp);
-}
-
-function esURL(str) {
-  return str.startsWith('http://') || str.startsWith('https://');
 }
 
 const btnByp = document.createElement('button');
