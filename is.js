@@ -532,10 +532,154 @@ function mostDiaInf(nomScr, desc) {
   document.body.appendChild(diaInf);
 }
 
-// Función para realizar la petición y redireccionar después de 5 segundos
-function redireccionarDespuesDeEspera(url) {
+// Función para el bypass general
+function mostrarDialogoBypassGeneral() {
   const diaByp = document.createElement('div');
-  diaByp.id = 'dialogoBypass';
+  diaByp.id = 'dialogoBypassGeneral';
+  diaByp.classList.add('dialogoBypass');
+
+  const contDia = document.createElement('div');
+  contDia.classList.add('contenidoDialogo');
+
+  const tit = document.createElement('h2');
+  tit.textContent = 'Bypass Executores or Links';
+  contDia.appendChild(tit);
+
+  const inpUrl = document.createElement('input');
+  inpUrl.type = 'text';
+  inpUrl.placeholder = 'URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789';
+  contDia.appendChild(inpUrl);
+
+  const btnEnv = document.createElement('button');
+  btnEnv.textContent = 'Bypass';
+  btnEnv.addEventListener('click', async () => {
+    const url = inpUrl.value.trim();
+    if (url) {
+      btnEnv.disabled = true;
+      btnEnv.textContent = 'Processing... wait';
+      const menEsp = document.createElement('p');
+      menEsp.textContent = 'Por favor, espera mientras procesamos la URL.';
+      contDia.appendChild(menEsp);
+
+      try {
+        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
+        const data = await res.json();
+
+        contDia.removeChild(menEsp);
+
+        const duracion = document.createElement('p');
+        duracion.textContent = `Duración: ${data.duration}`;
+        contDia.appendChild(duracion);
+
+        if (data.status === "OK") {
+          if (data.type === 'url') {
+            const resBtn = document.createElement('button');
+            resBtn.textContent = 'Abrir en Nueva Pestaña';
+            resBtn.addEventListener('click', () => {
+              window.open(data.bypassed, '_blank');
+            });
+            contDia.appendChild(resBtn);
+            
+            const respUrl = document.createElement('p');
+            respUrl.textContent = data.bypassed;
+            contDia.appendChild(respUrl);
+
+            const reenviarBtn = document.createElement('button');
+            reenviarBtn.textContent = 'Enviar a la API';
+            reenviarBtn.addEventListener('click', async () => {
+              btnEnv.disabled = true;
+              reenviarBtn.disabled = true;
+              try {
+                const resendRes = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(data.bypassed)}&api_key=tu-api-key`);
+                const newData = await resendRes.json();
+
+                const newDuracion = document.createElement('p');
+                newDuracion.textContent = `Duración: ${newData.duration}`;
+                contDia.appendChild(newDuracion);
+
+                if (newData.status === "OK" && newData.type === 'url') {
+                  const newRespUrl = document.createElement('p');
+                  newRespUrl.textContent = newData.bypassed;
+                  contDia.appendChild(newRespUrl);
+
+                  const newResBtn = document.createElement('button');
+                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
+                  newResBtn.addEventListener('click', () => {
+                    window.open(newData.bypassed, '_blank');
+                  });
+                  contDia.appendChild(newResBtn);
+                } else {
+                  const menErr = document.createElement('p');
+                  menErr.textContent = 'Error al procesar la URL reenviada.';
+                  contDia.appendChild(menErr);
+                }
+              } catch (error) {
+                const menErr = document.createElement('p');
+                menErr.textContent = 'Error al procesar la URL reenviada.';
+                contDia.appendChild(menErr);
+              } finally {
+                btnEnv.disabled = false;
+                reenviarBtn.disabled = false;
+              }
+            });
+            contDia.appendChild(reenviarBtn);
+
+          } else if (data.type === 'key') {
+            const respKey = document.createElement('p');
+            respKey.textContent = data.bypassed;
+            contDia.appendChild(respKey);
+
+            const btnCop = document.createElement('button');
+            btnCop.textContent = 'Copy';
+            btnCop.addEventListener('click', () => {
+              navigator.clipboard.writeText(data.bypassed)
+                .then(() => {
+                  mostrarNotificacion('¡Respuesta copiada al portapapeles!');
+                })
+                .catch(err => {
+                  console.error('Error al copiar:', err);
+                });
+            });
+            contDia.appendChild(btnCop);
+          }
+        } else {
+          const menErr = document.createElement('p');
+          menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde';
+          contDia.appendChild(menErr);
+        }
+      } catch (error) {
+        contDia.removeChild(menEsp);
+
+        const menErr = document.createElement('p');
+        menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde.';
+        contDia.appendChild(menErr);
+        console.error('Error al llamar a la API:', error);
+      } finally {
+        btnEnv.disabled = false;
+        btnEnv.textContent = 'Bypass';
+      }
+    } else {
+      mostrarNotificacion('Por favor, ingresa una URL.');
+    }
+  });
+  contDia.appendChild(btnEnv);
+
+  const btnCer = document.createElement('button');
+  btnCer.classList.add('btnCerrar');
+  btnCer.textContent = 'Cerrar';
+  btnCer.addEventListener('click', () => {
+    document.body.removeChild(diaByp);
+  });
+  contDia.appendChild(btnCer);
+
+  diaByp.appendChild(contDia);
+  document.body.appendChild(diaByp);
+}
+
+// Función para el bypass Linkvertise
+function mostrarDialogoBypassLinkvertise() {
+  const diaByp = document.createElement('div');
+  diaByp.id = 'dialogoBypassLinkvertise';
   diaByp.classList.add('dialogoBypass');
 
   const contDia = document.createElement('div');
@@ -548,7 +692,6 @@ function redireccionarDespuesDeEspera(url) {
   const inpUrl = document.createElement('input');
   inpUrl.type = 'text';
   inpUrl.placeholder = 'Ingrese la URL aquí';
-  inpUrl.value = url; // Puede prellenarse con la URL ingresada anteriormente
   contDia.appendChild(inpUrl);
 
   const btnEnv = document.createElement('button');
@@ -574,7 +717,7 @@ function redireccionarDespuesDeEspera(url) {
           // Redirigir a la URL obtenida después de 5 segundos
           setTimeout(() => {
             window.location.href = data.bypassed;
-          }, 10000); // Espera 5 segundos (5000 milisegundos)
+          }, 5000); // Espera 5 segundos (5000 milisegundos)
         } else {
           const menErr = document.createElement('p');
           menErr.textContent = 'Respuesta inválida o no es una URL válida.';
@@ -609,17 +752,21 @@ function redireccionarDespuesDeEspera(url) {
   document.body.appendChild(diaByp);
 }
 
-// Event listener para el botón de bypass
-const btnByp = document.createElement('button');
-btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass Linkvertise';
-btnByp.addEventListener('click', () => {
-  mostrarDialogoBypass();
-});
+// Event listeners para los botones de bypass
+const btnBypGeneral = document.createElement('button');
+btnBypGeneral.id = 'btn-bypass-general';
+btnBypGeneral.textContent = 'Bypass General';
+btnBypGeneral.addEventListener('click', mostrarDialogoBypassGeneral);
 
-// Agregar botón al contenedor deseado (por ejemplo, un div con id "filtros")
+const btnBypLinkvertise = document.createElement('button');
+btnBypLinkvertise.id = 'btn-bypass-linkvertise';
+btnBypLinkvertise.textContent = 'Bypass Linkvertise';
+btnBypLinkvertise.addEventListener('click', mostrarDialogoBypassLinkvertise);
+
+// Agregar botones al contenedor deseado (por ejemplo, un div con id "filtros")
 const contFil = document.getElementById("filtros");
-contFil.appendChild(btnByp);
+contFil.appendChild(btnBypGeneral);
+contFil.appendChild(btnBypLinkvertise);
 
 iniciar();
 
