@@ -515,7 +515,7 @@ function mostDiaInf(nomScr, desc) {
   tit.textContent = `Información sobre: ${nomScr}`;
   contDia.appendChild(tit);
 
-  const descPd = document.createElement('p');
+  const descP = document.createElement('p');
   descP.textContent = desc;
   contDia.appendChild(descP);
 
@@ -532,156 +532,7 @@ function mostDiaInf(nomScr, desc) {
   document.body.appendChild(diaInf);
 }
 
-function mostrarDialogoBypass() {
-  const diaByp = document.createElement('div');
-  diaByp.id = 'dialogoBypass';
-  diaByp.classList.add('dialogoBypass');
-
-  const contDia = document.createElement('div');
-  contDia.classList.add('contenidoDialogo');
-
-  const tit = document.createElement('h2');
-  tit.textContent = 'Bypass Executores or Links';
-  contDia.appendChild(tit);
-
-  const inpUrl = document.createElement('input');
-  inpUrl.type = 'text';
-  inpUrl.placeholder = 'URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789';
-  contDia.appendChild(inpUrl);
-
-  const btnEnv = document.createElement('button');
-  btnEnv.textContent = 'Bypass';
-  btnEnv.addEventListener('click', async () => {
-    const url = inpUrl.value.trim();
-    if (url) {
-      btnEnv.disabled = true;
-      btnEnv.textContent = 'Processing... wait';
-      const menEsp = document.createElement('p');
-      menEsp.textContent = 'Por favor, espera mientras procesamos la URL.';
-      contDia.appendChild(menEsp);
-
-      try {
-        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
-        const data = await res.json();
-
-        contDia.removeChild(menEsp);
-
-        const duracion = document.createElement('p');
-        duracion.textContent = `Duración: ${data.duration}`;
-        contDia.appendChild(duracion);
-
-        if (data.status === "OK") {
-          if (data.type === 'url') {
-            const resBtn = document.createElement('button');
-            resBtn.textContent = 'Abrir en Nueva Pestaña';
-            resBtn.addEventListener('click', () => {
-              window.open(data.bypassed, '_blank');
-            });
-            contDia.appendChild(resBtn);
-            
-            const respUrl = document.createElement('p');
-            respUrl.textContent = data.bypassed;
-            contDia.appendChild(respUrl);
-
-            const reenviarBtn = document.createElement('button');
-            reenviarBtn.textContent = 'Enviar a la API';
-            reenviarBtn.addEventListener('click', async () => {
-              btnEnv.disabled = true;
-              reenviarBtn.disabled = true;
-              try {
-                const resendRes = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(data.bypassed)}&api_key=tu-api-key`);
-                const newData = await resendRes.json();
-
-                const newDuracion = document.createElement('p');
-                newDuracion.textContent = `Duración: ${newData.duration}`;
-                contDia.appendChild(newDuracion);
-
-                if (newData.status === "OK" && newData.type === 'url') {
-                  const newRespUrl = document.createElement('p');
-                  newRespUrl.textContent = newData.bypassed;
-                  contDia.appendChild(newRespUrl);
-
-                  const newResBtn = document.createElement('button');
-                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
-                  newResBtn.addEventListener('click', () => {
-                    window.open(newData.bypassed, '_blank');
-                  });
-                  contDia.appendChild(newResBtn);
-                } else {
-                  const menErr = document.createElement('p');
-                  menErr.textContent = 'Error al procesar la URL reenviada.';
-                  contDia.appendChild(menErr);
-                }
-              } catch (error) {
-                const menErr = document.createElement('p');
-                menErr.textContent = 'Error al procesar la URL reenviada.';
-                contDia.appendChild(menErr);
-              } finally {
-                btnEnv.disabled = false;
-                reenviarBtn.disabled = false;
-              }
-            });
-            contDia.appendChild(reenviarBtn);
-
-          } else if (data.type === 'key') {
-            const respKey = document.createElement('p');
-            respKey.textContent = data.bypassed;
-            contDia.appendChild(respKey);
-
-            const btnCop = document.createElement('button');
-            btnCop.textContent = 'Copy';
-            btnCop.addEventListener('click', () => {
-              navigator.clipboard.writeText(data.bypassed)
-                .then(() => {
-                  mostrarNotificacion('¡Respuesta copiada al portapapeles!');
-                })
-                .catch(err => {
-                  console.error('Error al copiar:', err);
-                });
-            });
-            contDia.appendChild(btnCop);
-          }
-        } else {
-          const menErr = document.createElement('p');
-          menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde';
-          contDia.appendChild(menErr);
-        }
-      } catch (error) {
-        contDia.removeChild(menEsp);
-
-        const menErr = document.createElement('p');
-        menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde.';
-        contDia.appendChild(menErr);
-        console.error('Error al llamar a la API:', error);
-      } finally {
-        btnEnv.disabled = false;
-        btnEnv.textContent = 'Bypass';
-      }
-    } else {
-      mostrarNotificacion('Por favor, ingresa una URL.');
-    }
-  });
-  contDia.appendChild(btnEnv);
-
-  const btnCer = document.createElement('button');
-  btnCer.classList.add('btnCerrar');
-  btnCer.textContent = 'Cerrar';
-  btnCer.addEventListener('click', () => {
-    document.body.removeChild(diaByp);
-  });
-  contDia.appendChild(btnCer);
-
-  diaByp.appendChild(contDia);
-  document.body.appendChild(diaByp);
-}
-
-const btnByp = document.createElement('button');
-btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Bypass';
-btnByp.addEventListener('click', mostrarDialogoBypass);
-
-const contFil = document.getElementById("filtros");
-contFil.appendChild(btnByp);// Función para realizar la petición y redireccionar después de 5 segundos
+// Función para realizar la petición y redireccionar después de 5 segundos
 function redireccionarDespuesDeEspera(url) {
   const diaByp = document.createElement('div');
   diaByp.id = 'dialogoBypass';
@@ -691,7 +542,7 @@ function redireccionarDespuesDeEspera(url) {
   contDia.classList.add('contenidoDialogo');
 
   const tit = document.createElement('h2');
-  tit.textContent = 'Linkvertise Tasks';
+  tit.textContent = 'Bypass Linkvertise';
   contDia.appendChild(tit);
 
   const inpUrl = document.createElement('input');
@@ -709,6 +560,9 @@ function redireccionarDespuesDeEspera(url) {
       btnEnv.textContent = 'Procesando...';
 
       try {
+        // Esperar 10 segundos antes de la petición a la API
+        await new Promise(resolve => setTimeout(resolve, 10000));
+
         const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`);
         const data = await res.json();
 
@@ -720,7 +574,7 @@ function redireccionarDespuesDeEspera(url) {
           // Redirigir a la URL obtenida después de 5 segundos
           setTimeout(() => {
             window.location.href = data.bypassed;
-          }, 5000); // Espera 5 segundos (5000 milisegundos)
+          }, 10000); // Espera 5 segundos (5000 milisegundos)
         } else {
           const menErr = document.createElement('p');
           menErr.textContent = 'Respuesta inválida o no es una URL válida.';
@@ -758,7 +612,7 @@ function redireccionarDespuesDeEspera(url) {
 // Event listener para el botón de bypass
 const btnByp = document.createElement('button');
 btnByp.id = 'btn-bypass';
-btnByp.textContent = 'Linkvertise Tasks';
+btnByp.textContent = 'Bypass Linkvertise';
 btnByp.addEventListener('click', () => {
   mostrarDialogoBypass();
 });
