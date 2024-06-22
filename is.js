@@ -531,7 +531,6 @@ function mostDiaInf(nomScr, desc) {
   diaInf.appendChild(contDia);
   document.body.appendChild(diaInf);
 }
-
 function mostrarDialogoBypass() {
   const diaByp = document.createElement('div');
   diaByp.id = 'dialogoBypass';
@@ -562,7 +561,7 @@ function mostrarDialogoBypass() {
 
       try {
         // Utiliza el servidor CORS de Glitch:
-        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
+        const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`);
         const data = await res.json();
 
         contDia.removeChild(menEsp);
@@ -573,15 +572,15 @@ function mostrarDialogoBypass() {
 
         if (data.success) {
           if (data.type === 'url') {
-            const resBtn = document.createElement('button');
-            resBtn.textContent = 'Abrir en Nueva Pestaña';
-            resBtn.addEventListener('click', () => {
+            const resBtnOpen = document.createElement('button');
+            resBtnOpen.textContent = 'Abrir en Nueva Pestaña';
+            resBtnOpen.addEventListener('click', () => {
               window.open(data.bypassed, '_blank');
             });
-            contDia.appendChild(resBtn);
-            
+            contDia.appendChild(resBtnOpen);
+
             const respUrl = document.createElement('p');
-            respUrl.textContent = data.bypassed;
+            respUrl.textContent = `URL: ${data.bypassed}`;
             contDia.appendChild(respUrl);
 
             const reenviarBtn = document.createElement('button');
@@ -597,17 +596,17 @@ function mostrarDialogoBypass() {
                 newDuracion.textContent = `Duración: ${newData.duration}`;
                 contDia.appendChild(newDuracion);
 
-                if (newData.success) {
+                if (newData.success && newData.type === 'url') {
                   const newRespUrl = document.createElement('p');
-                  newRespUrl.textContent = newData.bypassed;
+                  newRespUrl.textContent = `URL: ${newData.bypassed}`;
                   contDia.appendChild(newRespUrl);
 
-                  const newResBtn = document.createElement('button');
-                  newResBtn.textContent = 'Abrir en Nueva Pestaña';
-                  newResBtn.addEventListener('click', () => {
+                  const newResBtnOpen = document.createElement('button');
+                  newResBtnOpen.textContent = 'Abrir en Nueva Pestaña';
+                  newResBtnOpen.addEventListener('click', () => {
                     window.open(newData.bypassed, '_blank');
                   });
-                  contDia.appendChild(newResBtn);
+                  contDia.appendChild(newResBtnOpen);
                 } else {
                   const menErr = document.createElement('p');
                   menErr.textContent = 'Error al procesar la URL reenviada.';
@@ -624,9 +623,9 @@ function mostrarDialogoBypass() {
             });
             contDia.appendChild(reenviarBtn);
 
-          } else {
+          } else if (data.type === 'key') {
             const respKey = document.createElement('p');
-            respKey.textContent = data.bypassed;
+            respKey.textContent = `Key: ${data.bypassed}`;
             contDia.appendChild(respKey);
 
             const btnCop = document.createElement('button');
@@ -641,6 +640,11 @@ function mostrarDialogoBypass() {
                 });
             });
             contDia.appendChild(btnCop);
+
+          } else {
+            const menErr = document.createElement('p');
+            menErr.textContent = 'Error desconocido en la respuesta de la API.';
+            contDia.appendChild(menErr);
           }
         } else {
           const menErr = document.createElement('p');
@@ -651,7 +655,7 @@ function mostrarDialogoBypass() {
         contDia.removeChild(menEsp);
 
         const menErr = document.createElement('p');
-        menErr.textContent = 'Error al procesar la URL.';
+        menErr.textContent = 'Error al llamar a la API.';
         contDia.appendChild(menErr);
         console.error('Error al llamar a la API:', error);
       } finally {
