@@ -561,7 +561,6 @@ function mostrarDialogoBypass() {
       contDia.appendChild(menEsp);
 
       try {
-        // Utiliza el servidor CORS de Glitch:
         const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
         const data = await res.json();
 
@@ -644,14 +643,14 @@ function mostrarDialogoBypass() {
           }
         } else {
           const menErr = document.createElement('p');
-          menErr.textContent = 'Error al procesar la URL.';
+          menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde';
           contDia.appendChild(menErr);
         }
       } catch (error) {
         contDia.removeChild(menEsp);
 
         const menErr = document.createElement('p');
-        menErr.textContent = 'Error al procesar la URL.';
+        menErr.textContent = 'Error al procesar la URL - Re Intentalo ahora o mas Tarde.';
         contDia.appendChild(menErr);
         console.error('Error al llamar a la API:', error);
       } finally {
