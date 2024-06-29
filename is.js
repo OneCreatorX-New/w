@@ -398,7 +398,7 @@ function mostDiaBien() {
       if (navigator.languages && navigator.languages.length) {
         const idioma = navigator.languages[0];
         if (idioma.startsWith('es')) {
-          menBien.textContent = "¡Bienvenido a OneRepositoryX! Aquí encontrarás una colección de scripts para Roblox. Actualmente en Desarrollo, Todavía no se incluye ni el 90% de todos los Scripts de mi Repositorio. Los Scripts Son intuitivos y fáciles de usar. Gracias por la Visita";
+          menBien.textContent = "Log Cambios: Ahora Incluye Bypass General 2, por si la 1 no funciona. También eh actualizado todos los Scripts de la página, todos estan funcionando correctamente";
         } else {
           menBien.textContent = "Welcome to OneRepositoryX! Here you'll find a collection of scripts for Roblox. Currently in Development, not even 90% of all the Scripts in my Repository are included yet. The Scripts are intuitive and easy to use. Thanks for the visit";
         }
