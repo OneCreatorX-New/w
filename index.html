@@ -35,6 +35,9 @@
       </div>
     </div>
 
+    <!-- Contenedor para los mensajes de Discord -->
+    <div id="discord-content" class="hidden"></div>
+
     <!-- Ventana emergente -->
     <div id="ventana-emergente" class="hidden">
       <h2>¡Novedad!</h2>
@@ -51,14 +54,30 @@
       const botonDiscord = document.getElementById('boton-discord');
       botonDiscord.addEventListener('click', () => {
         ventanaEmergente.classList.add('hidden');
+        loadContent('/discord-messages', '/discord');
+      });
+
+      function loadContent(url, newUrl) {
+        fetch(url)
+          .then(response => response.text())
+          .then(html => {
+            const discordContent = document.getElementById('discord-content');
+            discordContent.innerHTML = html;
+            discordContent.classList.remove('hidden');
+            history.pushState({ content: html }, null, newUrl);
+          })
+          .catch(error => {
+            console.error('Error al cargar los mensajes de Discord:', error);
+          });
+      }
+
+      window.addEventListener('popstate', event => {
+        if (event.state) {
+          const discordContent = document.getElementById('discord-content');
+          discordContent.innerHTML = event.state.content;
+          discordContent.classList.remove('hidden');
+        }
       });
     </script>
-
-          <script>
-      const botonDiscord = document.getElementById('boton-discord');
-      botonDiscord.addEventListener('click', () => {
-        window.location.href = 'discord-messages.html';
-      });
-          </script>
   </body>
 </html>
