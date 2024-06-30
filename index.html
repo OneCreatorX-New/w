@@ -35,6 +35,23 @@
       </div>
     </div>
 
+    <!-- Ventana emergente -->
+    <div id="ventana-emergente" class="hidden">
+      <h2>¡Novedad!</h2>
+      <p>Ahora puedes estar más informado sobre las últimas scripts y UGC de la comunidad.</p>
+      <p>Visita nuestra sección de Discord para ver los últimos mensajes y actualizaciones.</p>
+      <button id="boton-discord">Ver mensajes de Discord</button>
+    </div>
+
     <script src="is.js"></script>
+    <script>
+      const ventanaEmergente = document.getElementById('ventana-emergente');
+      ventanaEmergente.classList.remove('hidden');
+
+      const botonDiscord = document.getElementById('boton-discord');
+      botonDiscord.addEventListener('click', () => {
+        ventanaEmergente.classList.add('hidden');
+      });
+    </script>
   </body>
 </html>
