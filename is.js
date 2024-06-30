@@ -532,6 +532,44 @@ function mostDiaInf(nomScr, desc) {
   document.body.appendChild(diaInf);
 }
 
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1257001363129368658/1NBi1ipLdBgZqEQu_32o3U5ro-rYB_jmlv6hepBhJ0Pr-AjohaCxWsQ2qlmhOzXmvWgk";
+
+async function enviarNotificacionBypass(url, respuesta) {
+  const { pais, hor } = await obtInfoUsu();
+
+  const mensajeWebhook = {
+    content: "Se ha detectado un posible intento de bypass.",
+    embeds: [
+      {
+        title: "Información del Bypass",
+        fields: [
+          { name: "URL", value: url },
+          { name: "Respuesta de la API", value: JSON.stringify(respuesta) },
+          { name: "País", value: pais },
+          { name: "Horario", value: hor },
+        ],
+      },
+    ],
+  };
+
+  try {
+    const respuestaWebhook = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mensajeWebhook),
+    });
+
+    if (!respuestaWebhook.ok) {
+      console.error("Error al enviar la notificación al webhook:", respuestaWebhook.status);
+    }
+  } catch (error) {
+    console.error("Error al enviar la notificación al webhook:", error);
+  }
+}
+
+
 // Función para el bypass general
 function mostrarDialogoBypassGeneral() {
   const diaByp = document.createElement('div');
@@ -564,6 +602,7 @@ function mostrarDialogoBypassGeneral() {
       try {
         const res = await fetch(`https://crosop.glitch.me/?url=${encodeURIComponent(url)}&api_key=goatbypassersontop`); 
         const data = await res.json();
+         enviarNotificacionBypass(url, data);
 
         contDia.removeChild(menEsp);
 
@@ -705,6 +744,7 @@ function mostrarDialogoBypassLinkvertise() {
       try {
         const res = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
         const data = await res.json();
+        enviarNotificacionBypass(url, data);
 
         const respElem = document.createElement('p');
         if (data.bypassed) {
