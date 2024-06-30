@@ -1,6 +1,6 @@
 const messagesContainer = document.getElementById('messages');
 
-// URL del canal de Discord y del webhook (ajusta según tu configuración)
+// URL del canal de Discord y del webhook (ajustado según los datos proporcionados)
 const discordChannelUrl = 'https://discord.com/api/v9/channels/1198408771362361355/messages';
 const webhookToken = 'Jkd-s3fGVfjjfTD8nP4lArEnDUXBcjqebehJn9BVlROkQMcOts6ciJhU3ZJjTPw1ZgWa';
 
