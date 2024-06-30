@@ -1,15 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mensajes de Discord</title>
-<style>
-/* Estilos para los mensajes */
-</style>
+  <meta name="google-adsense-account" content="ca-pub-6026238594380398">
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6026238594380398"
+    crossorigin="anonymous"
+  ></script>
+  <title>Mensajes de Discord</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .header {
+      background-color: #333;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .message {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .message:last-child {
+      border-bottom: none;
+    }
+    .message .username {
+      font-weight: bold;
+      color: #333;
+    }
+    .message .timestamp {
+      color: #999;
+      font-size: 0.9em;
+    }
+    .message img {
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Mensajes de Discord</h1>
-  <div id="messages"></div>
+  <div class="header">
+    <h1>Mensajes de Discord</h1>
+  </div>
+  <div class="content" id="messages"></div>
 
   <script src="discord-script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get('page');
+      if (page === 'discord') {
+        history.pushState({}, null, '/discord-messages.html');
+      }
+    });
+  </script>
 </body>
 </html>
