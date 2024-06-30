@@ -8,11 +8,12 @@ fetch(webhookUrl)
     data.forEach(message => {
       // Crear un elemento HTML para cada mensaje
       const messageElement = document.createElement('div');
+      messageElement.classList.add('message');
       messageElement.innerHTML = `
-        <img src="${message.author.avatar_url}" alt="${message.author.username}">
-        <strong>${message.author.username}</strong>
-        <p>${message.content}</p>
-        <span>${message.timestamp}</span>
+        <img src="${message.author.avatar_url}" alt="${message.author.username}" width="50" height="50">
+        <div class="username">${message.author.username}</div>
+        <div class="timestamp">${new Date(message.timestamp).toLocaleString()}</div>
+        <div class="text">${message.content}</div>
       `;
       messagesContainer.appendChild(messageElement);
     });
