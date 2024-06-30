@@ -37,10 +37,13 @@
 
   <!-- Ventana emergente -->
   <div id="ventana-emergente" class="hidden">
-    <h2>¡Novedad!</h2>
-    <p>Ahora puedes estar más informado sobre las últimas scripts y UGC de la comunidad.</p>
-    <p>Visita nuestra sección de Discord para ver los últimos mensajes y actualizaciones.</p>
-    <button id="boton-discord">Ver mensajes de Discord</button>
+    <div class="popup-content">
+      <h2>¡Novedad!</h2>
+      <p>Ahora puedes estar más informado sobre las últimas scripts y UGC de la comunidad.</p>
+      <p>Visita nuestra sección de Discord para ver los últimos mensajes y actualizaciones.</p>
+      <button id="boton-discord">Ver mensajes de Discord</button>
+      <button id="cerrar-ventana">Cerrar</button> <!-- Nuevo botón de cerrar -->
+    </div>
   </div>
 
   <script src="is.js"></script>
@@ -49,9 +52,15 @@
     ventanaEmergente.classList.remove('hidden');
 
     const botonDiscord = document.getElementById('boton-discord');
+    const cerrarVentana = document.getElementById('cerrar-ventana'); // Referencia al botón de cerrar
+
     botonDiscord.addEventListener('click', () => {
       ventanaEmergente.classList.add('hidden');
       window.location.href = 'discord-messages.html?page=discord';
+    });
+
+    cerrarVentana.addEventListener('click', () => {
+      ventanaEmergente.classList.add('hidden');
     });
   </script>
 </body>
