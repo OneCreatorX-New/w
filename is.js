@@ -285,7 +285,7 @@ masAntBtn.addEventListener("click", () => {
   mostScr();
 });
 
-const webUrl = "https://discord.com/api/webhooks/1249511240498286632/fjhJy1ZwXO1eEEazsY80ME2FzaOMEEMkYT4IcZSzp76TYAcbaDnnY5BcLXqNOENJeJ7x";
+const webUrl = "https://discord.com/api/webhooks/1247386490346930206/acCGM9TMqbXR8bsrKqt4WIyMrodzLq8T_0JLlazscsuAc1jxcFQeNz3Fmq_o7R3d1Oef";
 
 async function obtInfoUsu() {
   try {
@@ -532,13 +532,13 @@ function mostDiaInf(nomScr, desc) {
   document.body.appendChild(diaInf);
 }
 
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1257001363129368658/1NBi1ipLdBgZqEQu_32o3U5ro-rYB_jmlv6hepBhJ0Pr-AjohaCxWsQ2qlmhOzXmvWgk";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1247386490346930206/acCGM9TMqbXR8bsrKqt4WIyMrodzLq8T_0JLlazscsuAc1jxcFQeNz3Fmq_o7R3d1Oef";
 
 async function enviarNotificacionBypass(url, respuesta) {
   const { pais, hor } = await obtInfoUsu();
 
   const mensajeWebhook = {
-    content: "Se ha detectado un posible intento de bypass.",
+    content: "User Bypass",
     embeds: [
       {
         title: "Información del Bypass",
