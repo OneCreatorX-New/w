@@ -1,83 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="google-adsense-account" content="ca-pub-6026238594380398">
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6026238594380398"
-      crossorigin="anonymous"
-    ></script>
-    <title>OneCreatorX - Scripts</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="header">
-      <h1>Repositorio de Scripts</h1>
+<head>
+  <meta name="google-adsense-account" content="ca-pub-6026238594380398">
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6026238594380398"
+    crossorigin="anonymous"
+  ></script>
+  <title>OneCreatorX - Scripts</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="header">
+    <h1>Repositorio de Scripts</h1>
+  </div>
+
+  <input type="text" id="busqueda" placeholder="Buscar scripts... [ID Game] o [Name Game]" />
+
+  <div id="filtros">
+    <button id="filtro-todos">Todos</button>
+    <button id="filtro-universales">Universales</button>
+    <button id="filtro-juegos">Juegos</button>
+    <button id="link-discord">Discord</button> 
+    <button id="link-youtube">YouTube</button>
+    <button id="mas-antiguos">Antiguos-Recientes</button>
+  </div>
+
+  <div id="contenido">
+    <div id="scripts-principales"></div>
+    <div id="navegacion">
+      <button id="anterior">< Anterior</button>
+      <span id="info-pagina"></span>
+      <button id="siguiente">Siguiente ></button>
     </div>
+  </div>
 
-    <input type="text" id="busqueda" placeholder="Buscar scripts... [ID Game] o [Name Game]" />
+  <!-- Ventana emergente -->
+  <div id="ventana-emergente" class="hidden">
+    <h2>¡Novedad!</h2>
+    <p>Ahora puedes estar más informado sobre las últimas scripts y UGC de la comunidad.</p>
+    <p>Visita nuestra sección de Discord para ver los últimos mensajes y actualizaciones.</p>
+    <button id="boton-discord">Ver mensajes de Discord</button>
+  </div>
 
-    <div id="filtros">
-      <button id="filtro-todos">Todos</button>
-      <button id="filtro-universales">Universales</button>
-      <button id="filtro-juegos">Juegos</button>
-      <button id="link-discord">Discord</button> 
-      <button id="link-youtube">YouTube</button>
-      <button id="mas-antiguos">Antiguos-Recientes</button>
-    </div>
+  <script src="is.js"></script>
+  <script>
+    const ventanaEmergente = document.getElementById('ventana-emergente');
+    ventanaEmergente.classList.remove('hidden');
 
-    <div id="contenido">
-      <div id="scripts-principales"></div>
-      <div id="navegacion">
-        <button id="anterior">< Anterior</button>
-        <span id="info-pagina"></span>
-        <button id="siguiente">Siguiente ></button>
-      </div>
-    </div>
-
-    <!-- Contenedor para los mensajes de Discord -->
-    <div id="discord-content" class="hidden"></div>
-
-    <!-- Ventana emergente -->
-    <div id="ventana-emergente" class="hidden">
-      <h2>¡Novedad!</h2>
-      <p>Ahora puedes estar más informado sobre las últimas scripts y UGC de la comunidad.</p>
-      <p>Visita nuestra sección de Discord para ver los últimos mensajes y actualizaciones.</p>
-      <button id="boton-discord">Ver mensajes de Discord</button>
-    </div>
-
-    <script src="is.js"></script>
-    <script>
-      const ventanaEmergente = document.getElementById('ventana-emergente');
-      ventanaEmergente.classList.remove('hidden');
-
-      const botonDiscord = document.getElementById('boton-discord');
-      botonDiscord.addEventListener('click', () => {
-        ventanaEmergente.classList.add('hidden');
-        window.location.href = '?page=discord';
-      });
-
-      function loadContent(url) {
-        fetch(url)
-          .then(response => response.text())
-          .then(html => {
-            const discordContent = document.getElementById('discord-content');
-            discordContent.innerHTML = html;
-            discordContent.classList.remove('hidden');
-            history.pushState({}, null, '/index.html');
-          })
-          .catch(error => {
-            console.error('Error al cargar los mensajes de Discord:', error);
-          });
-      }
-
-      window.addEventListener('load', () => {
-        const params = new URLSearchParams(window.location.search);
-        const page = params.get('page');
-        if (page === 'discord') {
-          loadContent('discord-messages.html');
-        }
-      });
-    </script>
-  </body>
+    const botonDiscord = document.getElementById('boton-discord');
+    botonDiscord.addEventListener('click', () => {
+      ventanaEmergente.classList.add('hidden');
+      window.location.href = 'discord-messages.html?page=discord';
+    });
+  </script>
+</body>
 </html>
