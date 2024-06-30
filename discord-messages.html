@@ -48,6 +48,7 @@
       margin-right: 10px;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/fetch-jsonp/build/fetch-jsonp.min.js"></script>
 </head>
 <body>
   <div class="header">
@@ -56,14 +57,5 @@
   <div class="content" id="messages"></div>
 
   <script src="discord-script.js"></script>
-  <script>
-    window.addEventListener('load', () => {
-      const params = new URLSearchParams(window.location.search);
-      const page = params.get('page');
-      if (page === 'discord') {
-        history.pushState({}, null, '/discord-messages.html');
-      }
-    });
-  </script>
 </body>
 </html>
