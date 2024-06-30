@@ -54,7 +54,7 @@
       const botonDiscord = document.getElementById('boton-discord');
       botonDiscord.addEventListener('click', () => {
         ventanaEmergente.classList.add('hidden');
-        loadContent('/discord-messages', '/discord');
+        loadContent('discord-messages.html', '/discord');
       });
 
       function loadContent(url, newUrl) {
@@ -76,6 +76,14 @@
           const discordContent = document.getElementById('discord-content');
           discordContent.innerHTML = event.state.content;
           discordContent.classList.remove('hidden');
+        }
+      });
+
+      // Cargar contenido basado en la URL al cargar la página
+      window.addEventListener('load', () => {
+        const path = window.location.pathname;
+        if (path === '/discord') {
+          loadContent('discord-messages.html', '/discord');
         }
       });
     </script>
