@@ -49,13 +49,20 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/fetch-jsonp/build/fetch-jsonp.min.js"></script>
+  <script>
+    // Función para redirigir a la página principal después de 5 segundos
+    setTimeout(function() {
+      window.location.href = 'https://your-website-url.com';
+    }, 5000); // 5000 milisegundos = 5 segundos
+  </script>
 </head>
 <body>
   <div class="header">
     <h1>Mensajes de Discord</h1>
   </div>
-  <div class="content" id="messages"></div>
-
-  <script src="discord-script.js"></script>
+  <div class="content" id="messages">
+    <p>Actualmente estamos finalizando los detalles. Los mensajes de Discord estarán disponibles pronto.</p>
+    <p>Redireccionando a la página principal en 5 segundos...</p>
+  </div>
 </body>
 </html>
