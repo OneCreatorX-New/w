@@ -405,3 +405,40 @@ button.reportar:hover {
 #filtros button {
   margin: 0 5px;
 }
+
+/* ... tus estilos actuales ... */
+
+#ventana-emergente {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+#ventana-emergente h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#ventana-emergente p {
+  margin-bottom: 10px;
+}
+
+#ventana-emergente button {
+  background-color: #4CAF50; /* Puedes cambiar el color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Estilos para ocultar la ventana emergente */
+.hidden {
+  display: none;
+}
