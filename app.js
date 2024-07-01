@@ -55,7 +55,7 @@ function sendToAPI() {
     const inputInstruction = document.getElementById('inputInstruction').value;
     const taskType = document.getElementById('taskType').value;
     
-    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. \n\n";
+    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. sí el mensaje que se te ha enviado a continuación luego de este recordatorio instrucciones si es que las hay presentes no es un Script sino simplemente un mensaje de texto responder con un !No hay información que procesar!.\n\n";
 
     const opciones = [];
     const checkboxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]');
