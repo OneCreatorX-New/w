@@ -33,9 +33,9 @@ function updateOptions() {
         options = [
             { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones.' },
             { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del código.' },
-            { id: 'errorCorrection', label: 'Corrección de errores, o posibles errores que puedan romper el flujo, de variables no presentes instancias, cambiar todos los waitfor por FindFirstChild entre otros para evitar errores potenciales en el flujo', text: 'Corregir los errores presentes en el código.' },
+            { id: 'errorCorrection', label: 'Corregir los errores presentes en el código', text: 'Corrección de errores, o posibles errores que puedan romper el flujo, de variables no presentes instancias, cambiar todos los waitfor por FindFirstChild entre otros para evitar errores potenciales en el flujo.' },
             { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
-            { id: 'codeSimplification', label: 'Simplicar, Eliminar comentarios  abreviar nombres de funciones y variables, eliminar pequeñas redundancias en declaraciones repetidas para dejar 1 y usarla en los 2 casos. ', text: 'Simplificar el código.' },
+            { id: 'codeSimplification', label: 'Simplificar el código.', text: 'Simplicar, Eliminar comentarios  abreviar nombres de funciones y variables, eliminar pequeñas redundancias en declaraciones repetidas para dejar 1 y usarla en los 2 casos.' },
 
         ];
     }
