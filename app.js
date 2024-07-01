@@ -76,7 +76,7 @@ function sendToAPI() {
     const opcionesTexto = opciones.join(" ");
     const mensajeFinal = `${prefijo}${opcionesTexto}\n\n${inputInstruction}`;
 
-    const token = "YOUR_API_KEY_HERE";
+    const token = "AIzaSyCeb4A_gNAS7clem3u28gOo0PXIzO3o99g";
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${token}`;
 
     const data = {
@@ -112,15 +112,14 @@ function sendToAPI() {
             });
             outputDiv.textContent = responseText;
         } else {
-            outputDiv.textContent = "Error al recibir respuesta de la IA.";
+            outputDiv.textContent = "No disponible actualmente, intenta mas tarde.";
         }
     })
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('loader').style.display = 'none';
-        document.getElementById('output').textContent = "Error al enviar la petición.";
+        document.getElementById('output').textContent = "Error Procesar.";
     });
 }
 
-// Inicializa las opciones al cargar la página
 updateOptions();
