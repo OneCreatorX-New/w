@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Desensamblador Lua - Reverse codificado </title>
+    <title>Ensamble, Desensamblado - Mejora Script </title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; }
         .container { width: 80%; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
@@ -12,18 +12,32 @@
         .loader { border: 16px solid #f3f3f3; border-radius: 50%; border-top: 16px solid #3498db; width: 60px; height: 60px; animation: spin 2s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .hidden { display: none; }
+        .checkboxes { display: flex; flex-direction: column; margin-bottom: 20px; }
+        .checkboxes label { margin-bottom: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Desensamblador Lua - Reverse codificado</h1>
-        <p>Introduce el ensamblado:</p>
-        <textarea id="inputInstruction" placeholder="Paste here..."></textarea>
+        <h1>Ensamble, Desensamblado - Mejora Script</h1>
+        <p>Envía tu código :</p>
+        <textarea id="inputInstruction" placeholder="Paste Code ..."></textarea>
         <p>O sube un archivo de texto:</p>
         <input type="file" id="fileInput">
+        
+        <p>Selecciona el tipo de tarea:</p>
+        <select id="taskType" onchange="updateOptions()">
+            <option value="desensamblar">Desensamblar</option>
+            <option value="ensamblar">Ensamblar</option>
+            <option value="mejorarScript">Mejorar Script</option>
+        </select>
+
+        <div id="optionsContainer" class="checkboxes">
+            <!-- Opciones dinámicas se agregarán aquí -->
+        </div>
+
         <button onclick="sendToAPI()">Procesar</button>
         <div class="loader" id="loader"></div>
-        <h2>Here Procesando:</h2>
+        <h2>Respuesta de la IA:</h2>
         <div id="output"></div>
     </div>
 
