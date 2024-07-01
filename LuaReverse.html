@@ -1,68 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Interactuar con IA para Desensamblar y Desofuscar Código</title>
+    <title>Desensamblador Lua - Reverse codificador </title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        textarea { width: 100%; height: 150px; margin-bottom: 10px; }
-        button { margin-top: 10px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; }
+        .container { width: 80%; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        textarea, input[type="file"] { width: 100%; margin-bottom: 10px; }
+        button { display: block; width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #45a049; }
         #output { margin-top: 20px; white-space: pre-wrap; background-color: #f9f9f9; padding: 10px; border: 1px solid #ccc; }
+        .loader { border: 16px solid #f3f3f3; border-radius: 50%; border-top: 16px solid #3498db; width: 60px; height: 60px; animation: spin 2s linear infinite; margin: 20px auto; display: none; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <h1>Interactuar con IA para Desensamblar y Desofuscar Código</h1>
-    <p>Introduce tu instrucción para la IA:</p>
-    <textarea id="inputInstruction"></textarea>
-    <button onclick="sendToAPI()">Enviar a IA</button>
-    <h2>Respuesta de la IA:</h2>
-    <div id="output"></div>
+    <div class="container">
+        <h1>Interactuar con IA para Desensamblar y Desofuscar Código</h1>
+        <p>Introduce tu instrucción para la IA:</p>
+        <textarea id="inputInstruction" placeholder="Escribe tu instrucción aquí..."></textarea>
+        <p>O sube un archivo de texto:</p>
+        <input type="file" id="fileInput">
+        <button onclick="sendToAPI()">Enviar a IA</button>
+        <div class="loader" id="loader"></div>
+        <h2>Respuesta de la IA:</h2>
+        <div id="output"></div>
+    </div>
 
-    <script>
-        function sendToAPI() {
-            const inputInstruction = document.getElementById('inputInstruction').value;
-            const prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles pero sin agregar comentarios en el código \n\n`;
-
-            const token = "AIzaSyCeb4A_gNAS7clem3u28gOo0PXIzO3o99g";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${token}`;
-
-            const data = {
-                contents: [
-                    {
-                        parts: [
-                            {
-                                text: prefijo + inputInstruction
-                            }
-                        ]
-                    }
-                ]
-            };
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(json => {
-                const outputDiv = document.getElementById('output');
-                if (json.candidates && json.candidates[0] && json.candidates[0].content) {
-                    const content = json.candidates[0].content;
-                    let responseText = "";
-                    content.parts.forEach(part => {
-                        responseText += part.text + "\n";
-                    });
-                    outputDiv.textContent = responseText;
-                } else {
-                    outputDiv.textContent = "Error al recibir respuesta de la IA.";
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('output').textContent = "Error al enviar la petición.";
-            });
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
