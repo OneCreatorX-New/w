@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactuar con IA para Desensamblar y Desofuscar Código</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+        button { margin-top: 10px; }
+        #output { margin-top: 20px; white-space: pre-wrap; background-color: #f9f9f9; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Interactuar con IA para Desensamblar y Desofuscar Código</h1>
+    <p>Introduce tu instrucción para la IA:</p>
+    <textarea id="inputInstruction"></textarea>
+    <button onclick="sendToAPI()">Enviar a IA</button>
+    <h2>Respuesta de la IA:</h2>
+    <div id="output"></div>
+
+    <script>
+        function sendToAPI() {
+            const inputInstruction = document.getElementById('inputInstruction').value;
+            const prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles pero sin agregar comentarios en el código \n\n`;
+
+            const token = "TU_TOKEN_DE_API";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${token}`;
+
+            const data = {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: prefijo + inputInstruction
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(json => {
+                const outputDiv = document.getElementById('output');
+                if (json.candidates && json.candidates[0] && json.candidates[0].content) {
+                    const content = json.candidates[0].content;
+                    let responseText = "";
+                    content.parts.forEach(part => {
+                        responseText += part.text + "\n";
+                    });
+                    outputDiv.textContent = responseText;
+                } else {
+                    outputDiv.textContent = "Error al recibir respuesta de la IA.";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('output').textContent = "Error al enviar la petición.";
+            });
+        }
+    </script>
+</body>
+</html>
