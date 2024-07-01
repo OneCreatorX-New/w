@@ -27,16 +27,15 @@ function updateOptions() {
         options = [
             { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensambla el código con comentarios.' },
             { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensambla el código con detalles adicionales.' },
-            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensambla el código de manera simple sin detalles adicionales.' }
+            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensambla el código de manera simple, pero manteniendo la dificultad para interpretar el código después de ensamblarlo' }
         ];
     } else if (taskType === 'mejorarScript') {
         options = [
-            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones al script.' },
+            { id: 'visualEnhancements', label: 'Mejoras visuales', text: 'Añadir mejoras visuales a las interfaces, usa mas propiedades y combina diferentes propiedades y ajustes y instancias para mejorar el aspecto visual.' },
             { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del script.' },
-            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el script.' },
-            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código mejorado.' },
-            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar el código existente.' },
-            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Generar un segundo script con mejoras adicionales.' }
+            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el script. o posibles errores de instancias que no podrían existir y romper el flujo' },
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios explicativos.' },
+            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar, Reducir el código eliminado los nombres de funciones y variables que superen 3 letras. Eliminar espacios innecesarios. si se usa mucho una instancia referencia de un objeto eliminar redundancias para usar una sola declarada' },
         ];
     }
 
@@ -56,7 +55,7 @@ function sendToAPI() {
     const inputInstruction = document.getElementById('inputInstruction').value;
     const taskType = document.getElementById('taskType').value;
     
-    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas.\n\n";
+    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. \n\n";
 
     const opciones = [];
     const checkboxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]');
