@@ -19,24 +19,24 @@ function updateOptions() {
     let options = [];
     if (taskType === 'desensamblar') {
         options = [
-            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
-            { id: 'detailedOutput', label: 'Salida detallada', text: 'Proporciona una salida detallada.' },
-            { id: 'simpleOutput', label: 'Salida simple', text: 'Proporciona una salida simple.' }
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código desensamblado.' },
+            { id: 'detailedOutput', label: 'Salida detallada', text: 'Proporciona una salida detallada del código desensamblado.' },
+            { id: 'simpleOutput', label: 'Salida simple', text: 'Proporciona una salida simple del código desensamblado.' }
         ];
     } else if (taskType === 'ensamblar') {
         options = [
-            { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensamblar con comentarios.' },
-            { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensamblar con detalles adicionales.' },
-            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensamblar de manera simple.' }
+            { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensambla el código con comentarios.' },
+            { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensambla el código con detalles adicionales.' },
+            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensambla el código de manera simple sin detalles adicionales.' }
         ];
     } else if (taskType === 'mejorarScript') {
         options = [
-            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones.' },
-            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del código.' },
-            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el código.' },
-            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
-            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar el código.' },
-            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Generar un segundo script mejorado.' }
+            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añade mejoras visuales como colores y botones al script.' },
+            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimiza las funciones del script.' },
+            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corrige los errores presentes en el script.' },
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código mejorado.' },
+            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplifica el código existente.' },
+            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Genera un segundo script con mejoras adicionales.' }
         ];
     }
 
@@ -58,7 +58,7 @@ function sendToAPI() {
     
     let prefijo = "";
     if (taskType === 'desensamblar') {
-        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles.\n\n`;
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas.\n\n`;
     } else if (taskType === 'ensamblar') {
         prefijo = `Este mensaje es para un contexto de Roblox. Por favor, ensambla el siguiente código. Asegúrate de que todas las respuestas sean legibles y fáciles de entender.\n\n`;
     } else if (taskType === 'mejorarScript') {
@@ -112,13 +112,13 @@ function sendToAPI() {
             });
             outputDiv.textContent = responseText;
         } else {
-            outputDiv.textContent = "No disponible actualmente, intenta mas tarde.";
+            outputDiv.textContent = "No disponible actualmente, intenta más tarde.";
         }
     })
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('loader').style.display = 'none';
-        document.getElementById('output').textContent = "Error Procesar.";
+        document.getElementById('output').textContent = "Error al procesar la solicitud.";
     });
 }
 
