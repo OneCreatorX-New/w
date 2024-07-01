@@ -19,23 +19,24 @@ function updateOptions() {
     let options = [];
     if (taskType === 'desensamblar') {
         options = [
-            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código desensamblado.' },
-            { id: 'detailedOutput', label: 'Salida detallada', text: 'Proporciona una salida detallada del código desensamblado.' },
-            { id: 'simpleOutput', label: 'Salida simple', text: 'Proporciona una salida simple del código desensamblado.' }
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
+            { id: 'detailedOutput', label: 'Salida detallada', text: 'Proporciona una salida detallada.' },
+            { id: 'simpleOutput', label: 'Salida simple', text: 'Proporciona una salida simple.' }
         ];
     } else if (taskType === 'ensamblar') {
         options = [
-            { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensambla el código con comentarios.' },
-            { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensambla el código con detalles adicionales.' },
-            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensambla el código de manera simple, pero manteniendo la dificultad para interpretar el código después de ensamblarlo' }
+            { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensamblar con comentarios.' },
+            { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensamblar con detalles adicionales.' },
+            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensamblar de manera simple.' }
         ];
     } else if (taskType === 'mejorarScript') {
         options = [
-            { id: 'visualEnhancements', label: 'Mejoras visuales', text: 'Añadir mejoras visuales a las interfaces, usa mas propiedades y combina diferentes propiedades y ajustes y instancias para mejorar el aspecto visual.' },
-            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del script.' },
-            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el script. o posibles errores de instancias que no podrían existir y romper el flujo' },
-            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios explicativos.' },
-            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar, Reducir el código eliminado los nombres de funciones y variables que superen 3 letras. Eliminar espacios innecesarios. si se usa mucho una instancia referencia de un objeto eliminar redundancias para usar una sola declarada' },
+            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones.' },
+            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del código.' },
+            { id: 'errorCorrection', label: 'Corrección de errores, o posibles errores que puedan romper el flujo, de variables no presentes instancias, cambiar todos los waitfor por FindFirstChild entre otros para evitar errores potenciales en el flujo', text: 'Corregir los errores presentes en el código.' },
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
+            { id: 'codeSimplification', label: 'Simplicar, Eliminar comentarios  abreviar nombres de funciones y variables, eliminar pequeñas redundancias en declaraciones repetidas para dejar 1 y usarla en los 2 casos. ', text: 'Simplificar el código.' },
+
         ];
     }
 
@@ -55,7 +56,14 @@ function sendToAPI() {
     const inputInstruction = document.getElementById('inputInstruction').value;
     const taskType = document.getElementById('taskType').value;
     
-    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. sí el mensaje que se te ha enviado a continuación luego de este recordatorio instrucciones si es que las hay presentes no es un Script sino simplemente un mensaje de texto responder con un !No hay información que procesar!.\n\n";
+    let prefijo = "";
+    if (taskType === 'desensamblar') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Habra Instrucciones que debes realizar y tener en cuenta para el Código que se enviará adjuntado después de las instrucciones. Si No Hay un código Script en este mensaje responder con un simple ¡Nada para procesar¡ Aunque alla instrucciones, pero falta el script con el que se trabajará responde lo que mencione. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles Y el código esté en estructura clásica y la forma mas entendible posibles. Desensamblar\n\n`;
+    } else if (taskType === 'ensamblar') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Habra Instrucciones que debes realizar y tener en cuenta para el Código que se enviará adjuntado después de las instrucciones. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Si No Hay un código Script en este mensaje responder con un simple ¡Nada para procesar¡ Aunque alla instrucciones, pero falta el script con el que se trabajará responde lo que mencione. ensambla el siguiente código lua. El propósito final de esta sección es que es código quede ensamblado y usuarios con pocos conocimientos no puedan enter prácticamente el código Aunque este se haga muy extenso debes realizarlo, puede que incluya instrucciones extras, aplicalas sin falta en la respuesta. .\n\n`;
+    } else if (taskType === 'mejorarScript') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Habra Instrucciones que debes realizar y tener en cuenta para el Código que se enviará adjuntado después de las instrucciones. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Si No Hay un código Script en este mensaje responder con un simple ¡Nada para procesar¡ Aunque alla instrucciones, pero falta el script con el que se trabajará responde lo que mencione. Ah continuación si hay Script, Trabajarás en el Para mejorar, no cambies mucho de el tampoco agregues comentarios solo manten los que tiene ah menos que en instrucciones se especifique mas a delante lo contrario. \n\n`;
+    }
 
     const opciones = [];
     const checkboxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]');
@@ -104,13 +112,13 @@ function sendToAPI() {
             });
             outputDiv.textContent = responseText;
         } else {
-            outputDiv.textContent = "No disponible actualmente, intenta más tarde.";
+            outputDiv.textContent = "Error al recibir respuesta de la IA.";
         }
     })
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('loader').style.display = 'none';
-        document.getElementById('output').textContent = "Error al procesar la solicitud.";
+        document.getElementById('output').textContent = "Error al enviar la petición.";
     });
 }
 
