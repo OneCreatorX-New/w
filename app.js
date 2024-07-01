@@ -31,12 +31,12 @@ function updateOptions() {
         ];
     } else if (taskType === 'mejorarScript') {
         options = [
-            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añade mejoras visuales como colores y botones al script.' },
-            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimiza las funciones del script.' },
-            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corrige los errores presentes en el script.' },
+            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones al script.' },
+            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del script.' },
+            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el script.' },
             { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código mejorado.' },
-            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplifica el código existente.' },
-            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Genera un segundo script con mejoras adicionales.' }
+            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar el código existente.' },
+            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Generar un segundo script con mejoras adicionales.' }
         ];
     }
 
@@ -56,14 +56,7 @@ function sendToAPI() {
     const inputInstruction = document.getElementById('inputInstruction').value;
     const taskType = document.getElementById('taskType').value;
     
-    let prefijo = "";
-    if (taskType === 'desensamblar') {
-        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas.\n\n`;
-    } else if (taskType === 'ensamblar') {
-        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, ensambla el siguiente código. Asegúrate de que todas las respuestas sean legibles y fáciles de entender.\n\n`;
-    } else if (taskType === 'mejorarScript') {
-        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, mejora el siguiente código con las instrucciones proporcionadas. Asegúrate de que todas las respuestas sean legibles y fáciles de entender.\n\n`;
-    }
+    let prefijo = "Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas.\n\n";
 
     const opciones = [];
     const checkboxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]');
