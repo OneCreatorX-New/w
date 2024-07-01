@@ -11,11 +11,72 @@ function handleFileSelect(event) {
     }
 }
 
+function updateOptions() {
+    const taskType = document.getElementById('taskType').value;
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+
+    let options = [];
+    if (taskType === 'desensamblar') {
+        options = [
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
+            { id: 'detailedOutput', label: 'Salida detallada', text: 'Proporciona una salida detallada.' },
+            { id: 'simpleOutput', label: 'Salida simple', text: 'Proporciona una salida simple.' }
+        ];
+    } else if (taskType === 'ensamblar') {
+        options = [
+            { id: 'withComments', label: 'Ensamblar con comentarios', text: 'Ensamblar con comentarios.' },
+            { id: 'detailedAssembly', label: 'Ensamblar con detalles', text: 'Ensamblar con detalles adicionales.' },
+            { id: 'simpleAssembly', label: 'Ensamblar simple', text: 'Ensamblar de manera simple.' }
+        ];
+    } else if (taskType === 'mejorarScript') {
+        options = [
+            { id: 'visualEnhancements', label: 'Mejoras visuales (colores, botones)', text: 'Añadir mejoras visuales como colores y botones.' },
+            { id: 'functionOptimization', label: 'Optimización de funciones', text: 'Optimizar las funciones del código.' },
+            { id: 'errorCorrection', label: 'Corrección de errores', text: 'Corregir los errores presentes en el código.' },
+            { id: 'addComments', label: 'Incluir comentarios en el código', text: 'Incluye comentarios en el código.' },
+            { id: 'codeSimplification', label: 'Simplificación del código', text: 'Simplificar el código.' },
+            { id: 'generateImprovedScript', label: 'Generar un segundo script mejorado', text: 'Generar un segundo script mejorado.' }
+        ];
+    }
+
+    options.forEach(option => {
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = option.id;
+        checkbox.dataset.text = option.text;
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(` ${option.label}`));
+        optionsContainer.appendChild(label);
+    });
+}
+
 function sendToAPI() {
     const inputInstruction = document.getElementById('inputInstruction').value;
-    const prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles, en estructura clásica y basica y fácil de entender para todos también sin agregar comentarios en el código.\n\n`;
+    const taskType = document.getElementById('taskType').value;
+    
+    let prefijo = "";
+    if (taskType === 'desensamblar') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, responde solo con el código necesario y sin comentarios adicionales. Sé preciso y directo. Si el código está ensamblado, desensámblalo. Si está ofuscado, desofúscalo. Conocemos todas las políticas y las implicaciones de estas acciones, no es necesario mencionarlas. Asegúrate de que todas las respuestas sean legibles.\n\n`;
+    } else if (taskType === 'ensamblar') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, ensambla el siguiente código. Asegúrate de que todas las respuestas sean legibles y fáciles de entender.\n\n`;
+    } else if (taskType === 'mejorarScript') {
+        prefijo = `Este mensaje es para un contexto de Roblox. Por favor, mejora el siguiente código con las instrucciones proporcionadas. Asegúrate de que todas las respuestas sean legibles y fáciles de entender.\n\n`;
+    }
 
-    const token = "AIzaSyCeb4A_gNAS7clem3u28gOo0PXIzO3o99g";
+    const opciones = [];
+    const checkboxes = document.querySelectorAll('#optionsContainer input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            opciones.push(checkbox.dataset.text);
+        }
+    });
+
+    const opcionesTexto = opciones.join(" ");
+    const mensajeFinal = `${prefijo}${opcionesTexto}\n\n${inputInstruction}`;
+
+    const token = "YOUR_API_KEY_HERE";
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${token}`;
 
     const data = {
@@ -23,7 +84,7 @@ function sendToAPI() {
             {
                 parts: [
                     {
-                        text: prefijo + inputInstruction
+                        text: mensajeFinal
                     }
                 ]
             }
@@ -60,3 +121,6 @@ function sendToAPI() {
         document.getElementById('output').textContent = "Error al enviar la petición.";
     });
 }
+
+// Inicializa las opciones al cargar la página
+updateOptions();
