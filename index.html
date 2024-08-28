@@ -6,13 +6,7 @@
     <title>OneCreatorX Scripts</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -21,36 +15,17 @@
             color: #fff;
             min-height: 100vh;
         }
-
         @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-
-        header {
-            text-align: center;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            animation: fadeIn 1s ease-out;
-        }
-
+        header { text-align: center; padding: 2rem; background-color: rgba(0, 0, 0, 0.5); }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; animation: fadeIn 1s ease-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         #filtros {
             display: flex;
             justify-content: center;
@@ -59,7 +34,6 @@
             padding: 1rem;
             background-color: rgba(255, 255, 255, 0.1);
         }
-
         button, input[type="text"] {
             padding: 0.5rem 1rem;
             border: none;
@@ -69,47 +43,28 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        input[type="text"] {
-            width: 200px;
-        }
-
+        button:hover { background-color: rgba(255, 255, 255, 0.3); transform: translateY(-2px); }
+        input[type="text"] { width: 200px; }
         #scripts-principales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1rem;
             padding: 2rem;
         }
-
         .script {
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
             padding: 1rem;
             transition: all 0.3s ease;
         }
-
-        .script:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .script h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
+        .script:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+        .script h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
         .script pre {
             background-color: rgba(255, 255, 255, 0.1);
             padding: 0.5rem;
             border-radius: 5px;
             overflow-x: auto;
         }
-
         #navegacion {
             display: flex;
             justify-content: center;
@@ -117,13 +72,11 @@
             gap: 1rem;
             padding: 1rem;
         }
-
         footer {
             text-align: center;
             padding: 1rem;
             background-color: rgba(0, 0, 0, 0.5);
         }
-
         .modal {
             display: none;
             position: fixed;
@@ -134,7 +87,6 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
         }
-
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
@@ -145,7 +97,6 @@
             border-radius: 10px;
             color: #333;
         }
-
         .close {
             color: #aaa;
             float: right;
@@ -153,7 +104,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         .close:hover,
         .close:focus {
             color: #000;
@@ -214,220 +164,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const scriptsContainer = document.getElementById('scripts-principales');
-            const btnAnterior = document.getElementById('anterior');
-            const btnSiguiente = document.getElementById('siguiente');
-            const infoPagina = document.getElementById('info-pagina');
-            const busquedaInput = document.getElementById('busqueda');
-            const filtroTodos = document.getElementById('filtro-todos');
-            const filtroUniversales = document.getElementById('filtro-universales');
-            const filtroJuegos = document.getElementById('filtro-juegos');
-            const masAntiguos = document.getElementById('mas-antiguos');
-            const btnApoyame = document.getElementById('btn-apoyame');
-            const btnBypassGeneral = document.getElementById('btn-bypass-general');
-            const linkDiscord = document.getElementById('link-discord');
-            const linkYoutube = document.getElementById('link-youtube');
-
-            function actualizarScripts() {
-                const scriptsPagina = getPagina();
-                scriptsContainer.innerHTML = '';
-                scriptsPagina.forEach(script => {
-                    const scriptElement = document.createElement('div');
-                    scriptElement.className = 'script';
-                    scriptElement.innerHTML = `
-                        <h2>${script.titulo}</h2>
-                        <pre>${script.contenido}</pre>
-                        <button onclick="copiarAlPortapapeles('${script.contenido}')">Copiar</button>
-                        ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">Paste-Drop</button>` : ''}
-                        <button onclick="compScr('${script.titulo}', '${script.idJuego}')">Compartir</button>
-                        <button onclick="mostrarDialogoReporte('${script.titulo}')">Reportar</button>
-                        ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank" class="btn-juego">Ir al Juego</a>` : ''}
-                        ${script.descripcion ? `<button onclick="mostrarDialogoInfo('${script.titulo}', '${script.descripcion}')">Info</button>` : ''}
-                    `;
-                    scriptsContainer.appendChild(scriptElement);
-                });
-                actualizarNavegacion();
-            }
-
-            function actualizarNavegacion() {
-                const totalPaginas = Math.ceil(scr.length / scrPorPag);
-                infoPagina.textContent = `Página ${pagAct + 1} de ${totalPaginas}`;
-                btnAnterior.disabled = pagAct === 0;
-                btnSiguiente.disabled = pagAct === totalPaginas - 1;
-            }
-
-            btnAnterior.addEventListener('click', () => {
-                if (pagAct > 0) {
-                    pagAct--;
-                    actualizarScripts();
-                }
-            });
-
-            btnSiguiente.addEventListener('click', () => {
-                if ((pagAct + 1) * scrPorPag < scr.length) {
-                    pagAct++;
-                    actualizarScripts();
-                }
-            });
-
-            busquedaInput.addEventListener('input', () => {
-                const termino = busquedaInput.value.toLowerCase();
-                scr = scrOrig.filter(script => script.titulo.toLowerCase().includes(termino));
-                pagAct = 0;
-                actualizarScripts();
-            });
-
-            filtroTodos.addEventListener('click', () => {
-                filAct = "todos";
-                actualizarScripts();
-            });
-
-            filtroUniversales.addEventListener('click', () => {
-                filAct = "universales";
-                actualizarScripts();
-            });
-
-            filtroJuegos.addEventListener('click', () => {
-                filAct = "juegos";
-                actualizarScripts();
-            });
-
-            masAntiguos.addEventListener('click', () => {
-                scr.reverse();
-                actualizarScripts();
-            });
-
-            btnApoyame.addEventListener('click', () => {
-                document.getElementById('modal-apoyame').style.display = 'block';
-            });
-
-            btnBypassGeneral.addEventListener('click', () => {
-                document.getElementById('modal-bypass').style.display = 'block';
-            });
-
-            linkDiscord.addEventListener('click', () => window.open("https://discord.com/invite/xJWSR7H6gy", "_blank"));
-            linkYoutube.addEventListener('click', () => window.open("https://youtube.com/@onecreatorx", "_blank"));
-
-            document.querySelectorAll('.close').forEach(closeBtn => {
-                closeBtn.addEventListener('click', function() {
-                    this.closest('.modal').style.display = 'none';
-                });
-            });
-
-            window.onclick = function(event) {
-                if (event.target.classList.contains('modal')) {
-                    event.target.style.display = 'none';
-                }
-            };
-
-            document.getElementById('btnBypass').addEventListener('click', async () => {
-                const url = document.getElementById('urlInput').value.trim();
-                if (url) {
-                    try {
-                        const res = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
-                        const data = await res.json();
-                        envBypass(url, data);
-                        document.getElementById('resultado').textContent = data.bypassed ? `Resultado: ${data.bypassed}` : 'Error al procesar la URL';
-                    } catch (error) {
-                        console.error('Error al obtener la respuesta:', error);
-                        document.getElementById('resultado').textContent = 'Error al procesar la solicitud.';
-                    }
-                } else {
-                    document.getElementById('resultado').textContent = 'Por favor, ingrese una URL válida.';
-                }
-            });
-
-            init();
-        });
-
-        function copiarAlPortapapeles(texto) {
-            navigator.clipboard.writeText(texto)
-                .then(() => mostrarNotificacion("¡Script copiado al portapapeles!"))
-                .catch(err => console.error("Error al copiar: ", err));
-        }
-
-        function mostrarNotificacion(mensaje) {
-            const notificacion = document.createElement('div');
-            notificacion.textContent = mensaje;
-            notificacion.style.position = 'fixed';
-            notificacion.style.bottom = '20px';
-            notificacion.style.left = '50%';
-            notificacion.style.transform = 'translateX(-50%)';
-            notificacion.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            notificacion.style.color = 'white';
-            notificacion.style.padding = '10px 20px';
-            notificacion.style.borderRadius = '5px';
-            notificacion.style.zIndex = '1000';
-            document.body.appendChild(notificacion);
-            setTimeout(() => document.body.removeChild(notificacion), 3000);
-        }
-
-        function mostrarDialogoReporte(nomScr) {
-            const dialogo = document.createElement('div');
-            dialogo.innerHTML = `
-                <div class="modal-content">
-                    <h2>Reportar problema con: ${nomScr}</h2>
-                    <textarea id="reporteTexto" placeholder="Describe el problema..."></textarea>
-                    <button id="enviarReporte">Enviar Reporte</button>
-                    <button class="cerrarDialogo">Cancelar</button>
-                </div>
-            `;
-            dialogo.style.position = 'fixed';
-            dialogo.style.top = '0';
-            dialogo.style.left = '0';
-            dialogo.style.width = '100%';
-            dialogo.style.height = '100%';
-            dialogo.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            dialogo.style.display = 'flex';
-            dialogo.style.justifyContent = 'center';
-            dialogo.style.alignItems = 'center';
-            dialogo.style.zIndex = '1000';
-            document.body.appendChild(dialogo);
-
-            document.getElementById('enviarReporte').addEventListener('click', () => {
-                const texto = document.getElementById('reporteTexto').value;
-                if (texto) {
-                    envRep(nomScr, texto);
-                    document.body.removeChild(dialogo);
-                    mostrarNotificacion("Reporte enviado. ¡Gracias por tu feedback!");
-                } else {
-                    mostrarNotificacion("Por favor, describe el problema antes de enviar.");
-                }
-            });
-
-            document.querySelector('.cerrarDialogo').addEventListener('click', () => {
-                document.body.removeChild(dialogo);
-            });
-        }
-
-        function mostrarDialogoInfo(titulo, descripcion) {
-            const dialogo = document.createElement('div');
-            dialogo.innerHTML = `
-                <div class="modal-content">
-                    <h2>${titulo}</h2>
-                    <p>${descripcion}</p>
-                    <button class="cerrarDialogo">Cerrar</button>
-                </div>
-            `;
-            dialogo.style.position = 'fixed';
-            dialogo.style.top = '0';
-            dialogo.style.left = '0';
-            dialogo.style.width = '100%';
-            dialogo.style.height = '100%';
-            dialogo.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            dialogo.style.display = 'flex';
-            dialogo.style.justifyContent = 'center';
-            dialogo.style.alignItems = 'center';
-            dialogo.style.zIndex = '1000';
-            document.body.appendChild(dialogo);
-
-            document.querySelector('.cerrarDialogo').addEventListener('click', () => {
-                document.body.removeChild(dialogo);
-            });
-        }
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
