@@ -3,125 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Hub</title>
+    <title>OneCreatorX Scripts</title>
     <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2ecc71;
-            --background: #f0f0f0;
-            --text: #333;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--background);
-            color: var(--text);
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        * {
             margin: 0;
-            padding: 20px;
-            transition: background-color 0.3s ease;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: #fff;
+            min-height: 100vh;
         }
-        h1 {
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        header {
             text-align: center;
-            color: var(--primary);
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             animation: fadeIn 1s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #filtros {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        button, input[type="text"] {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"] {
+            width: 200px;
+        }
+
         #scripts-principales {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
         }
+
         .script {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.3s ease;
         }
+
         .script:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 15px;
+
+        .script h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .script pre {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            overflow-x: auto;
         }
-        button:hover {
-            background-color: var(--secondary);
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .navigation {
+
+        #navegacion {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
         }
-        .dialog {
+
+        .modal {
+            display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            z-index: 1000;
-            animation: scaleIn 0.3s ease-out;
-        }
-        @keyframes scaleIn {
-            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; }
-            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
+            z-index: 1;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 999;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Repositorio X</h1>
+    <header>
+        <h1>OneCreatorX Scripts</h1>
+    </header>
+
+    <nav id="filtros">
         <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <div id="filtros">
-            <button id="filtro-todos">Todos</button>
-            <button id="filtro-universales">Universales</button>
-            <button id="filtro-juegos">Juegos</button>
-            <button id="link-discord">Discord</button>
-            <button id="link-youtube">YouTube</button>
-            <button id="mas-antiguos">Más Antiguos</button>
-            <button id="btn-apoyame">Apóyame</button>
-            <button id="btn-bypass-general">Bypass General</button>
-            <button id="btn-bypass-linkvertise">Bypass General 2</button>
-        </div>
+        <button id="filtro-todos">Todos</button>
+        <button id="filtro-universales">Universales</button>
+        <button id="filtro-juegos">Juegos</button>
+        <button id="mas-antiguos">Más Antiguos</button>
+        <button id="btn-apoyame">Apóyame</button>
+        <button id="btn-bypass-general">Bypass General</button>
+    </nav>
+
+    <main>
         <div id="scripts-principales"></div>
-        <div class="navigation">
+        <div id="navegacion">
             <button id="anterior">Anterior</button>
             <span id="info-pagina"></span>
             <button id="siguiente">Siguiente</button>
         </div>
+    </main>
+
+    <footer>
+        <button id="link-discord">Discord</button>
+        <button id="link-youtube">YouTube</button>
+    </footer>
+
+    <div id="modal-apoyame" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Apóyame</h2>
+            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
+            <ul>
+                <li>Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
+                <li><a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
+                <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+            </ul>
+        </div>
     </div>
+
+    <div id="modal-bypass" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Bypass Executores or Links</h2>
+            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
+            <button id="btnBypass">Bypass</button>
+            <div id="resultado"></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scriptsContainer = document.getElementById('scripts-principales');
+            const btnAnterior = document.getElementById('anterior');
+            const btnSiguiente = document.getElementById('siguiente');
+            const infoPagina = document.getElementById('info-pagina');
+            const busquedaInput = document.getElementById('busqueda');
+            const filtroTodos = document.getElementById('filtro-todos');
+            const filtroUniversales = document.getElementById('filtro-universales');
+            const filtroJuegos = document.getElementById('filtro-juegos');
+            const masAntiguos = document.getElementById('mas-antiguos');
+            const btnApoyame = document.getElementById('btn-apoyame');
+            const btnBypassGeneral = document.getElementById('btn-bypass-general');
+            const linkDiscord = document.getElementById('link-discord');
+            const linkYoutube = document.getElementById('link-youtube');
+
+            function actualizarScripts() {
+                const scriptsPagina = getPagina();
+                scriptsContainer.innerHTML = '';
+                scriptsPagina.forEach(script => {
+                    const scriptElement = document.createElement('div');
+                    scriptElement.className = 'script';
+                    scriptElement.innerHTML = `
+                        <h2>${script.titulo}</h2>
+                        <pre>${script.contenido}</pre>
+                        <button onclick="copiarAlPortapapeles('${script.contenido}')">Copiar</button>
+                        ${script.pasteDropUrl ? `<button onclick="window.open('${script.pasteDropUrl}', '_blank')">Paste-Drop</button>` : ''}
+                        <button onclick="compScr('${script.titulo}', '${script.idJuego}')">Compartir</button>
+                        <button onclick="mostrarDialogoReporte('${script.titulo}')">Reportar</button>
+                        ${script.idJuego ? `<a href="https://www.roblox.com/games/${script.idJuego}" target="_blank" class="btn-juego">Ir al Juego</a>` : ''}
+                        ${script.descripcion ? `<button onclick="mostrarDialogoInfo('${script.titulo}', '${script.descripcion}')">Info</button>` : ''}
+                    `;
+                    scriptsContainer.appendChild(scriptElement);
+                });
+                actualizarNavegacion();
+            }
+
+            function actualizarNavegacion() {
+                const totalPaginas = Math.ceil(scr.length / scrPorPag);
+                infoPagina.textContent = `Página ${pagAct + 1} de ${totalPaginas}`;
+                btnAnterior.disabled = pagAct === 0;
+                btnSiguiente.disabled = pagAct === totalPaginas - 1;
+            }
+
+            btnAnterior.addEventListener('click', () => {
+                if (pagAct > 0) {
+                    pagAct--;
+                    actualizarScripts();
+                }
+            });
+
+            btnSiguiente.addEventListener('click', () => {
+                if ((pagAct + 1) * scrPorPag < scr.length) {
+                    pagAct++;
+                    actualizarScripts();
+                }
+            });
+
+            busquedaInput.addEventListener('input', () => {
+                const termino = busquedaInput.value.toLowerCase();
+                scr = scrOrig.filter(script => script.titulo.toLowerCase().includes(termino));
+                pagAct = 0;
+                actualizarScripts();
+            });
+
+            filtroTodos.addEventListener('click', () => {
+                filAct = "todos";
+                actualizarScripts();
+            });
+
+            filtroUniversales.addEventListener('click', () => {
+                filAct = "universales";
+                actualizarScripts();
+            });
+
+            filtroJuegos.addEventListener('click', () => {
+                filAct = "juegos";
+                actualizarScripts();
+            });
+
+            masAntiguos.addEventListener('click', () => {
+                scr.reverse();
+                actualizarScripts();
+            });
+
+            btnApoyame.addEventListener('click', () => {
+                document.getElementById('modal-apoyame').style.display = 'block';
+            });
+
+            btnBypassGeneral.addEventListener('click', () => {
+                document.getElementById('modal-bypass').style.display = 'block';
+            });
+
+            linkDiscord.addEventListener('click', () => window.open("https://discord.com/invite/xJWSR7H6gy", "_blank"));
+            linkYoutube.addEventListener('click', () => window.open("https://youtube.com/@onecreatorx", "_blank"));
+
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            window.onclick = function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            };
+
+            document.getElementById('btnBypass').addEventListener('click', async () => {
+                const url = document.getElementById('urlInput').value.trim();
+                if (url) {
+                    try {
+                        const res = await fetch(`https://ep.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(url)}&apikey=ETHOS_YI03QUL9`);
+                        const data = await res.json();
+                        envBypass(url, data);
+                        document.getElementById('resultado').textContent = data.bypassed ? `Resultado: ${data.bypassed}` : 'Error al procesar la URL';
+                    } catch (error) {
+                        console.error('Error al obtener la respuesta:', error);
+                        document.getElementById('resultado').textContent = 'Error al procesar la solicitud.';
+                    }
+                } else {
+                    document.getElementById('resultado').textContent = 'Por favor, ingrese una URL válida.';
+                }
+            });
+
+            init();
+        });
+
+        function copiarAlPortapapeles(texto) {
+            navigator.clipboard.writeText(texto)
+                .then(() => mostrarNotificacion("¡Script copiado al portapapeles!"))
+                .catch(err => console.error("Error al copiar: ", err));
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notificacion = document.createElement('div');
+            notificacion.textContent = mensaje;
+            notificacion.style.position = 'fixed';
+            notificacion.style.bottom = '20px';
+            notificacion.style.left = '50%';
+            notificacion.style.transform = 'translateX(-50%)';
+            notificacion.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            notificacion.style.color = 'white';
+            notificacion.style.padding = '10px 20px';
+            notificacion.style.borderRadius = '5px';
+            notificacion.style.zIndex = '1000';
+            document.body.appendChild(notificacion);
+            setTimeout(() => document.body.removeChild(notificacion), 3000);
+        }
+
+        function mostrarDialogoReporte(nomScr) {
+            const dialogo = document.createElement('div');
+            dialogo.innerHTML = `
+                <div class="modal-content">
+                    <h2>Reportar problema con: ${nomScr}</h2>
+                    <textarea id="reporteTexto" placeholder="Describe el problema..."></textarea>
+                    <button id="enviarReporte">Enviar Reporte</button>
+                    <button class="cerrarDialogo">Cancelar</button>
+                </div>
+            `;
+            dialogo.style.position = 'fixed';
+            dialogo.style.top = '0';
+            dialogo.style.left = '0';
+            dialogo.style.width = '100%';
+            dialogo.style.height = '100%';
+            dialogo.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            dialogo.style.display = 'flex';
+            dialogo.style.justifyContent = 'center';
+            dialogo.style.alignItems = 'center';
+            dialogo.style.zIndex = '1000';
+            document.body.appendChild(dialogo);
+
+            document.getElementById('enviarReporte').addEventListener('click', () => {
+                const texto = document.getElementById('reporteTexto').value;
+                if (texto) {
+                    envRep(nomScr, texto);
+                    document.body.removeChild(dialogo);
+                    mostrarNotificacion("Reporte enviado. ¡Gracias por tu feedback!");
+                } else {
+                    mostrarNotificacion("Por favor, describe el problema antes de enviar.");
+                }
+            });
+
+            document.querySelector('.cerrarDialogo').addEventListener('click', () => {
+                document.body.removeChild(dialogo);
+            });
+        }
+
+        function mostrarDialogoInfo(titulo, descripcion) {
+            const dialogo = document.createElement('div');
+            dialogo.innerHTML = `
+                <div class="modal-content">
+                    <h2>${titulo}</h2>
+                    <p>${descripcion}</p>
+                    <button class="cerrarDialogo">Cerrar</button>
+                </div>
+            `;
+            dialogo.style.position = 'fixed';
+            dialogo.style.top = '0';
+            dialogo.style.left = '0';
+            dialogo.style.width = '100%';
+            dialogo.style.height = '100%';
+            dialogo.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            dialogo.style.display = 'flex';
+            dialogo.style.justifyContent = 'center';
+            dialogo.style.alignItems = 'center';
+            dialogo.style.zIndex = '1000';
+            document.body.appendChild(dialogo);
+
+            document.querySelector('.cerrarDialogo').addEventListener('click', () => {
+                document.body.removeChild(dialogo);
+            });
+        }
+    </script>
 </body>
 </html>
