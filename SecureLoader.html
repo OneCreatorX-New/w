@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Loader Generator [Beta Free]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Roboto', sans-serif;
+            background: #000;
+            color: #fff;
+        }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass { 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .glow { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+        .neon-border { box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <canvas id="bg-animation" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+
+    <div class="glass rounded-xl p-8 w-full max-w-2xl mb-8 animate-pulse">
+        <h2 class="text-2xl font-bold mb-4 orbitron glow" id="welcomeTitle">Welcome to Secure Loader Generator [Beta Free]</h2>
+        <p class="mb-4" id="description">
+            This tool allows you to generate a loader for your Roblox Lua scripts. Simply input your code, set a name, choose an extension, and set the maximum number of parts to divide your code into. The generator will create a loader that reassembles your code securely.
+        </p>
+    </div>
+
+    <div class="glass rounded-xl p-8 w-full max-w-2xl neon-border">
+        <h1 class="text-4xl font-bold text-center mb-8 orbitron glow">Secure Loader Generator [Beta Free]</h1>
+        <form id="f" class="space-y-6">
+            <div>
+                <label for="n" class="block text-sm font-medium mb-1">Loader Name:</label>
+                <input type="text" id="n" required class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+                <label for="extension" class="block text-sm font-medium mb-1">Extension:</label>
+                <select id="extension" required class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option value="juan">/juan</option>
+                    <!-- Add more options here as needed -->
+                </select>
+            </div>
+            <div>
+                <label for="co" class="block text-sm font-medium mb-1">Script Content:</label>
+                <textarea id="co" rows="10" required class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+            </div>
+            <div>
+                <label for="maxDivisiones" class="block text-sm font-medium mb-1">Max Divisions:</label>
+                <input type="number" id="maxDivisiones" min="1" value="1" required class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 font-semibold rounded-md transition duration-300 orbitron">
+                Generate Loader
+            </button>
+        </form>
+        <div id="r" class="mt-8 p-4 bg-white bg-opacity-10 rounded-md overflow-x-auto"></div>
+        <div class="w-full bg-gray-700 rounded-full h-2.5 mt-4">
+            <div id="p" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button id="toggleLang" class="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-md transition duration-300 orbitron">
+            Toggle Language
+        </button>
+    </div>
+
+    <script>
+        // Three.js background animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-animation'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Language toggle
+        const translations = {
+            en: {
+                welcomeTitle: "Welcome to Secure Loader Generator [Beta Free]",
+                description: "This tool allows you to generate a loader for your Roblox Lua scripts. Simply input your code, set a name, choose an extension, and set the maximum number of parts to divide your code into. The generator will create a loader that reassembles your code securely.",
+                loaderName: "Loader Name:",
+                extension: "Extension:",
+                scriptContent: "Script Content:",
+                maxDivisions: "Max Divisions:",
+                generateLoader: "Generate Loader",
+                toggleLang: "Cambiar a Español"
+            },
+            es: {
+                welcomeTitle: "Bienvenido al Generador de Cargador Seguro [Beta Gratis]",
+                description: "Esta herramienta te permite generar un cargador para tus scripts de Roblox Lua. Simplemente ingresa tu código, establece un nombre, elige una extensión y define el número máximo de partes en las que dividir tu código. El generador creará un cargador que reensamblará tu código de forma segura.",
+                loaderName: "Nombre del Cargador:",
+                extension: "Extensión:",
+                scriptContent: "Contenido del Script:",
+                maxDivisions: "Máximo de Divisiones:",
+                generateLoader: "Generar Cargador",
+                toggleLang: "Switch to English"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function updateLanguage() {
+            document.getElementById('welcomeTitle').textContent = translations[currentLang].welcomeTitle;
+            document.getElementById('description').textContent = translations[currentLang].description;
+            document.querySelector('label[for="n"]').textContent = translations[currentLang].loaderName;
+            document.querySelector('label[for="extension"]').textContent = translations[currentLang].extension;
+            document.querySelector('label[for="co"]').textContent = translations[currentLang].scriptContent;
+            document.querySelector('label[for="maxDivisiones"]').textContent = translations[currentLang].maxDivisions;
+            document.querySelector('button[type="submit"]').textContent = translations[currentLang].generateLoader;
+            document.getElementById('toggleLang').textContent = translations[currentLang].toggleLang;
+        }
+
+        document.getElementById('toggleLang').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            updateLanguage();
+        });
+
+        updateLanguage();
+    </script>
+    <script src="loader.js"></script>
+</body>
+</html>
