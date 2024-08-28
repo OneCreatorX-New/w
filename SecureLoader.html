@@ -48,8 +48,7 @@
             <div>
                 <label for="extension" class="block text-sm font-medium mb-1">Extension:</label>
                 <select id="extension" required class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <option value="juan">/juan</option>
-                    <!-- Add more options here as needed -->
+                    <option value="/">/</option>
                 </select>
             </div>
             <div>
@@ -77,7 +76,6 @@
     </div>
 
     <script>
-        // Three.js background animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-animation'), alpha: true });
@@ -99,14 +97,12 @@
 
         animate();
 
-        // Resize handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Language toggle
         const translations = {
             en: {
                 welcomeTitle: "Welcome to Secure Loader Generator [Beta Free]",
