@@ -3,282 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneCreatorX Scripts</title>
+    <title>OneCreatorX - Scrips</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            font-family: 'Fira Code', monospace;
+            background: linear-gradient(-45deg, #0a192f, #112240, #1d3557, #3a506b);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
-            color: #333;
-            min-height: 100vh;
+            color: #8892b0;
         }
-
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        header { text-align: center; padding: 2rem; background-color: rgba(255, 255, 255, 0.8); }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; animation: fadeIn 1s ease-out; color: #333; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        #filtros {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
-        }
-
-        button, input[type="text"] {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.1);
-            color: #333;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover { background-color: rgba(0, 0, 0, 0.2); transform: translateY(-2px); }
-        input[type="text"] { width: 200px; }
-
-        #scripts-principales {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 2rem;
-        }
-
         .script {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 1rem;
+            background-color: rgba(16, 24, 39, 0.8);
             transition: all 0.3s ease;
-            color: #333;
         }
-
-        .script:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
-        .script h2 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #333; }
-
-        .script pre {
-            background-color: rgba(0, 0, 0, 0.1);
-            padding: 0.5rem;
-            border-radius: 5px;
-            overflow-x: auto;
-            color: #333;
+        .script:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        #navegacion {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
+        .btn {
+            @apply px-4 py-2 rounded transition-colors duration-200;
         }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.8);
+        .btn-primary {
+            @apply bg-blue-600 text-white hover:bg-blue-700;
         }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            color: #333;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .btn-juego {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-juego:hover {
-            background-color: #45a049;
-        }
-
-        #modal-bypass .modal-content {
-            color: #333;
-        }
-
-        #modal-bypass input[type="text"],
-        #modal-bypass button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        #modal-bypass button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        #modal-bypass button:hover {
-            background-color: #45a049;
-        }
-
-        #resultado {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-        }
-
-        .script button {
-            margin-right: 5px;
-            margin-bottom: 5px;
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .script button:hover {
-            background-color: #45a049;
-        }
-
-        .dialog-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        .dialog-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .dialog-button:hover {
-            background-color: #45a049;
-        }
-
-        .modal h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .modal p, .modal ul {
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .modal a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-
-        .modal a:hover {
-            text-decoration: underline;
+        .btn-secondary {
+            @apply bg-gray-600 text-white hover:bg-gray-700;
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>OneCreatorX - Scripts</h1>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-gray-900 text-white p-6 text-center">
+        <h1 class="text-4xl font-bold mb-2 animate-pulse">OneCreatorX - Scrips</h1>
+        <p class="text-xl">Explora, Comparte, Aprende</p>
     </header>
 
-    <nav id="filtros">
-        <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <button id="filtro-todos">Todos</button>
-        <button id="filtro-universales">Universales</button>
-        <button id="filtro-juegos">Juegos</button>
-        <button id="mas-antiguos">Más Antiguos</button>
-        <button id="btn-apoyame">Apóyame</button>
-        <button id="btn-bypass-general">Bypass General</button>
+    <nav id="filtros" class="bg-gray-800 p-4 flex justify-center flex-wrap gap-2">
+        <input type="text" id="busqueda" placeholder="Buscar scripts..." class="px-3 py-2 rounded bg-gray-700 text-white">
+        <button id="filtro-todos" class="btn btn-secondary">Todos</button>
+        <button id="filtro-universales" class="btn btn-secondary">Universales</button>
+        <button id="filtro-juegos" class="btn btn-secondary">Juegos</button>
+        <button id="mas-antiguos" class="btn btn-secondary">Más Antiguos</button>
+        <button id="btn-apoyame" class="btn btn-primary">Apóyame</button>
+        <button id="btn-bypass-general" class="btn btn-primary">Bypass General</button>
     </nav>
 
-    <main>
-        <div id="scripts-principales"></div>
-        <div id="navegacion">
-            <button id="anterior">Anterior</button>
-            <span id="info-pagina"></span>
-            <button id="siguiente">Siguiente</button>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div id="scripts-principales" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="navegacion" class="flex justify-center items-center gap-4 mt-8">
+            <button id="anterior" class="btn btn-secondary">Anterior</button>
+            <span id="info-pagina" class="text-white"></span>
+            <button id="siguiente" class="btn btn-secondary">Siguiente</button>
         </div>
     </main>
 
-    <footer>
-        <button id="link-discord">Discord</button>
-        <button id="link-youtube">YouTube</button>
+    <footer class="bg-gray-900 text-white p-4 text-center">
+        <button id="link-discord" class="btn btn-primary mr-2">Discord</button>
+        <button id="link-youtube" class="btn btn-primary">YouTube</button>
     </footer>
 
-    <div id="modal-apoyame" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Apóyame</h2>
-            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
-            <ul>
-                <li>Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                <li><a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+    <div id="modal-apoyame" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Apóyame</h2>
+            <p class="mb-4">Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
+            <ul class="list-disc list-inside mb-4">
+                <li>Accede a los links de PasteDrop</li>
+                <li><a href="https://www.roblox.com/games/17603437456" target="_blank" class="text-blue-600 hover:underline">Haz tus compras en mi juego de Roblox</a></li>
+                <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank" class="text-blue-600 hover:underline">Haz una donación directa a través de PayPal</a></li>
             </ul>
+            <button class="close btn btn-secondary">Cerrar</button>
         </div>
     </div>
 
-    <div id="modal-bypass" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Bypass Executores or Links</h2>
-            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass">Bypass</button>
-            <div id="resultado"></div>
+    <div id="modal-bypass" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Bypass Executores or Links</h2>
+            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789" class="w-full px-3 py-2 mb-4 border rounded">
+            <button id="btnBypass" class="btn btn-primary w-full">Bypass</button>
+            <div id="resultado" class="mt-4 p-2 bg-gray-100 rounded"></div>
+            <button class="close btn btn-secondary mt-4">Cerrar</button>
         </div>
     </div>
 
