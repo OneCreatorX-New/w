@@ -5,263 +5,269 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneCreatorX Scripts</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-color: #0a0e17;
+            --text-color: #e0e0e0;
+            --accent-color: #61dafb;
+            --secondary-color: #282c34;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: #333;
-            min-height: 100vh;
+            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
         }
 
-        header { text-align: center; padding: 2rem; background-color: rgba(255, 255, 255, 0.8); }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; animation: fadeIn 1s ease-out; color: #333; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        header {
+            background-color: var(--secondary-color);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        #filtros {
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
         }
 
         button, input[type="text"] {
+            font-family: 'Fira Code', monospace;
             padding: 0.5rem 1rem;
             border: none;
-            border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.1);
-            color: #333;
+            border-radius: 4px;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        button:hover { background-color: rgba(0, 0, 0, 0.2); transform: translateY(-2px); }
-        input[type="text"] { width: 200px; }
+        button:hover {
+            background-color: #4fa8d1;
+            transform: translateY(-2px);
+        }
 
-        #scripts-principales {
+        input[type="text"] {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        #scripts-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 2rem;
+            gap: 2rem;
+            padding: 2rem 0;
         }
 
-        .script {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 1rem;
+        .script-card {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
-            color: #333;
+            position: relative;
+            overflow: hidden;
         }
 
-        .script:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
-        .script h2 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #333; }
+        .script-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                var(--accent-color) 0deg,
+                transparent 60deg,
+                transparent 300deg,
+                var(--accent-color) 360deg
+            );
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
 
-        .script pre {
-            background-color: rgba(0, 0, 0, 0.1);
-            padding: 0.5rem;
-            border-radius: 5px;
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .script-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(97, 218, 251, 0.2);
+        }
+
+        .script-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .script-content {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 4px;
             overflow-x: auto;
-            color: #333;
+            margin-bottom: 1rem;
         }
 
-        #navegacion {
+        .script-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        #pagination {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
+            margin-top: 2rem;
         }
 
         footer {
+            background-color: var(--secondary-color);
             text-align: center;
-            padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.8);
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #4fa8d1;
         }
 
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 8px;
             max-width: 500px;
-            border-radius: 10px;
-            color: #333;
+            width: 90%;
+            position: relative;
         }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
             cursor: pointer;
         }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
 
-        .btn-juego {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-juego:hover {
-            background-color: #45a049;
-        }
-
-        #modal-bypass .modal-content {
-            color: #333;
-        }
-
-        #modal-bypass input[type="text"],
-        #modal-bypass button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        #modal-bypass button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        #modal-bypass button:hover {
-            background-color: #45a049;
-        }
-
-        #resultado {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-        }
-
-        .script button {
-            margin-right: 5px;
-            margin-bottom: 5px;
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .script button:hover {
-            background-color: #45a049;
-        }
-
-        .dialog-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        .dialog-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .dialog-button:hover {
-            background-color: #45a049;
-        }
-
-        .modal h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .modal p, .modal ul {
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .modal a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-
-        .modal a:hover {
-            text-decoration: underline;
+            .script-card {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>OneCreatorX - Scripts</h1>
+        <canvas class="matrix-bg" id="matrix-canvas"></canvas>
+        <h1>OneCreatorX Scripts</h1>
     </header>
 
-    <nav id="filtros">
-        <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <button id="filtro-todos">Todos</button>
-        <button id="filtro-universales">Universales</button>
-        <button id="filtro-juegos">Juegos</button>
-        <button id="mas-antiguos">Más Antiguos</button>
-        <button id="btn-apoyame">Apóyame</button>
-        <button id="btn-bypass-general">Bypass General</button>
+    <nav>
+        <div class="nav-container container">
+            <input type="text" id="search-input" placeholder="Buscar scripts...">
+            <button id="filter-all">Todos</button>
+            <button id="filter-universal">Universales</button>
+            <button id="filter-games">Juegos</button>
+            <button id="support-btn">Apóyame</button>
+        </div>
     </nav>
 
-    <main>
-        <div id="scripts-principales"></div>
-        <div id="navegacion">
-            <button id="anterior">Anterior</button>
-            <span id="info-pagina"></span>
-            <button id="siguiente">Siguiente</button>
+    <main class="container">
+        <div id="scripts-container"></div>
+        <div id="pagination">
+            <button id="prev-page">Anterior</button>
+            <span id="page-info"></span>
+            <button id="next-page">Siguiente</button>
         </div>
     </main>
 
     <footer>
-        <button id="link-discord">Discord</button>
-        <button id="link-youtube">YouTube</button>
+        <div class="social-links">
+            <a href="https://discord.gg/your-discord" target="_blank">Discord</a>
+            <a href="https://youtube.com/your-channel" target="_blank">YouTube</a>
+        </div>
     </footer>
 
-    <div id="modal-apoyame" class="modal">
+    <div id="support-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close-modal">&times;</span>
             <h2>Apóyame</h2>
             <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
             <ul>
@@ -269,16 +275,6 @@
                 <li><a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
                 <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
             </ul>
-        </div>
-    </div>
-
-    <div id="modal-bypass" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Bypass Executores or Links</h2>
-            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass">Bypass</button>
-            <div id="resultado"></div>
         </div>
     </div>
 
