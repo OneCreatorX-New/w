@@ -4,32 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneCreatorX Scripts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #00ff00;
+            --secondary-color: #0a0a0a;
+            --accent-color: #ff00ff;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: #333;
+            font-family: 'Fira Code', monospace;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
-        header { text-align: center; padding: 2rem; background-color: rgba(255, 255, 255, 0.8); }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; animation: fadeIn 1s ease-out; color: #333; }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid var(--primary-color);
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: glitch 1s linear infinite;
+            text-shadow: 2px 2px var(--accent-color);
+        }
+
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
         }
 
         #filtros {
@@ -38,21 +59,31 @@
             flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         button, input[type="text"] {
             padding: 0.5rem 1rem;
-            border: none;
+            border: 2px solid var(--primary-color);
             border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.1);
-            color: #333;
+            background-color: transparent;
+            color: var(--primary-color);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'Fira Code', monospace;
         }
 
-        button:hover { background-color: rgba(0, 0, 0, 0.2); transform: translateY(-2px); }
-        input[type="text"] { width: 200px; }
+        button:hover {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        input[type="text"] {
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
         #scripts-principales {
             display: grid;
@@ -62,22 +93,30 @@
         }
 
         .script {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary-color);
             border-radius: 10px;
             padding: 1rem;
             transition: all 0.3s ease;
-            color: #333;
         }
 
-        .script:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
-        .script h2 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #333; }
+        .script:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .script h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
 
         .script pre {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 0.5rem;
             border-radius: 5px;
             overflow-x: auto;
-            color: #333;
+            border: 1px solid var(--primary-color);
         }
 
         #navegacion {
@@ -86,13 +125,14 @@
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid var(--primary-color);
         }
 
         .modal {
@@ -103,22 +143,23 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         .modal-content {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: var(--secondary-color);
             margin: 15% auto;
             padding: 20px;
-            border: 1px solid #888;
+            border: 2px solid var(--primary-color);
             width: 80%;
             max-width: 500px;
             border-radius: 10px;
-            color: #333;
+            color: var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-color);
         }
 
         .close {
-            color: #aaa;
+            color: var(--primary-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -127,27 +168,22 @@
 
         .close:hover,
         .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
+            color: var(--accent-color);
         }
 
         .btn-juego {
             display: inline-block;
             padding: 0.5rem 1rem;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .btn-juego:hover {
-            background-color: #45a049;
-        }
-
-        #modal-bypass .modal-content {
-            color: #333;
+            background-color: var(--accent-color);
+            transform: scale(1.05);
         }
 
         #modal-bypass input[type="text"],
@@ -156,118 +192,159 @@
             width: 100%;
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--primary-color);
             border-radius: 4px;
-        }
-
-        #modal-bypass button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--primary-color);
         }
 
         #modal-bypass button:hover {
-            background-color: #45a049;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
         }
 
         #resultado {
             margin-top: 10px;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: rgba(0, 0, 0, 0.5);
             border-radius: 4px;
+            border: 1px solid var(--primary-color);
         }
 
         .script button {
             margin-right: 5px;
             margin-bottom: 5px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
         }
 
         .script button:hover {
-            background-color: #45a049;
+            background-color: var(--accent-color);
         }
 
         .dialog-content {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
             padding: 20px;
             border-radius: 5px;
+            border: 2px solid var(--primary-color);
         }
 
         .dialog-button {
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
 
         .dialog-button:hover {
-            background-color: #45a049;
+            background-color: var(--accent-color);
+            transform: scale(1.05);
         }
 
         .modal h2 {
-            color: #333;
+            color: var(--accent-color);
             margin-bottom: 15px;
         }
 
         .modal p, .modal ul {
-            color: #666;
+            color: var(--primary-color);
             margin-bottom: 10px;
         }
 
         .modal a {
-            color: #4CAF50;
+            color: var(--accent-color);
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .modal a:hover {
             text-decoration: underline;
+            color: var(--primary-color);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .typing-effect::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .script-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .loading-bar {
+            width: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 <body>
+    <div class="loading-bar" id="loadingBar"></div>
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
     <header>
-        <h1>OneCreatorX Scripts</h1>
+        <h1 class="typing-effect">OneCreatorX Scripts</h1>
     </header>
 
     <nav id="filtros">
         <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <button id="filtro-todos">Todos</button>
-        <button id="filtro-universales">Universales</button>
-        <button id="filtro-juegos">Juegos</button>
-        <button id="mas-antiguos">Más Antiguos</button>
-        <button id="btn-apoyame">Apóyame</button>
-        <button id="btn-bypass-general">Bypass General</button>
+        <button id="filtro-todos"><i class="fas fa-globe"></i> Todos</button>
+        <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
+        <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
+        <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
+        <button id="btn-apoyame" class="floating"><i class="fas fa-heart"></i> Apóyame</button>
+        <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
     </nav>
 
     <main>
         <div id="scripts-principales"></div>
         <div id="navegacion">
-            <button id="anterior">Anterior</button>
+            <button id="anterior"><i class="fas fa-chevron-left"></i> Anterior</button>
             <span id="info-pagina"></span>
-            <button id="siguiente">Siguiente</button>
+            <button id="siguiente">Siguiente <i class="fas fa-chevron-right"></i></button>
         </div>
     </main>
 
     <footer>
-        <button id="link-discord">Discord</button>
-        <button id="link-youtube">YouTube</button>
+        <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
+        <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
     </footer>
 
     <div id="modal-apoyame" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Apóyame</h2>
+            <h2><i class="fas fa-heart"></i> Apóyame</h2>
             <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
             <ul>
-                <li>Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                <li><a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
+                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
+                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
             </ul>
         </div>
     </div>
@@ -275,13 +352,87 @@
     <div id="modal-bypass" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Bypass Executores or Links</h2>
+            <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
             <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass">Bypass</button>
+            <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
             <div id="resultado"></div>
         </div>
     </div>
 
     <script src="main.js"></script>
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const loadingBar = document.getElementById('loadingBar');
+        let progress = 0;
+
+        function updateLoadingBar() {
+            progress += 1;
+            loadingBar.style.width = `${progress}%`;
+            if (progress < 100) {
+                requestAnimationFrame(updateLoadingBar);
+            } else {
+                setTimeout(() => {
+                    loadingBar.style.width = '0';
+                    progress = 0;
+                }, 500);
+            }
+        }
+
+        window.addEventListener('load', updateLoadingBar);
+
+        const typingEffect = document.querySelector('.typing-effect');
+        const text = typingEffect.textContent;
+        typingEffect.textContent = '';
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                typingEffect.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+
+        typeWriter();
+    </script>
 </body>
 </html>
