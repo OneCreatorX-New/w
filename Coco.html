@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coco Scripts</title>
+    <title>Coco Scripts - Hello Kitty Edition</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFC0CB;
+            --accent-color: #FF1493;
+            --text-color: #333;
+            --background-color: #FFF0F5;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background: url('https://i.pinimg.com/originals/8c/98/99/8c98994518b575bfd8c949e91d20548b.gif') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
             min-height: 100vh;
+            background-image: url('https://i.pinimg.com/originals/83/64/66/83646654668bf9ae412f45bb2e417ddf.gif');
+            background-size: cover;
+            background-attachment: fixed;
         }
 
         .overlay {
@@ -26,20 +37,21 @@
             text-align: center;
             padding: 2rem;
             background-color: rgba(255, 255, 255, 0.8);
+            border-bottom: 5px solid var(--primary-color);
         }
 
         h1 {
-            font-family: 'Pacifico', cursive;
+            font-family: 'Poppins', sans-serif;
             font-size: 3rem;
             margin-bottom: 1rem;
-            animation: fadeIn 1s ease-out;
-            color: #FF69B4;
+            color: var(--primary-color);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 2s infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         #filtros {
@@ -55,22 +67,22 @@
             padding: 0.5rem 1rem;
             border: none;
             border-radius: 25px;
-            background-color: #FFB6C1;
-            color: #333;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         button:hover {
-            background-color: #FF69B4;
+            background-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         input[type="text"] {
             width: 200px;
-            background-color: #FFF0F5;
+            background-color: white;
         }
 
         #scripts-principales {
@@ -85,8 +97,9 @@
             border-radius: 20px;
             padding: 1rem;
             transition: all 0.3s ease;
-            color: #333;
+            color: var(--text-color);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary-color);
         }
 
         .script:hover {
@@ -97,15 +110,16 @@
         .script h2 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
-            color: #FF1493;
+            color: var(--accent-color);
         }
 
         .script pre {
-            background-color: #FFF0F5;
+            background-color: white;
             padding: 0.5rem;
             border-radius: 10px;
             overflow-x: auto;
-            color: #333;
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
         }
 
         #navegacion {
@@ -121,6 +135,7 @@
             text-align: center;
             padding: 1rem;
             background-color: rgba(255, 255, 255, 0.8);
+            border-top: 5px solid var(--primary-color);
         }
 
         .modal {
@@ -135,19 +150,19 @@
         }
 
         .modal-content {
-            background-color: #FFF0F5;
+            background-color: white;
             margin: 15% auto;
             padding: 20px;
-            border: 1px solid #FF69B4;
+            border: 2px solid var(--primary-color);
             width: 80%;
             max-width: 500px;
             border-radius: 20px;
-            color: #333;
+            color: var(--text-color);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .close {
-            color: #FF69B4;
+            color: var(--primary-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -156,7 +171,7 @@
 
         .close:hover,
         .close:focus {
-            color: #FF1493;
+            color: var(--accent-color);
             text-decoration: none;
             cursor: pointer;
         }
@@ -164,7 +179,7 @@
         .btn-juego {
             display: inline-block;
             padding: 0.5rem 1rem;
-            background-color: #FF69B4;
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
             border-radius: 25px;
@@ -172,11 +187,11 @@
         }
 
         .btn-juego:hover {
-            background-color: #FF1493;
+            background-color: var(--accent-color);
         }
 
         #modal-bypass .modal-content {
-            color: #333;
+            color: var(--text-color);
         }
 
         #modal-bypass input[type="text"],
@@ -185,48 +200,49 @@
             width: 100%;
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #FFB6C1;
+            border: 1px solid var(--secondary-color);
             border-radius: 25px;
         }
 
         #modal-bypass button {
-            background-color: #FF69B4;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             cursor: pointer;
         }
 
         #modal-bypass button:hover {
-            background-color: #FF1493;
+            background-color: var(--accent-color);
         }
 
         #resultado {
             margin-top: 10px;
             padding: 10px;
-            background-color: #FFF0F5;
+            background-color: white;
             border-radius: 10px;
+            border: 1px solid var(--primary-color);
         }
 
         .script button {
             margin-right: 5px;
             margin-bottom: 5px;
-            background-color: #FF69B4;
+            background-color: var(--primary-color);
             color: white;
         }
 
         .script button:hover {
-            background-color: #FF1493;
+            background-color: var(--accent-color);
         }
 
         .dialog-content {
-            background-color: #FFF0F5;
-            color: #333;
+            background-color: white;
+            color: var(--text-color);
             padding: 20px;
             border-radius: 20px;
         }
 
         .dialog-button {
-            background-color: #FF69B4;
+            background-color: var(--primary-color);
             color: white;
             padding: 10px 20px;
             border: none;
@@ -236,105 +252,133 @@
         }
 
         .dialog-button:hover {
-            background-color: #FF1493;
+            background-color: var(--accent-color);
         }
 
         .modal h2 {
-            color: #FF1493;
+            color: var(--accent-color);
             margin-bottom: 15px;
         }
 
         .modal p, .modal ul {
-            color: #666;
+            color: var(--text-color);
             margin-bottom: 10px;
         }
 
         .modal a {
-            color: #FF69B4;
+            color: var(--primary-color);
             text-decoration: none;
         }
 
         .modal a:hover {
             text-decoration: underline;
-            color: #FF1493;
+            color: var(--accent-color);
         }
 
-        /* Animación de corazones flotantes */
-        @keyframes floatingHearts {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
-        .heart {
+        .hello-kitty-icon {
             position: fixed;
-            bottom: -100px;
-            background-color: #FF69B4;
-            height: 30px;
-            width: 30px;
-            transform: rotate(45deg);
-            animation: floatingHearts 15s infinite linear;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 9999;
         }
 
-        .heart::before,
-        .heart::after {
-            content: '';
-            background-color: #FF69B4;
-            border-radius: 50%;
-            height: 30px;
-            position: absolute;
-            width: 30px;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        .heart::before {
-            top: -15px;
-            left: 0;
+        .floating {
+            animation: float 3s ease-in-out infinite;
         }
 
-        .heart::after {
-            left: 15px;
+        .ribbon {
+            width: 100%;
+            height: 40px;
+            background-color: var(--primary-color);
+            position: fixed;
             top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .ribbon::before,
+        .ribbon::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            width: 0;
+            height: 0;
+            border-top: 20px solid var(--primary-color);
+            border-bottom: 20px solid transparent;
+        }
+
+        .ribbon::before {
+            left: 0;
+            border-left: 20px solid transparent;
+        }
+
+        .ribbon::after {
+            right: 0;
+            border-right: 20px solid transparent;
+        }
+
+        .glitter {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: twinkle 1.5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
+    <div class="ribbon"></div>
     <div class="overlay">
         <header>
-            <h1>Coco - Scripts</h1>
+            <h1><i class="fas fa-heart"></i> Coco - Scripts <i class="fas fa-heart"></i></h1>
         </header>
 
         <nav id="filtros">
             <input type="text" id="busqueda" placeholder="Buscar scripts...">
-            <button id="filtro-todos">Todos</button>
-            <button id="filtro-universales">Universales</button>
-            <button id="filtro-juegos">Juegos</button>
-            <button id="mas-antiguos">Más Antiguos</button>
-            <button id="btn-apoyame">Apóyame</button>
-            <button id="btn-bypass-general">Bypass General</button>
+            <button id="filtro-todos"><i class="fas fa-star"></i> Todos</button>
+            <button id="filtro-universales"><i class="fas fa-globe"></i> Universales</button>
+            <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
+            <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
+            <button id="btn-apoyame" class="floating"><i class="fas fa-gift"></i> Apóyame</button>
+            <button id="btn-bypass-general"><i class="fas fa-unlock-alt"></i> Bypass General</button>
         </nav>
 
         <main>
             <div id="scripts-principales"></div>
             <div id="navegacion">
-                <button id="anterior">Anterior</button>
+                <button id="anterior"><i class="fas fa-chevron-left"></i> Anterior</button>
                 <span id="info-pagina"></span>
-                <button id="siguiente">Siguiente</button>
+                <button id="siguiente">Siguiente <i class="fas fa-chevron-right"></i></button>
             </div>
         </main>
 
         <footer>
-            <button id="link-discord">Discord</button>
-            <button id="link-youtube">YouTube</button>
+            <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
+            <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
         </footer>
 
         <div id="modal-apoyame" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Apóyame</h2>
+                <h2><i class="fas fa-gift"></i> Apóyame</h2>
                 <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
                 <ul>
-                    <li>Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                    <li><a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                    <li><a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+                    <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
+                    <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
+                    <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
                 </ul>
             </div>
         </div>
@@ -342,22 +386,46 @@
         <div id="modal-bypass" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Bypass Executores or Links</h2>
+                <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
                 <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-                <button id="btnBypass">Bypass</button>
+                <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
                 <div id="resultado"></div>
             </div>
         </div>
     </div>
 
-    <div class="heart" style="left: 5%; animation-duration: 20s;"></div>
-    <div class="heart" style="left: 15%; animation-duration: 18s; animation-delay: 1s;"></div>
-    <div class="heart" style="left: 30%; animation-duration: 22s; animation-delay: 2s;"></div>
-    <div class="heart" style="left: 45%; animation-duration: 19s; animation-delay: 3s;"></div>
-    <div class="heart" style="left: 60%; animation-duration: 21s; animation-delay: 4s;"></div>
-    <div class="heart" style="left: 75%; animation-duration: 17s; animation-delay: 5s;"></div>
-    <div class="heart" style="left: 90%; animation-duration: 23s; animation-delay: 6s;"></div>
+    <img src="https://i.pinimg.com/originals/3c/41/6c/3c416c7b1048b6c3245c5f1d4d16df41.gif" alt="Hello Kitty" class="hello-kitty-icon floating" style="top: 60px; left: 20px;">
+    <img src="https://i.pinimg.com/originals/3c/41/6c/3c416c7b1048b6c3245c5f1d4d16df41.gif" alt="Hello Kitty" class="hello-kitty-icon floating" style="bottom: 60px; right: 20px;">
 
     <script src="coco.js"></script>
+    <script>
+        function addGlitter() {
+            const glitter = document.createElement('div');
+            glitter.classList.add('glitter');
+            glitter.style.left = Math.random() * window.innerWidth + 'px';
+            glitter.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(glitter);
+
+            setTimeout(() => {
+                glitter.remove();
+            }, 1500);
+        }
+
+        setInterval(addGl
+
+itter, 200);
+
+        // Hello Kitty cursor
+        document.body.style.cursor = `url('https://cur.cursors-4u.net/toons/too-10/too908.cur'), auto`;
+
+        // Floating Hello Kitty animation
+        const helloKittyIcons = document.querySelectorAll('.hello-kitty-icon');
+        helloKittyIcons.forEach(icon => {
+            icon.style.transition = 'transform 2s ease-in-out';
+            setInterval(() => {
+                icon.style.transform = `translateY(${Math.sin(Date.now() / 1000) * 10}px)`;
+            }, 50);
+        });
+    </script>
 </body>
 </html>
