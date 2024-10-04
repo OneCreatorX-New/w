@@ -150,18 +150,11 @@
             color: var(--accent-color);
         }
 
-        .script pre {
-            background-color: white;
-            padding: 0.5rem;
-            border-radius: 10px;
-            overflow-x: auto;
-            color: var(--text-color);
-            border: 1px solid var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .script:hover pre {
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        .script button, .script .btn-juego {
+            margin-top: 0.5rem;
+            margin-right: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
         }
 
         #navegacion {
@@ -225,82 +218,6 @@
             color: var(--accent-color);
         }
 
-        .cute-character {
-            position: fixed;
-            width: 100px;
-            height: 100px;
-            pointer-events: none;
-            z-index: 9999;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        .ribbon {
-            width: 150px;
-            height: 150px;
-            position: absolute;
-            overflow: hidden;
-            top: 0;
-            right: 0;
-        }
-
-        .ribbon::before,
-        .ribbon::after {
-            position: absolute;
-            z-index: -1;
-            content: '';
-            display: block;
-            border: 5px solid var(--primary-color);
-            border-top-color: transparent;
-            border-right-color: transparent;
-        }
-
-        .ribbon::before {
-            top: 0;
-            left: 0;
-        }
-
-        .ribbon::after {
-            bottom: 0;
-            right: 0;
-        }
-
-        .ribbon span {
-            position: absolute;
-            display: block;
-            width: 225px;
-            padding: 15px 0;
-            background-color: var(--primary-color);
-            box-shadow: 0 5px 10px rgba(0,0,0,.1);
-            color: #fff;
-            font: 700 18px/1 'Lato', sans-serif;
-            text-shadow: 0 1px 1px rgba(0,0,0,.2);
-            text-transform: uppercase;
-            text-align: center;
-            right: -25px;
-            top: 30px;
-            transform: rotate(45deg);
-        }
-
-        .glitter {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            animation: twinkle 1.5s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
         .btn-juego {
             display: inline-block;
             padding: 0.5rem 1rem;
@@ -310,7 +227,6 @@
             border-radius: 25px;
             transition: all 0.3s ease;
             font-weight: bold;
-            margin-top: 10px;
         }
 
         .btn-juego:hover {
@@ -370,7 +286,6 @@
         <header>
             <h1><i class="fas fa-heart cute-icon"></i> Coco Scripts <i class="fas fa-heart cute-icon"></i></h1>
             <p>Discover all of Coco's amazing scripts in one adorable place!</p>
-            <div class="ribbon"><span>Cute & Powerful</span></div>
         </header>
 
         <nav id="filtros">
@@ -379,7 +294,7 @@
             <button id="filtro-universales"><i class="fas fa-globe cute-icon"></i> Universal</button>
             <button id="filtro-juegos"><i class="fas fa-gamepad cute-icon"></i> Games</button>
             <button id="mas-antiguos"><i class="fas fa-history cute-icon"></i> Oldest</button>
-            <button id="btn-apoyame" class="floating"><i class="fas fa-gift cute-icon"></i> Support Me</button>
+            <button id="btn-apoyame"><i class="fas fa-gift cute-icon"></i> Support Me</button>
             <button id="btn-bypass-general"><i class="fas fa-unlock-alt cute-icon"></i> General Bypass</button>
         </nav>
 
@@ -421,39 +336,10 @@
         </div>
     </div>
 
-    <img src="https://i.pinimg.com/originals/fb/43/4c/fb434ce85f83c6bb73ce82de0d858c1c.png" alt="Cute Character" class="cute-character" style="top: 60px; left: 20px;">
-    <img src="https://i.pinimg.com/originals/2b/70/c8/2b70c8b4c2f3f3b5b69f6e6d7a1d2d1d.png" alt="Cute Character" class="cute-character" style="bottom: 60px; right: 20px;">
-
     <div class="heart-bg"></div>
 
     <script src="coco.js"></script>
     <script>
-        function addGlitter() {
-            const glitter = document.createElement('div');
-            glitter.classList.add('glitter');
-            glitter.style.left = Math.random() * window.innerWidth + 'px';
-            glitter.style.top = Math.random() * window.innerHeight + 'px';
-            document.body.appendChild(glitter);
-
-            setTimeout(() => {
-                glitter.remove();
-            }, 1500);
-        }
-
-        setInterval(addGlitter, 200);
-
-        document.body.style.cursor = `url('https://cur.cursors-4u.net/toons/too-10/too908.cur'), auto`;
-
-        const cuteCharacters = document.querySelectorAll('.cute-character');
-        cuteCharacters.forEach(character => {
-            character.style.transition = 'transform 2s ease-in-out';
-            setInterval(() => {
-                const randomX = Math.sin(Date.now() / 1000) * 10;
-                const randomY = Math.cos(Date.now() / 1500) * 10;
-                character.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomX}deg)`;
-            }, 50);
-        });
-
         function createHearts() {
             const heartBg = document.querySelector('.heart-bg');
             for (let i = 0; i < 20; i++) {
