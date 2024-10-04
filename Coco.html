@@ -128,9 +128,10 @@
             background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
             opacity: 0;
             transition: opacity 0.3s;
+            pointer-events: none;
         }
 
-        .script:hover::before, .script:focus::before, .script:active::before {
+        .script:hover::before {
             opacity: 1;
             animation: shine 1.5s infinite;
         }
@@ -140,7 +141,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        .script:hover, .script:focus, .script:active {
+        .script:hover {
             transform: translateY(-5px) scale(1.03);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
@@ -156,6 +157,8 @@
             margin-right: 0.5rem;
             padding: 0.3rem 0.8rem;
             font-size: 0.9rem;
+            z-index: 10;
+            position: relative;
         }
 
         #navegacion {
