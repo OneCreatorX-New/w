@@ -79,9 +79,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            touch-action: manipulation;
         }
 
-        button:hover {
+        button:hover, button:focus, button:active {
             background-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -129,7 +130,7 @@
             transition: opacity 0.3s;
         }
 
-        .script:hover::before {
+        .script:hover::before, .script:focus::before, .script:active::before {
             opacity: 1;
             animation: shine 1.5s infinite;
         }
@@ -139,7 +140,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        .script:hover {
+        .script:hover, .script:focus, .script:active {
             transform: translateY(-5px) scale(1.03);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
@@ -213,8 +214,7 @@
             transition: color 0.3s;
         }
 
-        .close:hover,
-        .close:focus {
+        .close:hover, .close:focus {
             color: var(--accent-color);
         }
 
@@ -229,7 +229,7 @@
             font-weight: bold;
         }
 
-        .btn-juego:hover {
+        .btn-juego:hover, .btn-juego:focus, .btn-juego:active {
             background-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -278,6 +278,25 @@
         .heart::after {
             top: 0;
             left: -10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #filtros {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            #scripts-principales {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
