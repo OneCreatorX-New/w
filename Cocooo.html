@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coco Scripts - Cute & Powerful</title>
+    <meta name="description" content="Discover all of Coco's amazing scripts in one adorable place!">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFC0CB;
+            --accent-color: #FF1493;
+            --text-color: #333;
+            --background-color: #FFF0F5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            background-image: url('https://i.pinimg.com/originals/83/64/66/83646654668bf9ae412f45bb2e417ddf.gif');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .overlay {
+            background-color: rgba(255, 192, 203, 0.7);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-bottom: 5px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #filtros {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.6);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        button, input[type="text"] {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: 200px;
+            background-color: white;
+        }
+
+        #scripts-principales {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .script {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .script::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .script:hover::before {
+            opacity: 1;
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .script:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .script h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .script pre {
+            background-color: white;
+            padding: 0.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .script:hover pre {
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        #navegacion {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 5px solid var(--primary-color);
+            margin-top: auto;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 2px solid var(--primary-color);
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+            color: var(--text-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: var(--primary-color);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: var(--accent-color);
+        }
+
+        .hello-kitty {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .ribbon {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            overflow: hidden;
+            top: 0;
+            right: 0;
+        }
+
+        .ribbon::before,
+        .ribbon::after {
+            position: absolute;
+            z-index: -1;
+            content: '';
+            display: block;
+            border: 5px solid var(--primary-color);
+            border-top-color: transparent;
+            border-right-color: transparent;
+        }
+
+        .ribbon::before {
+            top: 0;
+            left: 0;
+        }
+
+        .ribbon::after {
+            bottom: 0;
+            right: 0;
+        }
+
+        .ribbon span {
+            position: absolute;
+            display: block;
+            width: 225px;
+            padding: 15px 0;
+            background-color: var(--primary-color);
+            box-shadow: 0 5px 10px rgba(0,0,0,.1);
+            color: #fff;
+            font: 700 18px/1 'Lato', sans-serif;
+            text-shadow: 0 1px 1px rgba(0,0,0,.2);
+            text-transform: uppercase;
+            text-align: center;
+            right: -25px;
+            top: 30px;
+            transform: rotate(45deg);
+        }
+
+        .glitter {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: twinkle 1.5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <h1><i class="fas fa-heart"></i> Coco Scripts <i class="fas fa-heart"></i></h1>
+            <p>Discover all of Coco's amazing scripts in one adorable place!</p>
+            <div class="ribbon"><span>Cute & Powerful</span></div>
+        </header>
+
+        <nav id="filtros">
+            <input type="text" id="busqueda" placeholder="Search scripts...">
+            <button id="filtro-todos"><i class="fas fa-star"></i> All</button>
+            <button id="filtro-universales"><i class="fas fa-globe"></i> Universal</button>
+            <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Games</button>
+            <button id="mas-antiguos"><i class="fas fa-history"></i> Oldest</button>
+            <button id="btn-apoyame" class="floating"><i class="fas fa-gift"></i> Support Me</button>
+            <button id="btn-bypass-general"><i class="fas fa-unlock-alt"></i> General Bypass</button>
+        </nav>
+
+        <main>
+            <div id="scripts-principales"></div>
+            <div id="navegacion">
+                <button id="anterior"><i class="fas fa-chevron-left"></i> Previous</button>
+                <span id="info-pagina"></span>
+                <button id="siguiente">Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </main>
+
+        <footer>
+            <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
+            <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
+        </footer>
+
+        <div id="modal-apoyame" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2><i class="fas fa-gift"></i> Support Me</h2>
+                <p>If you want to support me to keep creating content, you can do so in the following ways:</p>
+                <ul>
+                    <li><i class="fas fa-link"></i> Access PasteDrop links: These help me generate a small income.</li>
+                    <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Make your purchases in my Roblox game</a></li>
+                    <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Make a direct donation through PayPal</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-bypass" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2><i class="fas fa-unlock-alt"></i> Bypass Executors or Links</h2>
+                <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
+                <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
+                <div id="resultado"></div>
+            </div>
+        </div>
+    </div>
+
+    <img src="https://i.pinimg.com/originals/dc/64/1e/dc641e4bb9e3db60897f8f8bfb69b37d.png" alt="Hello Kitty" class="hello-kitty" style="top: 60px; left: 20px;">
+    <img src="https://i.pinimg.com/originals/dc/64/1e/dc641e4bb9e3db60897f8f8bfb69b37d.png" alt="Hello Kitty" class="hello-kitty" style="bottom: 60px; right: 20px;">
+
+    <script src="coco.js"></script>
+    <script>
+        function addGlitter() {
+            const glitter = document.createElement('div');
+            glitter.classList.add('glitter');
+            glitter.style.left = Math.random() * window.innerWidth + 'px';
+            glitter.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(glitter);
+
+            setTimeout(() => {
+                glitter.remove();
+            }, 1500);
+        }
+
+        setInterval(addGlitter, 200);
+
+        document.body.style.cursor = `url('https://cur.cursors-4u.net/toons/too-10/too908.cur'), auto`;
+
+        const helloKittyIcons = document.querySelectorAll('.hello-kitty');
+        helloKittyIcons.forEach(icon => {
+            icon.style.transition = 
+ 'transform 2s ease-in-out';
+            setInterval(() => {
+                const randomX = Math.sin(Date.now() / 1000) * 10;
+                const randomY = Math.cos(Date.now() / 1500) * 10;
+                icon.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomX}deg)`;
+            }, 50);
+        });
+    </script>
+</body>
+</html>
