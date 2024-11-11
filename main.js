@@ -200,7 +200,7 @@ async function rB() {
             sB(u, data);
             
             if (data.success) {
-                displayBypassResult(data);
+                await displayBypassResult(data.result);
             } else {
                 displayBypassResult({ error: data.error || await getNotificationText('URL_PROCESS_FAILED') });
             }
@@ -215,36 +215,43 @@ async function rB() {
     }
 }
 
-async function displayBypassResult(data) {
+async function displayBypassResult(result, isAutoBypass = false) {
     const resultDiv = document.getElementById('resultado');
-    let content = `<h3>${data.error ? await getNotificationText('ERROR') : await getNotificationText('BYPASS_RESULT')}</h3>`;
+    let content = resultDiv.innerHTML;
     
-    if (data.error) {
-        content += `<p>${data.error}</p>`;
+    if (typeof result === 'object' && result.error) {
+        content += `<h3>${await getNotificationText('ERROR')}</h3><p>${result.error}</p>`;
     } else {
-        let finalResult = data.result;
-        if (isValidUrl(finalResult)) {
-            const autoBypassResponse = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(finalResult)}`);
+        const title = isAutoBypass ? await getNotificationText('AUTO_BYPASS_RESULT') : await getNotificationText('BYPASS_RESULT');
+        content += `
+            <div class="bypass-result">
+                <h3>${title}</h3>
+                <p class="result-text">${result}</p>
+                <button class="copy-result" data-result="${result}">${await getNotificationText('COPY_RESULT')}</button>
+            </div>
+        `;
+        
+        if (isValidUrl(result) && !isAutoBypass) {
+            const autoBypassResponse = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(result)}`);
             const autoBypassData = await autoBypassResponse.json();
             if (autoBypassData.success) {
-                finalResult = autoBypassData.result;
+                await displayBypassResult(autoBypassData.result, true);
             }
         }
-        content += `<p>${finalResult}</p>`;
     }
-    
-    content += `<button id="copyResult">${await getNotificationText('COPY_RESULT')}</button>`;
     
     resultDiv.innerHTML = content;
     resultDiv.style.display = 'block';
     
-    document.getElementById('copyResult').addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText(finalResult);
-            showNotification('RESULT_COPIED');
-        } catch (err) {
-            console.error('Error al copiar: ', err);
-        }
+    document.querySelectorAll('.copy-result').forEach(button => {
+        button.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(button.dataset.result);
+                showNotification('RESULT_COPIED');
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+            }
+        });
     });
 }
 
