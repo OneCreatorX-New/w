@@ -1,4 +1,4 @@
-const WORKER_DOMAIN = 'https://bypasss.brunotoledo526.workers.dev';
+const WORKER_DOMAIN = 'https://bypass.api-x.site';
 let sM = 0, sPP = 110, s = [], pA = 0, sO = [], fA = "todos";
 let lastActionTime = 0;
 
