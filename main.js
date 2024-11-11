@@ -191,18 +191,15 @@ async function rB() {
                 }
             }, 1000);
 
-            const response = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(u)}`);
-            const data = await response.json();
-            
+            let result = await performBypass(u);
             clearInterval(textInterval);
             loadingAnimation.style.display = 'none';
             
-            sB(u, data);
-            
-            if (data.success) {
-                await displayBypassResult(data.result);
+            if (result.success) {
+                await displayBypassResult(result.result);
+                await attemptAutoBypass(result.result);
             } else {
-                displayBypassResult({ error: data.error || await getNotificationText('URL_PROCESS_FAILED') });
+                displayBypassResult({ error: result.error || await getNotificationText('URL_PROCESS_FAILED') });
             }
         } catch (e) {
             console.error('Error al obtener la respuesta:', e);
@@ -212,6 +209,38 @@ async function rB() {
         }
     } else {
         showNotification('ENTER_VALID_URL');
+    }
+}
+
+async function performBypass(url, retryCount = 0) {
+    try {
+        const response = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(url)}`);
+        const data = await response.json();
+        if (!data.success && retryCount < 10) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return performBypass(url, retryCount + 1);
+        }
+        return data;
+    } catch (error) {
+        if (retryCount < 10) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return performBypass(url, retryCount + 1);
+        }
+        throw error;
+    }
+}
+
+async function attemptAutoBypass(result) {
+    if (isValidUrl(result)) {
+        showNotification('AUTO_BYPASS_ATTEMPT');
+        try {
+            const autoBypassResult = await performBypass(result);
+            if (autoBypassResult.success) {
+                await displayBypassResult(autoBypassResult.result, true);
+            }
+        } catch (error) {
+            console.error('Error en auto-bypass:', error);
+        }
     }
 }
 
@@ -230,14 +259,6 @@ async function displayBypassResult(result, isAutoBypass = false) {
                 <button class="copy-result" data-result="${result}">${await getNotificationText('COPY_RESULT')}</button>
             </div>
         `;
-        
-        if (isValidUrl(result) && !isAutoBypass) {
-            const autoBypassResponse = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(result)}`);
-            const autoBypassData = await autoBypassResponse.json();
-            if (autoBypassData.success) {
-                await displayBypassResult(autoBypassData.result, true);
-            }
-        }
     }
     
     resultDiv.innerHTML = content;
