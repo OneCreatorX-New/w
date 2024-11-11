@@ -55,7 +55,7 @@ function setEL() {
             this.closest('.modal').style.display = 'none';
         });
     });
-    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/onecreatorx', '_blank'));
+    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/gE5eCjDj8r', '_blank'));
     document.getElementById('link-youtube').addEventListener('click', () => window.open('https://www.youtube.com/@OneCreatorX', '_blank'));
 }
 
@@ -137,7 +137,7 @@ async function cpS(id, title) {
             await navigator.clipboard.writeText(script.loader);
             showNotification('SCRIPT_COPIED');
             
-            // Send webhook for copy action
+
             await sendWebhook('copy', { scriptName: title, clientIp: clientIdentifier });
         } catch (err) {
             console.error('Error al copiar: ', err);
@@ -151,7 +151,6 @@ async function shS(title, id) {
         await navigator.clipboard.writeText(url);
         showNotification('LINK_COPIED');
         
-        // Send webhook for share action
         await sendWebhook('share', { scriptName: title, sharedUrl: url, clientIp: clientIdentifier });
     } catch (err) {
         console.error('Error al copiar: ', err);
