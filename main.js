@@ -140,8 +140,18 @@ async function shS(title, id) {
     try {
         await navigator.clipboard.writeText(url);
         showNotification('LINK_COPIED');
+        const script = s.find(s => s.id === id);
+        if (script) {
+            await sendWebhook('share', { 
+                script: title, 
+                id: id, 
+                url: url,
+                isGame: script.isGame,
+                description: script.d || 'No description available'
+            });
+        }
     } catch (err) {
-        console.error('Error al copiar: ', err);
+        console.error('Error al copiar o enviar webhook: ', err);
     }
 }
 
@@ -180,16 +190,10 @@ async function rB() {
             clearInterval(textInterval);
             loadingAnimation.style.display = 'none';
             
-            sB(u, data);
-            
-            if (data.success) {
-                displayBypassResult(data.result || await getNotificationText('URL_PROCESSED'), data.steps);
-            } else {
-                displayBypassResult(`${await getNotificationText('ERROR')}: ${data.error || await getNotificationText('URL_PROCESS_FAILED')}`, data.steps, true);
-            }
+            displayBypassResult(data);
         } catch (e) {
             console.error('Error al obtener la respuesta:', e);
-            displayBypassResult(await getNotificationText('REQUEST_PROCESS_ERROR'), [], true);
+            displayBypassResult({ error: await getNotificationText('REQUEST_PROCESS_ERROR') });
         } finally {
             document.getElementById('btnBypass').disabled = false;
         }
@@ -198,24 +202,36 @@ async function rB() {
     }
 }
 
-async function displayBypassResult(result, steps, isError = false) {
+async function displayBypassResult(data) {
     const resultDiv = document.getElementById('resultado');
-    let content = `<h3>${isError ? await getNotificationText('ERROR') : await getNotificationText('BYPASS_RESULT')}</h3>`;
+    let content = `<h3>${await getNotificationText('BYPASS_RESULT')}</h3>`;
     
-    if (steps && steps.length > 0) {
-        for (let i = 0; i < steps.length; i++) {
-            const step = steps[i];
-            content += `<h4>${await getNotificationText('STEP')} ${i + 1}: ${step.description}</h4>`;
-            content += `<pre>${step.result}</pre>`;
+    if (data.error) {
+        content += `<p>${data.error}</p>`;
+    } else if (data.result) {
+        content += `<p>Result: ${data.result}</p>`;
+        
+        if (isUrl(data.result) && data.result !== data.url) {
+            content += `<h4>${await getNotificationText('AUTO_BYPASS_RESULT')}</h4>`;
+            content += `<div id="autoBypassLoading" class="loading-animation">
+                            <p class="terminal-line"></p>
+                        </div>`;
             
-            if (step.description === await getNotificationText('CLEAN_URL_DETECTED')) {
-                content += `<h4>${await getNotificationText('AUTO_BYPASS_RESULT')}:</h4>`;
-                content += `<pre>${steps[i + 1].result}</pre>`;
+            resultDiv.innerHTML = content;
+            
+            const autoBypassResponse = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(data.result)}`);
+            const autoBypassData = await autoBypassResponse.json();
+            
+            document.getElementById('autoBypassLoading').style.display = 'none';
+            
+            if (autoBypassData.result && autoBypassData.result !== data.result) {
+                content += `<p>Result: ${autoBypassData.result}</p>`;
+            } else {
+                content += `<p>No further bypass possible.</p>`;
             }
         }
     }
     
-    content += `<h4>${await getNotificationText('FINAL_RESULT')}:</h4><pre>${result}</pre>`;
     content += `<button id="copyResult">${await getNotificationText('COPY_RESULT')}</button>`;
     
     resultDiv.innerHTML = content;
@@ -223,7 +239,7 @@ async function displayBypassResult(result, steps, isError = false) {
     
     document.getElementById('copyResult').addEventListener('click', async () => {
         try {
-            await navigator.clipboard.writeText(result);
+            await navigator.clipboard.writeText(data.result || data.error);
             showNotification('RESULT_COPIED');
         } catch (err) {
             console.error('Error al copiar: ', err);
@@ -231,8 +247,14 @@ async function displayBypassResult(result, steps, isError = false) {
     });
 }
 
-function sB(url, data) {
-    sendWebhook('bypass', { url, result: data });
+function isUrl(str) {
+    const pattern = new RegExp('^(https?:\\/\\/)?'+ 
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ 
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ 
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ 
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ 
+        '(\\#[-a-z\\d_]*)?$','i');
+    return pattern.test(str);
 }
 
 function shwMS() {
@@ -354,8 +376,8 @@ async function showSharedScriptModal(script) {
             <h2>${script.t}</h2>
             ${script.d ? `<p>${script.d}</p>` : ''}
             <div class="dialog-buttons">
-                <button onclick="cpS('${script.id}', '${script.t}')" class="dialog-button">${await getNotificationText('COPY_SCRIPT')}</button>
-                ${script.isGame ? `<a href="${script.url}" target="_blank" class="dialog-button">${await getNotificationText('GO_TO_GAME')}</a>` : ''}
+                <button onclick="cpS('${script.id}', '${script.t}')" >${await getNotificationText('COPY_SCRIPT')}</button>
+                ${script.isGame ? `<a href="${script.url}" target="_blank">${await getNotificationText('GO_TO_GAME')}</a>` : ''}
             </div>
             <button class="close-button" onclick="this.closest('.modal-shared').remove()">×</button>
         </div>
