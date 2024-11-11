@@ -1,6 +1,7 @@
 const WORKER_DOMAIN = 'https://bypass.api-x.site';
 let sM = 0, sPP = 110, s = [], pA = 0, sO = [], fA = "todos";
 let lastActionTime = 0;
+let clientIdentifier = null;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -11,6 +12,12 @@ async function init() {
     updS();
     populateScriptSelector();
     handleUrlParams();
+    await generateClientIdentifier();
+}
+
+async function generateClientIdentifier() {
+    
+    clientIdentifier = 'client_' + Math.random().toString(36).substr(2, 9);
 }
 
 async function getS() {
@@ -129,6 +136,9 @@ async function cpS(id, title) {
         try {
             await navigator.clipboard.writeText(script.loader);
             showNotification('SCRIPT_COPIED');
+            
+            // Send webhook for copy action
+            await sendWebhook('copy', { scriptName: title, clientIp: clientIdentifier });
         } catch (err) {
             console.error('Error al copiar: ', err);
         }
@@ -140,6 +150,9 @@ async function shS(title, id) {
     try {
         await navigator.clipboard.writeText(url);
         showNotification('LINK_COPIED');
+        
+        // Send webhook for share action
+        await sendWebhook('share', { scriptName: title, sharedUrl: url, clientIp: clientIdentifier });
     } catch (err) {
         console.error('Error al copiar: ', err);
     }
@@ -152,7 +165,7 @@ async function shwDR(title) {
     document.getElementById('enviarReporte').onclick = async function() {
         const reportText = document.getElementById('reportText').value;
         if (reportText) {
-            await sendWebhook('report', { script: title, report: reportText });
+            await sendWebhook('report', { script: title, report: reportText, clientIp: clientIdentifier });
             showNotification('REPORT_SENT');
             modal.style.display = 'none';
         } else {
@@ -241,7 +254,7 @@ async function displayBypassResult(result, steps, isError = false) {
 }
 
 function sB(url, data) {
-    sendWebhook('bypass', { url, result: data });
+    sendWebhook('bypass', { url, result: data, clientIp: clientIdentifier });
 }
 
 function shwMS() {
@@ -269,7 +282,7 @@ async function enviarSugerencia() {
     if (scriptId && sugerencia) {
         const script = s.find(s => s.id === scriptId);
         if (script) {
-            await sendWebhook('suggestion', { script: script.t, suggestion: sugerencia });
+            await sendWebhook('suggestion', { script: script.t, suggestion: sugerencia, clientIp: clientIdentifier });
             showNotification('SUGGESTION_SENT');
             document.getElementById('modal-sugerir-mejora').style.display = 'none';
         } else {
@@ -289,7 +302,7 @@ async function enviarPeticion() {
     const gameInfo = document.getElementById('gameInput').value;
     const descripcion = document.getElementById('descripcionScript').value;
     if (gameInfo && descripcion) {
-        await sendWebhook('request', { game: gameInfo, description: descripcion });
+        await sendWebhook('request', { game: gameInfo, description: descripcion, clientIp: clientIdentifier });
         showNotification('REQUEST_SENT');
         document.getElementById('modal-pedir-script').style.display = 'none';
     } else {
