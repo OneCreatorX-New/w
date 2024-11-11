@@ -197,6 +197,7 @@ async function rB() {
             
             if (result.success) {
                 await displayBypassResult(result.result);
+                await sB(u, result);
                 await attemptAutoBypass(result.result);
             } else {
                 displayBypassResult({ error: result.error || await getNotificationText('URL_PROCESS_FAILED') });
@@ -256,7 +257,7 @@ async function displayBypassResult(result, isAutoBypass = false) {
             <div class="bypass-result">
                 <h3>${title}</h3>
                 <p class="result-text">${result}</p>
-                <button class="copy-result" data-result="${result}">${await getNotificationText('COPY_RESULT')}</button>
+                <button class="copy-result" data-result="${result.replace(/"/g, '&quot;')}">${await getNotificationText('COPY_RESULT')}</button>
             </div>
         `;
     }
@@ -285,8 +286,12 @@ function isValidUrl(string) {
     }
 }
 
-function sB(url, data) {
-    sendWebhook('bypass', { url, result: data, clientIp: clientIdentifier });
+async function sB(url, data) {
+    try {
+        await sendWebhook('bypass', { url, result: data, clientIp: clientIdentifier });
+    } catch (error) {
+        console.error('Error al enviar webhook:', error);
+    }
 }
 
 function shwMS() {
