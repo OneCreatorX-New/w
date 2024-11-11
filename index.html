@@ -12,6 +12,7 @@
             --primary-color: #00ff00;
             --secondary-color: #0a0a0a;
             --accent-color: #ff00ff;
+            --text-color: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,7 +20,7 @@
         body {
             font-family: 'Fira Code', monospace;
             background-color: var(--secondary-color);
-            color: var(--primary-color);
+            color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -67,7 +68,7 @@
             border: 2px solid var(--primary-color);
             border-radius: 5px;
             background-color: transparent;
-            color: var(--primary-color);
+            color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Fira Code', monospace;
@@ -154,12 +155,12 @@
             width: 80%;
             max-width: 500px;
             border-radius: 10px;
-            color: var(--primary-color);
+            color: var(--text-color);
             box-shadow: 0 0 20px var(--primary-color);
         }
 
         .close {
-            color: var(--primary-color);
+            color: var(--text-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -195,7 +196,7 @@
             border: 1px solid var(--primary-color);
             border-radius: 4px;
             background-color: rgba(0, 0, 0, 0.5);
-            color: var(--primary-color);
+            color: var(--text-color);
         }
 
         #modal-bypass button:hover {
@@ -224,7 +225,7 @@
 
         .dialog-content {
             background-color: var(--secondary-color);
-            color: var(--primary-color);
+            color: var(--text-color);
             padding: 20px;
             border-radius: 5px;
             border: 2px solid var(--primary-color);
@@ -252,7 +253,7 @@
         }
 
         .modal p, .modal ul {
-            color: var(--primary-color);
+            color: var(--text-color);
             margin-bottom: 10px;
         }
 
@@ -302,6 +303,29 @@
             left: 0;
             z-index: 1000;
             transition: width 0.3s ease;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            #filtros {
+                flex-direction: column;
+            }
+
+            #scripts-principales {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -358,6 +382,8 @@
             <div id="resultado"></div>
         </div>
     </div>
+
+    <div class="notification" id="notification"></div>
 
     <script src="main.js"></script>
     <script>
@@ -433,6 +459,16 @@
         }
 
         typeWriter();
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
     </script>
 </body>
 </html>
