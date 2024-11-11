@@ -16,7 +16,6 @@ async function init() {
 }
 
 async function generateClientIdentifier() {
-    
     clientIdentifier = 'client_' + Math.random().toString(36).substr(2, 9);
 }
 
@@ -55,7 +54,7 @@ function setEL() {
             this.closest('.modal').style.display = 'none';
         });
     });
-    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/gE5eCjDj8r', '_blank'));
+    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/onecreatorx', '_blank'));
     document.getElementById('link-youtube').addEventListener('click', () => window.open('https://www.youtube.com/@OneCreatorX', '_blank'));
 }
 
@@ -136,8 +135,6 @@ async function cpS(id, title) {
         try {
             await navigator.clipboard.writeText(script.loader);
             showNotification('SCRIPT_COPIED');
-            
-
             await sendWebhook('copy', { scriptName: title, clientIp: clientIdentifier });
         } catch (err) {
             console.error('Error al copiar: ', err);
@@ -150,7 +147,6 @@ async function shS(title, id) {
     try {
         await navigator.clipboard.writeText(url);
         showNotification('LINK_COPIED');
-        
         await sendWebhook('share', { scriptName: title, sharedUrl: url, clientIp: clientIdentifier });
     } catch (err) {
         console.error('Error al copiar: ', err);
@@ -204,13 +200,13 @@ async function rB() {
             sB(u, data);
             
             if (data.success) {
-                displayBypassResult(data.result || await getNotificationText('URL_PROCESSED'), data.steps);
+                displayBypassResult(data);
             } else {
-                displayBypassResult(`${await getNotificationText('ERROR')}: ${data.error || await getNotificationText('URL_PROCESS_FAILED')}`, data.steps, true);
+                displayBypassResult({ error: data.error || await getNotificationText('URL_PROCESS_FAILED') });
             }
         } catch (e) {
             console.error('Error al obtener la respuesta:', e);
-            displayBypassResult(await getNotificationText('REQUEST_PROCESS_ERROR'), [], true);
+            displayBypassResult({ error: await getNotificationText('REQUEST_PROCESS_ERROR') });
         } finally {
             document.getElementById('btnBypass').disabled = false;
         }
@@ -219,24 +215,24 @@ async function rB() {
     }
 }
 
-async function displayBypassResult(result, steps, isError = false) {
+async function displayBypassResult(data) {
     const resultDiv = document.getElementById('resultado');
-    let content = `<h3>${isError ? await getNotificationText('ERROR') : await getNotificationText('BYPASS_RESULT')}</h3>`;
+    let content = `<h3>${data.error ? await getNotificationText('ERROR') : await getNotificationText('BYPASS_RESULT')}</h3>`;
     
-    if (steps && steps.length > 0) {
-        for (let i = 0; i < steps.length; i++) {
-            const step = steps[i];
-            content += `<h4>${await getNotificationText('STEP')} ${i + 1}: ${step.description}</h4>`;
-            content += `<pre>${step.result}</pre>`;
-            
-            if (step.description === await getNotificationText('CLEAN_URL_DETECTED')) {
-                content += `<h4>${await getNotificationText('AUTO_BYPASS_RESULT')}:</h4>`;
-                content += `<pre>${steps[i + 1].result}</pre>`;
+    if (data.error) {
+        content += `<p>${data.error}</p>`;
+    } else {
+        let finalResult = data.result;
+        if (isValidUrl(finalResult)) {
+            const autoBypassResponse = await fetch(`${WORKER_DOMAIN}/bypass?url=${encodeURIComponent(finalResult)}`);
+            const autoBypassData = await autoBypassResponse.json();
+            if (autoBypassData.success) {
+                finalResult = autoBypassData.result;
             }
         }
+        content += `<p>${finalResult}</p>`;
     }
     
-    content += `<h4>${await getNotificationText('FINAL_RESULT')}:</h4><pre>${result}</pre>`;
     content += `<button id="copyResult">${await getNotificationText('COPY_RESULT')}</button>`;
     
     resultDiv.innerHTML = content;
@@ -244,12 +240,21 @@ async function displayBypassResult(result, steps, isError = false) {
     
     document.getElementById('copyResult').addEventListener('click', async () => {
         try {
-            await navigator.clipboard.writeText(result);
+            await navigator.clipboard.writeText(finalResult);
             showNotification('RESULT_COPIED');
         } catch (err) {
             console.error('Error al copiar: ', err);
         }
     });
+}
+
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
 }
 
 function sB(url, data) {
