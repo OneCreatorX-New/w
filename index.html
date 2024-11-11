@@ -630,47 +630,6 @@ x<!DOCTYPE html>
         }
 
         animateTitle();
-
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const scriptId = urlParams.get('script');
-            if (scriptId) {
-                showSharedScriptModal(scriptId);
-            }
-        });
-
-        function showSharedScriptModal(scriptId) {
-            const script = s.find(s => s.id === scriptId);
-            if (script) {
-                const modal = document.createElement('div');
-                modal.className = 'modal-shared';
-                modal.innerHTML = `
-                    <div class="dialog-content">
-                        <h2>${script.t}</h2>
-                        ${script.d ? `<p>${script.d}</p>` : ''}
-                        <textarea readonly>${script.c}</textarea>
-                        <div class="dialog-buttons">
-                            <button onclick="cpS('${script.id}', '${script.t}')" class="dialog-button">Copiar Script</button>
-                            ${script.isGame ? `<a href="${script.url}" target="_blank" class="dialog-button">Ir al Juego</a>` : ''}
-                        </div>
-                        <button class="close-button" onclick="this.closest('.modal-shared').remove()">×</button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-        }
-
-        function shwDR(title) {
-            const modal = document.getElementById('modal-report');
-            modal.style.display = 'block';
-            document.getElementById('reportText').value = '';
-            document.getElementById('enviarReporte').onclick = function() {
-                modal.style.display = 'none';
-            };
-            document.getElementById('cancelarReporte').onclick = function() {
-                modal.style.display = 'none';
-            };
-        }
     </script>
     <script src="main.js"></script>
 </body>
