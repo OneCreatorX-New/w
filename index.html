@@ -150,12 +150,13 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -163,7 +164,7 @@
             margin: 15% auto;
             padding: 20px;
             border: 2px solid var(--primary-color);
-            width: 80%;
+            width: 90%;
             max-width: 500px;
             border-radius: 10px;
             color: var(--text-color);
@@ -199,7 +200,13 @@
         }
 
         #modal-bypass input[type="text"],
-        #modal-bypass button {
+        #modal-bypass button,
+        #modal-sugerir-mejora select,
+        #modal-sugerir-mejora textarea,
+        #modal-sugerir-mejora button,
+        #modal-pedir-script input[type="text"],
+        #modal-pedir-script textarea,
+        #modal-pedir-script button {
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -210,7 +217,9 @@
             color: var(--text-color);
         }
 
-        #modal-bypass button:hover {
+        #modal-bypass button:hover,
+        #modal-sugerir-mejora button:hover,
+        #modal-pedir-script button:hover {
             background-color: var(--primary-color);
             color: var(--secondary-color);
         }
@@ -336,6 +345,99 @@
             }
             100% {
                 transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .modal-shared {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .dialog-content {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .dialog-content h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .dialog-content textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .dialog-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+
+            #filtros {
+                flex-direction: column;
+            }
+
+            #filtros button, #filtros input[type="text"] {
+                width: 100%;
+            }
+
+            .script {
+                padding: 0.5rem;
+            }
+
+            .script button {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -470,6 +572,34 @@
         }
 
         animateTitle();
+
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scriptId = urlParams.get('script');
+            if (scriptId) {
+                showSharedScriptModal(scriptId);
+            }
+        });
+
+        function showSharedScriptModal(scriptId) {
+            const script = s.find(s => s.id === scriptId);
+            if (script) {
+                const modal = document.createElement('div');
+                modal.className = 'modal-shared';
+                modal.innerHTML = `
+                    <div class="dialog-content">
+                        <h2>${script.t}</h2>
+                        ${script.d ? `<p>${script.d}</p>` : ''}
+                        <div class="dialog-buttons">
+                            <button onclick="cpS('${script.id}', '${script.t}')" class="dialog-button">Copiar Script</button>
+                            ${script.isGame ? `<a href="${script.url}" target="_blank" class="dialog-button">Ir al Juego</a>` : ''}
+                        </div>
+                        <button class="close-button" onclick="this.closest('.modal-shared').remove()">×</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+        }
     </script>
 </body>
 </html>
