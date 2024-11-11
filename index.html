@@ -169,6 +169,7 @@
             border-radius: 10px;
             color: var(--text-color);
             box-shadow: 0 0 20px var(--primary-color);
+            position: relative;
         }
 
         .close {
@@ -177,6 +178,9 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
         }
 
         .close:hover,
@@ -368,6 +372,7 @@
             max-width: 90%;
             width: 500px;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            position: relative;
         }
 
         .dialog-content h2 {
@@ -508,6 +513,7 @@
             </select>
             <textarea id="sugerenciaTexto" placeholder="Describe tu sugerencia de mejora..."></textarea>
             <button id="enviarSugerencia">Enviar Sugerencia</button>
+            <button id="cancelarSugerencia">Cancelar</button>
         </div>
     </div>
 
@@ -518,6 +524,7 @@
             <input type="text" id="gameInput" placeholder="ID del juego, URL o nombre">
             <textarea id="descripcionScript" placeholder="Describe lo que quieres que haga el script..."></textarea>
             <button id="enviarPeticion">Enviar Petición</button>
+            <button id="cancelarPeticion">Cancelar</button>
         </div>
     </div>
 
