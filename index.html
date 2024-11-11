@@ -358,11 +358,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
         .dialog-content {
@@ -420,6 +421,46 @@
             border: none;
             color: var(--text-color);
             cursor: pointer;
+        }
+
+        /* New styles for the report dialog */
+        #modal-report {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        #modal-report .modal-content {
+            background-color: var(--secondary-color);
+            margin: 15% auto;
+            padding: 20px;
+            border: 2px solid var(--primary-color);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            color: var(--text-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        #modal-report textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+
+        #modal-report button {
+            margin-right: 10px;
         }
 
         @media (max-width: 768px) {
@@ -528,6 +569,16 @@
         </div>
     </div>
 
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-flag"></i> Reportar Script</h2>
+            <textarea id="reportText" placeholder="Describe el problema con el script..."></textarea>
+            <button id="enviarReporte">Enviar Reporte</button>
+            <button id="cancelarReporte">Cancelar</button>
+        </div>
+    </div>
+
     <div class="notification" id="notification">
         <div class="notification-content">
             <i class="fas fa-info-circle"></i>
@@ -597,6 +648,7 @@
                     <div class="dialog-content">
                         <h2>${script.t}</h2>
                         ${script.d ? `<p>${script.d}</p>` : ''}
+                        <textarea readonly>${script.c}</textarea>
                         <div class="dialog-buttons">
                             <button onclick="cpS('${script.id}', '${script.t}')" class="dialog-button">Copiar Script</button>
                             ${script.isGame ? `<a href="${script.url}" target="_blank" class="dialog-button">Ir al Juego</a>` : ''}
@@ -606,6 +658,18 @@
                 `;
                 document.body.appendChild(modal);
             }
+        }
+
+        function shwDR(title) {
+            const modal = document.getElementById('modal-report');
+            modal.style.display = 'block';
+            document.getElementById('reportText').value = '';
+            document.getElementById('enviarReporte').onclick = function() {
+                modal.style.display = 'none';
+            };
+            document.getElementById('cancelarReporte').onclick = function() {
+                modal.style.display = 'none';
+            };
         }
     </script>
 </body>
