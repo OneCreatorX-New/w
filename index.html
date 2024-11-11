@@ -1,272 +1,327 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneCreatorX Scripts</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1em;
-        }
-        nav {
-            display: flex;
-            justify-content: space-around;
-            background-color: #444;
-            padding: 0.5em;
-        }
-        nav button {
-            background-color: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-        .search-container {
-            margin: 1em 0;
-            display: flex;
-            justify-content: center;
-        }
-        #busqueda {
-            width: 70%;
-            padding: 0.5em;
-        }
-        .scripts-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1em;
-        }
-        .script {
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 1em;
-            border-radius: 5px;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 1em;
-        }
-        .pagination button {
-            margin: 0 0.5em;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 5px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        #notification {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .btn-juego {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 3px;
-            margin-top: 10px;
-        }
-        #bypassLoading {
-            display: none;
-            margin-top: 10px;
-        }
-        .terminal {
-            background-color: #000;
-            color: #0f0;
-            padding: 10px;
-            font-family: monospace;
-            border-radius: 5px;
-        }
-        #resultado {
-            display: none;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        #resultado pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .modal-shared {
-            display: flex;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
-        }
-        .dialog-content {
-            background-color: #fefefe;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 5px;
-            position: relative;
-        }
-        .dialog-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .dialog-button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #aaa;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneCreatorX Scripts</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+    :root {
+        --primary-color: #4a4a4a;
+        --secondary-color: #2c2c2c;
+        --text-color: #ffffff;
+        --accent-color: #3498db;
+        --error-color: #e74c3c;
+        --success-color: #2ecc71;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--primary-color);
+        color: var(--text-color);
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: var(--accent-color);
+    }
+    .search-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    #search {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px 0 0 5px;
+    }
+    #search-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+    }
+    .scripts-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .script {
+        background-color: var(--secondary-color);
+        border-radius: 5px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .script h2 {
+        margin-top: 0;
+        font-size: 18px;
+        color: var(--accent-color);
+    }
+    .script p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .script button {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 5px 10px;
+        margin: 2px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .script button:hover {
+        opacity: 0.8;
+    }
+    .script .btn-juego {
+        background-color: var(--success-color);
+        text-decoration: none;
+        color: var(--text-color);
+        padding: 5px 10px;
+        border-radius: 3px;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+    }
+    #modal-report {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        overflow-y: auto;
+    }
+    #modal-report .modal-content {
+        background-color: var(--secondary-color);
+        margin: 15% auto;
+        padding: 20px;
+        border: 2px solid var(--error-color);
+        width: 90%;
+        max-width: 500px;
+        border-radius: 10px;
+        color: var(--text-color);
+        box-shadow: 0 0 20px var(--error-color);
+        position: relative;
+    }
+    #modal-report textarea {
+        width: 100%;
+        min-height: 100px;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: var(--text-color);
+        border: 1px solid var(--error-color);
+        border-radius: 5px;
+    }
+    #modal-report button {
+        background-color: var(--error-color);
+        color: var(--text-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #modal-report button:hover {
+        opacity: 0.8;
+    }
+    .modal-shared {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .dialog-content {
+        background-color: var(--secondary-color);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+    }
+    .dialog-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .dialog-button {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: var(--text-color);
+        cursor: pointer;
+    }
+    #bypass-container {
+        background-color: var(--secondary-color);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    #bypass-input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+    #bypass-button {
+        background-color: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    #bypass-result {
+        margin-top: 20px;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    #loading-container {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: var(--accent-color);
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 </head>
 <body>
-    <header>
-        <h1>OneCreatorX Scripts</h1>
-    </header>
-    <nav>
-        <button id="filtro-todos">Todos</button>
-        <button id="filtro-universales">Universales</button>
-        <button id="filtro-juegos">Juegos</button>
-        <button id="mas-antiguos">Más Antiguos</button>
-        <button id="btn-apoyame">Apóyame</button>
-        <button id="btn-bypass-general">Bypass General</button>
-        <button id="btn-sugerir-mejora">Sugerir Mejora</button>
-        <button id="btn-pedir-script">Pedir Script</button>
-    </nav>
-    <div class="container">
-        <div class="search-container">
-            <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        </div>
-        <div id="scripts-principales" class="scripts-container"></div>
-        <div class="pagination">
-            <button id="anterior">Anterior</button>
-            <span id="info-pagina"></span>
-            <button id="siguiente">Siguiente</button>
-        </div>
+<div class="container">
+    <h1>OneCreatorX Scripts</h1>
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Buscar scripts...">
+        <button id="search-btn">Buscar</button>
     </div>
-
-    <div id="modal-apoyame" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Apóyame</h2>
-            <p>Si te gustan mis scripts, puedes apoyarme de las siguientes maneras:</p>
-            <ul>
-                <li>Únete a mi servidor de Discord</li>
-                <li>Suscríbete a mi canal de YouTube</li>
-            </ul>
-            <button id="link-discord">Discord</button>
-            <button id="link-youtube">YouTube</button>
+    <div id="scripts-container" class="scripts-container"></div>
+    <div id="bypass-container">
+        <h2>Bypass URL</h2>
+        <input type="text" id="bypass-input" placeholder="Ingrese la URL para bypass">
+        <button id="bypass-button">Realizar Bypass</button>
+        <div id="loading-container">
+            <div class="spinner"></div>
+            <span id="loading-text">Procesando...</span>
         </div>
+        <div id="bypass-result"></div>
     </div>
-
-    <div id="modal-bypass" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Bypass General</h2>
-            <input type="text" id="urlInput" placeholder="Ingrese la URL aquí">
-            <button id="btnBypass">Realizar Bypass</button>
-            <div id="bypassLoading">
-                <div class="terminal">
-                    <p class="terminal-line"></p>
+</div>
+<div id="modal-report" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2><i class="fas fa-exclamation-triangle"></i> Reportar Script</h2>
+        <textarea id="reportText" placeholder="Describe el problema con el script..."></textarea>
+        <button id="enviarReporte">Enviar Reporte</button>
+    </div>
+</div>
+<script src="main.js"></script>
+<script>
+    function showSharedScriptModal(scriptId) {
+        const script = s.find(s => s.id === scriptId);
+        if (script) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-shared';
+            modal.innerHTML = `
+                <div class="dialog-content">
+                    <h2>${script.t}</h2>
+                    ${script.d ? `<p>${script.d}</p>` : ''}
+                    <div class="dialog-buttons">
+                        <button onclick="cpS('${script.id}', '${script.t}')" class="dialog-button">Copiar Script</button>
+                        ${script.isGame ? `<a href="${script.url}" target="_blank" class="dialog-button">Ir al Juego</a>` : ''}
+                    </div>
+                    <button class="close-button" onclick="this.closest('.modal-shared').remove()">×</button>
                 </div>
-            </div>
-            <div id="resultado"></div>
-        </div>
-    </div>
-
-    <div id="modal-sugerir-mejora" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Sugerir Mejora</h2>
-            <select id="scriptSelector"></select>
-            <textarea id="sugerenciaTexto" placeholder="Escribe tu sugerencia aquí"></textarea>
-            <button id="enviarSugerencia">Enviar Sugerencia</button>
-            <button id="cancelarSugerencia">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="modal-pedir-script" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Pedir Script</h2>
-            <input type="text" id="gameInput" placeholder="Nombre del juego o enlace">
-            <textarea id="descripcionScript" placeholder="Describe el script que necesitas"></textarea>
-            <button id="enviarPeticion">Enviar Petición</button>
-            <button id="cancelarPeticion">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="notification">
-        <span class="notification-text"></span>
-    </div>
-
-    <script src="main.js"></script>
+            `;
+            document.body.appendChild(modal);
+        }
+    }
+    function showReportModal(scriptId, scriptTitle) {
+        const modal = document.getElementById('modal-report');
+        const reportText = document.getElementById('reportText');
+        const enviarReporte = document.getElementById('enviarReporte');
+        reportText.value = '';
+        modal.style.display = 'block';
+        enviarReporte.onclick = async function() {
+            if (reportText.value.trim() !== '') {
+                await sendWebhook('report', { script: scriptTitle, report: reportText.value });
+                showNotification('REPORT_SENT');
+                modal.style.display = 'none';
+            } else {
+                showNotification('DESCRIBE_PROBLEM');
+            }
+        };
+        modal.querySelector('.close').onclick = function() {
+            modal.style.display = 'none';
+        };
+    }
+    function crSE(s) {
+        const e = document.createElement('div');
+        e.className = 'script';
+        e.innerHTML = `
+            <h2>${s.t}</h2>
+            ${s.d ? `<p>${s.d}</p>` : ''}
+            <button onclick="cpS('${s.id}', '${s.t}')">Copiar</button>
+            <button onclick="shS('${s.t}', '${s.id}')">Compartir</button>
+            <button onclick="showReportModal('${s.id}', '${s.t}')" class="report-button">Reportar</button>
+            <button onclick="shwSS('${s.id}', '${s.t}')">Sugerir</button>
+            ${s.isGame ? `<a href="${s.url}" target="_blank" class="btn-juego">Ir al Juego</a>` : ''}
+        `;
+        return e;
+    }
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const scriptId = urlParams.get('script');
+        if (scriptId) {
+            showSharedScriptModal(scriptId);
+        }
+    });
+</script>
 </body>
 </html>
