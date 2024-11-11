@@ -3,55 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OneCreatorX Scripts</title>
+    <title>OneCreatorX Scripts - Christmas Edition</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
 
         :root {
-            --primary-color: #00ff00;
-            --secondary-color: #0a0a0a;
-            --accent-color: #ff00ff;
+            --primary-color: #ff0000;
+            --secondary-color: #006400;
+            --accent-color: #ffffff;
+            --background-color: #0a0a0a;
             --text-color: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Fira Code', monospace;
-            background-color: var(--secondary-color);
+            font-family: 'Mountains of Christmas', cursive;
+            background-color: var(--background-color);
             color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .matrix-bg {
+        .christmas-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="50" y="50" font-size="70" text-anchor="middle" alignment-baseline="middle" fill="rgba(255,255,255,0.1)">🎄</text></svg>') repeat;
         }
 
         header {
             text-align: center;
             padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 100, 0, 0.8);
             border-bottom: 2px solid var(--primary-color);
         }
 
         h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
-            animation: glitch 1s linear infinite;
+            animation: snowfall 2s linear infinite;
             text-shadow: 2px 2px var(--accent-color);
         }
 
-        @keyframes glitch {
-            2%, 64% { transform: translate(2px,0) skew(0deg); }
-            4%, 60% { transform: translate(-2px,0) skew(0deg); }
-            62% { transform: translate(0,0) skew(5deg); }
+        @keyframes snowfall {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(5px) rotate(3deg); }
+            100% { transform: translateY(0) rotate(0deg); }
         }
 
         #filtros {
@@ -60,30 +62,30 @@
             flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 100, 0, 0.6);
         }
 
         button, input[type="text"] {
             padding: 0.5rem 1rem;
             border: 2px solid var(--primary-color);
             border-radius: 5px;
-            background-color: transparent;
+            background-color: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Mountains of Christmas', cursive;
         }
 
         button:hover {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
+            color: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 0 10px var(--primary-color);
         }
 
         input[type="text"] {
             width: 200px;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         #scripts-principales {
@@ -94,7 +96,7 @@
         }
 
         .script {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 100, 0, 0.8);
             border: 2px solid var(--primary-color);
             border-radius: 10px;
             padding: 1rem;
@@ -126,13 +128,13 @@
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 100, 0, 0.6);
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 100, 0, 0.8);
             border-top: 2px solid var(--primary-color);
         }
 
@@ -148,7 +150,7 @@
         }
 
         .modal-content {
-            background-color: var(--secondary-color);
+            background-color: var(--background-color);
             margin: 15% auto;
             padding: 20px;
             border: 2px solid var(--primary-color);
@@ -160,7 +162,7 @@
         }
 
         .close {
-            color: var(--text-color);
+            color: var(--primary-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -176,7 +178,7 @@
             display: inline-block;
             padding: 0.5rem 1rem;
             background-color: var(--primary-color);
-            color: var(--secondary-color);
+            color: var(--accent-color);
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.3s ease;
@@ -184,6 +186,7 @@
 
         .btn-juego:hover {
             background-color: var(--accent-color);
+            color: var(--primary-color);
             transform: scale(1.05);
         }
 
@@ -195,13 +198,13 @@
             padding: 10px;
             border: 1px solid var(--primary-color);
             border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(255, 255, 255, 0.2);
             color: var(--text-color);
         }
 
         #modal-bypass button:hover {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
+            color: var(--accent-color);
         }
 
         #resultado {
@@ -216,15 +219,16 @@
             margin-right: 5px;
             margin-bottom: 5px;
             background-color: var(--primary-color);
-            color: var(--secondary-color);
+            color: var(--accent-color);
         }
 
         .script button:hover {
             background-color: var(--accent-color);
+            color: var(--primary-color);
         }
 
         .dialog-content {
-            background-color: var(--secondary-color);
+            background-color: var(--background-color);
             color: var(--text-color);
             padding: 20px;
             border-radius: 5px;
@@ -233,7 +237,7 @@
 
         .dialog-button {
             background-color: var(--primary-color);
-            color: var(--secondary-color);
+            color: var(--accent-color);
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -244,6 +248,7 @@
 
         .dialog-button:hover {
             background-color: var(--accent-color);
+            color: var(--primary-color);
             transform: scale(1.05);
         }
 
@@ -269,9 +274,9 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         .floating {
@@ -306,34 +311,131 @@
         }
 
         .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
             display: none;
-            z-index: 1000;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 100, 0, 0.9);
+            border: 2px solid var(--primary-color);
+            padding: 20px 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            min-width: 300px;
+            text-align: center;
         }
 
-        @media (max-width: 768px) {
-            #filtros {
-                flex-direction: column;
-            }
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
 
-            #scripts-principales {
-                grid-template-columns: 1fr;
+        .notification i {
+            color: var(--primary-color);
+        }
+
+        .loading-animation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .terminal-loader {
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .terminal-header {
+            color: var(--primary-color);
+            font-family: 'Mountains of Christmas', cursive;
+            padding: 5px;
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .terminal-body {
+            min-height: 100px;
+            padding: 10px;
+        }
+
+        .terminal-line {
+            position: relative;
+            color: var(--primary-color);
+            font-family: 'Mountains of Christmas', cursive;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 1s steps(30, end) infinite;
+        }
+
+        .terminal-line::after {
+            content: '🎅';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        .modal-shared {
+            z-index: 1500;
+        }
+
+        .dialog-content {
+            position: relative;
+        }
+
+        .dialog-content .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .snowflake {
+            color: #fff;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #000;
+            position: fixed;
+            top: -10%;
+            z-index: 9999;
+            user-select: none;
+            cursor: default;
+            animation: snowfall 5s linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10%) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
     <div class="loading-bar" id="loadingBar"></div>
-    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    <div class="christmas-bg"></div>
     <header>
-        <h1 class="typing-effect">OneCreatorX Scripts</h1>
+        <h1 class="typing-effect">OneCreatorX Scripts - Christmas Edition</h1>
     </header>
 
     <nav id="filtros">
@@ -342,8 +444,8 @@
         <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
         <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
         <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
-        <button id="btn-apoyame" class="floating"><i class="fas fa-heart"></i> Apóyame</button>
-        <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
+        <button id="btn-apoyame" class="floating"><i class="fas fa-gift"></i> Apóyame</button>
+        <button id="btn-bypass-general"><i class="fas fa-sleigh"></i> Bypass Navideño</button>
     </nav>
 
     <main>
@@ -363,12 +465,12 @@
     <div id="modal-apoyame" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-heart"></i> Apóyame</h2>
-            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
+            <h2><i class="fas fa-gift"></i> Apóyame en Navidad</h2>
+            <p>Si quieres apoyarme para que siga creando contenido navideño, puedes hacerlo de las siguientes formas:</p>
             <ul>
-                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso para comprar regalos.</li>
+                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras navideñas en mi juego de Roblox</a></li>
+                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal para el árbol de Navidad</a></li>
             </ul>
         </div>
     </div>
@@ -376,14 +478,29 @@
     <div id="modal-bypass" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
-            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
+            <h2><i class="fas fa-sleigh"></i> Bypass Navideño</h2>
+            <input type="text" id="urlInput" placeholder="URL aquí, ej: https://gateway.platoboost.com/a/2569?id=123456789">
+            <button id="btnBypass"><i class="fas fa-gift"></i> Desempaquetar Regalo</button>
             <div id="resultado"></div>
         </div>
     </div>
 
-    <div class="notification" id="notification"></div>
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-candy-cane"></i>
+            <span class="notification-text"></span>
+        </div>
+    </div>
+
+    <div class="loading-animation" id="bypassLoading">
+        <div class="terminal-loader">
+            <div class="terminal-header">
+                [santa@northpole] ~ # ./unwrap_gift.sh</div>
+            <div class="terminal-body">
+                <div class="terminal-line"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="main.js"></script>
     <script>
@@ -393,8 +510,8 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const fontSize = 10;
+        const characters = '❄☃★🎄🎅🎁';
+        const fontSize = 14;
         const columns = canvas.width / fontSize;
 
         const drops = [];
@@ -402,12 +519,12 @@
             drops[i] = 1;
         }
 
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        function drawChristmas() {
+            ctx.fillStyle = 'rgba(0, 100, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#0f0';
-            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = '#ff0000';
+            ctx.font = fontSize + 'px Mountains of Christmas';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = characters.charAt(Math.floor(Math.random() * characters.length));
@@ -420,7 +537,7 @@
             }
         }
 
-        setInterval(drawMatrix, 33);
+        setInterval(drawChristmas, 33);
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
@@ -460,15 +577,23 @@
 
         typeWriter();
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
             setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+                snowflake.remove();
+            }, 5000);
         }
 
+        setInterval(createSnowflake, 50);
     </script>
 </body>
 </html>
