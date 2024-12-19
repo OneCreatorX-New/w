@@ -487,12 +487,24 @@ x<!DOCTYPE html>
             }
         }
     </style>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script async src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "17e6df8e-6d4a-42af-8d1c-4c825efbdbf1",
+      promptOptions: {
+        slidedown: {
+          enabled: true,
+          autoPrompt: true,
+          timeDelay: 5,
+          text: {
+            actionMessage: "¿Quieres recibir notificaciones de nuestras actualizaciones?",
+            acceptButton: "Yes, claro",
+            cancelButton: "No, gracias",
+          },
+        },
+      },
     });
   });
 </script>
