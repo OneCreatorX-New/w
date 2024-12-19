@@ -487,6 +487,15 @@ x<!DOCTYPE html>
             }
         }
     </style>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "17e6df8e-6d4a-42af-8d1c-4c825efbdbf1",
+    });
+  });
+</script>
 </head>
 <body>
     <div class="loading-bar" id="loadingBar"></div>
