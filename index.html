@@ -1,4 +1,4 @@
-x<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,63 +6,66 @@ x<!DOCTYPE html>
     <title>OneCreatorX Scripts</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
 
         :root {
-            --primary-color: #00ff00;
-            --secondary-color: #0a0a0a;
+            --primary-color: #00ffff;
+            --secondary-color: #1a1a2e;
             --accent-color: #ff00ff;
             --text-color: #ffffff;
+            --background-color: #0f0f1a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: var(--secondary-color);
+            background-color: var(--background-color);
             color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .christmas-bg {
+        .background-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="50" y="50" font-size="70" text-anchor="middle" alignment-baseline="middle" fill="rgba(255,255,255,0.1)">❄</text></svg>') repeat;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
             text-align: center;
             padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(26, 26, 46, 0.8);
             border-bottom: 2px solid var(--primary-color);
             position: relative;
             overflow: hidden;
         }
 
         h1 {
+            font-family: 'Orbitron', sans-serif;
             font-size: 3rem;
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
+            text-shadow: 0 0 10px var(--primary-color);
+            animation: glowText 2s ease-in-out infinite alternate;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .floating-santa {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 3rem;
-            animation: float 3s ease-in-out infinite;
+        @keyframes glowText {
+            from { text-shadow: 0 0 5px var(--primary-color); }
+            to { text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--accent-color); }
         }
 
         #filtros {
@@ -71,13 +74,14 @@ x<!DOCTYPE html>
             flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
         }
 
         button, input[type="text"] {
             padding: 0.5rem 1rem;
             border: 2px solid var(--primary-color);
-            border-radius: 5px;
+            border-radius: 25px;
             background-color: transparent;
             color: var(--text-color);
             cursor: pointer;
@@ -89,46 +93,66 @@ x<!DOCTYPE html>
             background-color: var(--primary-color);
             color: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: 0 0 10px var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
         }
 
         input[type="text"] {
             width: 200px;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         #scripts-principales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
             padding: 2rem;
         }
 
         .script {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(26, 26, 46, 0.8);
             border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 1rem;
+            border-radius: 15px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .script::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-color) 10%, transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .script:hover::before {
+            opacity: 0.1;
         }
 
         .script:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--primary-color);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 25px var(--primary-color);
         }
 
         .script h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
             color: var(--accent-color);
+            font-family: 'Orbitron', sans-serif;
         }
 
         .script pre {
             background-color: rgba(0, 0, 0, 0.5);
-            padding: 0.5rem;
-            border-radius: 5px;
+            padding: 0.8rem;
+            border-radius: 10px;
             overflow-x: auto;
             border: 1px solid var(--primary-color);
+            font-size: 0.9rem;
         }
 
         #navegacion {
@@ -137,13 +161,14 @@ x<!DOCTYPE html>
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
         }
 
         footer {
             text-align: center;
-            padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem;
+            background-color: rgba(26, 26, 46, 0.8);
             border-top: 2px solid var(--primary-color);
         }
 
@@ -156,20 +181,27 @@ x<!DOCTYPE html>
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
             overflow-y: auto;
         }
 
         .modal-content {
             background-color: var(--secondary-color);
-            margin: 15% auto;
-            padding: 20px;
+            margin: 10% auto;
+            padding: 2rem;
             border: 2px solid var(--primary-color);
             width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
+            max-width: 600px;
+            border-radius: 15px;
             color: var(--text-color);
-            box-shadow: 0 0 20px var(--primary-color);
+            box-shadow: 0 0 30px var(--primary-color);
             position: relative;
+            animation: modalAppear 0.5s ease;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .close {
@@ -181,6 +213,7 @@ x<!DOCTYPE html>
             position: absolute;
             top: 10px;
             right: 15px;
+            transition: color 0.3s ease;
         }
 
         .close:hover,
@@ -190,17 +223,21 @@ x<!DOCTYPE html>
 
         .btn-juego {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
+            padding: 0.7rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--text-color);
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 25px;
             transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn-juego:hover {
-            background-color: var(--accent-color);
-            transform: scale(1.05);
+            background-color: var(--primary-color);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         #modal-bypass input[type="text"],
@@ -213,12 +250,13 @@ x<!DOCTYPE html>
         #modal-pedir-script button {
             display: block;
             width: 100%;
-            margin: 10px 0;
-            padding: 10px;
+            margin: 15px 0;
+            padding: 12px;
             border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
+            transition: all 0.3s ease;
         }
 
         #modal-bypass button:hover,
@@ -229,51 +267,56 @@ x<!DOCTYPE html>
         }
 
         #resultado {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             border: 1px solid var(--primary-color);
         }
 
         .script button {
-            margin-right: 5px;
-            margin-bottom: 5px;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
+            margin-right: 8px;
+            margin-bottom: 8px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
         }
 
         .script button:hover {
-            background-color: var(--accent-color);
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
         }
 
         .notification {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 255, 0, 0.1);
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 255, 255, 0.2);
             border: 2px solid var(--primary-color);
-            padding: 20px 40px;
-            border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
             z-index: 2000;
             backdrop-filter: blur(5px);
-            min-width: 300px;
-            text-align: center;
+            animation: notificationAppear 0.5s ease;
+        }
+
+        @keyframes notificationAppear {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .notification-content {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-size: 1.2rem;
+            gap: 15px;
+            font-size: 1.1rem;
         }
 
         .notification i {
             color: var(--primary-color);
+            font-size: 1.5rem;
         }
 
         .loading-animation {
@@ -290,26 +333,28 @@ x<!DOCTYPE html>
         .terminal-loader {
             background-color: rgba(0, 0, 0, 0.9);
             border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px var(--primary-color);
         }
 
         .terminal-header {
             color: var(--primary-color);
-            font-family: 'Roboto', sans-serif;
-            padding: 5px;
+            font-family: 'Orbitron', sans-serif;
+            padding: 10px;
             border-bottom: 1px solid var(--primary-color);
+            font-size: 1.2rem;
         }
 
         .terminal-body {
-            min-height: 100px;
-            padding: 10px;
+            min-height: 150px;
+            padding: 15px;
         }
 
         .terminal-line {
             position: relative;
             color: var(--primary-color);
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', monospace;
             white-space: nowrap;
             overflow: hidden;
             width: 0;
@@ -318,7 +363,7 @@ x<!DOCTYPE html>
 
         .terminal-line::after {
             content: '█';
-            animation: blink 1s step-end infinite;
+            animation: blink 0.7s step-end infinite;
         }
 
         @keyframes typing {
@@ -330,142 +375,9 @@ x<!DOCTYPE html>
             50% { opacity: 0 }
         }
 
-        .snowflake {
-            color: #fff;
-            font-size: 1em;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 0 5px #000;
-            position: fixed;
-            top: -10%;
-            z-index: 9999;
-            user-select: none;
-            cursor: default;
-            animation: snowfall 5s linear infinite;
-        }
-
-        @keyframes snowfall {
-            0% {
-                transform: translateY(-10%) rotate(0deg);
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-
-        .modal-shared {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .dialog-content {
-            background-color: var(--secondary-color);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 90%;
-            width: 500px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            position: relative;
-        }
-
-        .dialog-content h2 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .dialog-content textarea {
-            width: 100%;
-            min-height: 100px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-        }
-
-        .dialog-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        .dialog-button {
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dialog-button:hover {
-            background-color: var(--accent-color);
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-        }
-
-        /* New styles for the report dialog */
-        #modal-report {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-
-        #modal-report .modal-content {
-            background-color: var(--secondary-color);
-            margin: 15% auto;
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            color: var(--text-color);
-            box-shadow: 0 0 20px var(--primary-color);
-        }
-
-        #modal-report textarea {
-            width: 100%;
-            min-height: 100px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-        }
-
-        #modal-report button {
-            margin-right: 10px;
-        }
-
         @media (max-width: 768px) {
             .modal-content {
-                margin: 10% auto;
+                margin: 5% auto;
                 width: 95%;
             }
 
@@ -478,32 +390,31 @@ x<!DOCTYPE html>
             }
 
             .script {
-                padding: 0.5rem;
+                padding: 1rem;
             }
 
             .script button {
-                padding: 0.3rem 0.6rem;
+                padding: 0.4rem 0.8rem;
                 font-size: 0.9rem;
             }
         }
     </style>
     <script async src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "17e6df8e-6d4a-42af-8d1c-4c825efbdbf1",
-    });
-  });
-</script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "17e6df8e-6d4a-42af-8d1c-4c825efbdbf1",
+        });
+      });
+    </script>
 </head>
 <body>
+    <div class="background-animation"></div>
     <div class="loading-bar" id="loadingBar"></div>
-    <div class="christmas-bg"></div>
     <header>
         <h1 id="mainTitle">OneCreatorX Scripts</h1>
-        <div class="floating-santa">🎅</div>
     </header>
 
     <nav id="filtros">
@@ -606,41 +517,6 @@ x<!DOCTYPE html>
         </div>
     </div>
 
-    
-    <script>
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.textContent = '❄';
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
-            snowflake.style.opacity = Math.random();
-            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
-            
-            document.body.appendChild(snowflake);
-            
-            setTimeout(() => {
-                snowflake.remove();
-            }, 5000);
-        }
-
-        setInterval(createSnowflake, 50);
-
-        const mainTitle = document.getElementById('mainTitle');
-        let direction = 1;
-        let position = 0;
-
-        function animateTitle() {
-            position += direction * 0.5;
-            if (position > 5 || position < -5) {
-                direction *= -1;
-            }
-            mainTitle.style.transform = `translateY(${position}px)`;
-            requestAnimationFrame(animateTitle);
-        }
-
-        animateTitle();
-    </script>
     <script src="main.js"></script>
 </body>
 </html>
