@@ -10,9 +10,9 @@
 
         :root {
             --primary-color: #4a90e2;
-            --secondary-color: #f5f5f5;
+            --secondary-color: #0a0a0a;
             --accent-color: #ff6b6b;
-            --text-color: #333333;
+            --text-color: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,8 +28,8 @@
         header {
             text-align: center;
             padding: 2rem;
-            background-color: var(--primary-color);
-            color: white;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid var(--primary-color);
             position: relative;
             overflow: hidden;
         }
@@ -41,21 +41,34 @@
             display: inline-block;
         }
 
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
         #filtros {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
             padding: 1rem;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         button, input[type="text"] {
             padding: 0.5rem 1rem;
             border: 2px solid var(--primary-color);
             border-radius: 5px;
-            background-color: white;
+            background-color: transparent;
             color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
@@ -64,11 +77,14 @@
 
         button:hover {
             background-color: var(--primary-color);
-            color: white;
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px var(--primary-color);
         }
 
         input[type="text"] {
             width: 200px;
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
         #scripts-principales {
@@ -79,31 +95,30 @@
         }
 
         .script {
-            background-color: white;
-            border: 1px solid #e0e0e0;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary-color);
             border-radius: 10px;
             padding: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .script:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px var(--primary-color);
         }
 
         .script h2 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
-            color: var(--primary-color);
+            color: var(--accent-color);
         }
 
         .script pre {
-            background-color: #f0f0f0;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 0.5rem;
             border-radius: 5px;
             overflow-x: auto;
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--primary-color);
         }
 
         #navegacion {
@@ -112,15 +127,14 @@
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background-color: white;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: var(--primary-color);
-            color: white;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid var(--primary-color);
         }
 
         .modal {
@@ -131,48 +145,51 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
             overflow-y: auto;
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--secondary-color);
             margin: 15% auto;
             padding: 20px;
-            border: 1px solid #888;
+            border: 2px solid var(--primary-color);
             width: 90%;
             max-width: 500px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            color: var(--text-color);
+            box-shadow: 0 0 20px var(--primary-color);
+            position: relative;
         }
 
         .close {
-            color: #aaa;
+            color: var(--text-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 15px;
         }
 
         .close:hover,
         .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
+            color: var(--accent-color);
         }
 
         .btn-juego {
             display: inline-block;
             padding: 0.5rem 1rem;
-            background-color: var(--accent-color);
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
             text-decoration: none;
             border-radius: 5px;
             transition: all 0.3s ease;
         }
 
         .btn-juego:hover {
-            background-color: #ff4757;
+            background-color: var(--accent-color);
             transform: scale(1.05);
         }
 
@@ -188,34 +205,229 @@
             width: 100%;
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--primary-color);
             border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+        }
+
+        #modal-bypass button:hover,
+        #modal-sugerir-mejora button:hover,
+        #modal-pedir-script button:hover {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
         }
 
         #resultado {
             margin-top: 10px;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: rgba(0, 0, 0, 0.5);
             border-radius: 4px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--primary-color);
         }
 
         .script button {
             margin-right: 5px;
             margin-bottom: 5px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .script button:hover {
+            background-color: var(--accent-color);
         }
 
         .notification {
             display: none;
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 2px solid var(--primary-color);
+            padding: 20px 40px;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .notification i {
+            color: var(--primary-color);
+        }
+
+        .loading-animation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .terminal-loader {
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .terminal-header {
+            color: var(--primary-color);
+            font-family: 'Roboto', sans-serif;
+            padding: 5px;
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .terminal-body {
+            min-height: 100px;
+            padding: 10px;
+        }
+
+        .terminal-line {
+            position: relative;
+            color: var(--primary-color);
+            font-family: 'Roboto', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 1s steps(30, end) infinite;
+        }
+
+        .terminal-line::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            50% { opacity: 0 }
+        }
+
+        .modal-shared {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .dialog-content {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            position: relative;
+        }
+
+        .dialog-content h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .dialog-content textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .dialog-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        #modal-report {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        #modal-report .modal-content {
+            background-color: var(--secondary-color);
+            margin: 15% auto;
+            padding: 20px;
+            border: 2px solid var(--primary-color);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            color: var(--text-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        #modal-report textarea {
+            width: 100%;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+
+        #modal-report button {
+            margin-right: 10px;
         }
 
         @media (max-width: 768px) {
@@ -253,8 +465,10 @@
     </script>
 </head>
 <body>
+    <div class="loading-bar" id="loadingBar"></div>
     <header>
         <h1 id="mainTitle">OneCreatorX Scripts</h1>
+        <div class="floating-icon">🌟</div>
     </header>
 
     <nav id="filtros">
@@ -344,6 +558,16 @@
         <div class="notification-content">
             <i class="fas fa-info-circle"></i>
             <span class="notification-text"></span>
+        </div>
+    </div>
+
+    <div class="loading-animation" id="bypassLoading">
+        <div class="terminal-loader">
+            <div class="terminal-header">
+                [root@matrix] ~ # Executing bypass.sh</div>
+            <div class="terminal-body">
+                <div class="terminal-line"></div>
+            </div>
         </div>
     </div>
 
