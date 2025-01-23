@@ -6,572 +6,115 @@
     <title>OneCreatorX Scripts</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
         :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #0a0a0a;
-            --accent-color: #ff6b6b;
-            --text-color: #ffffff;
+            --pc: #00ff88;
+            --sc: #0a0a0a;
+            --ac: #ff3860;
+            --tx: #ffffff;
+            --ns: 0 0 15px var(--pc);
+            --gr: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        header {
-            text-align: center;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid var(--primary-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .floating-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 3rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        #filtros {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        button, input[type="text"] {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            background-color: transparent;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        button:hover {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 0 10px var(--primary-color);
-        }
-
-        input[type="text"] {
-            width: 200px;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        #scripts-principales {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            padding: 2rem;
-        }
-
-        .script {
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .script:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--primary-color);
-        }
-
-        .script h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
-        }
-
-        .script pre {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 0.5rem;
-            border-radius: 5px;
-            overflow-x: auto;
-            border: 1px solid var(--primary-color);
-        }
-
-        #navegacion {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-top: 2px solid var(--primary-color);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background-color: var(--secondary-color);
-            margin: 15% auto;
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            color: var(--text-color);
-            box-shadow: 0 0 20px var(--primary-color);
-            position: relative;
-        }
-
-        .close {
-            color: var(--text-color);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: var(--accent-color);
-        }
-
-        .btn-juego {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            text-decoration: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-juego:hover {
-            background-color: var(--accent-color);
-            transform: scale(1.05);
-        }
-
-        #modal-bypass input[type="text"],
-        #modal-bypass button,
-        #modal-sugerir-mejora select,
-        #modal-sugerir-mejora textarea,
-        #modal-sugerir-mejora button,
-        #modal-pedir-script input[type="text"],
-        #modal-pedir-script textarea,
-        #modal-pedir-script button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid var(--primary-color);
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-        }
-
-        #modal-bypass button:hover,
-        #modal-sugerir-mejora button:hover,
-        #modal-pedir-script button:hover {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
-
-        #resultado {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            border: 1px solid var(--primary-color);
-        }
-
-        .script button {
-            margin-right: 5px;
-            margin-bottom: 5px;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-        }
-
-        .script button:hover {
-            background-color: var(--accent-color);
-        }
-
-        .notification {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 255, 0, 0.1);
-            border: 2px solid var(--primary-color);
-            padding: 20px 40px;
-            border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-            min-width: 300px;
-            text-align: center;
-        }
-
-        .notification-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.2rem;
-        }
-
-        .notification i {
-            color: var(--primary-color);
-        }
-
-        .loading-animation {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-            width: 80%;
-            max-width: 500px;
-        }
-
-        .terminal-loader {
-            background-color: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            padding: 10px;
-        }
-
-        .terminal-header {
-            color: var(--primary-color);
-            font-family: 'Roboto', sans-serif;
-            padding: 5px;
-            border-bottom: 1px solid var(--primary-color);
-        }
-
-        .terminal-body {
-            min-height: 100px;
-            padding: 10px;
-        }
-
-        .terminal-line {
-            position: relative;
-            color: var(--primary-color);
-            font-family: 'Roboto', sans-serif;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            animation: typing 1s steps(30, end) infinite;
-        }
-
-        .terminal-line::after {
-            content: '█';
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink {
-            50% { opacity: 0 }
-        }
-
-        .modal-shared {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .dialog-content {
-            background-color: var(--secondary-color);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 90%;
-            width: 500px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-            position: relative;
-        }
-
-        .dialog-content h2 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-
-        .dialog-content textarea {
-            width: 100%;
-            min-height: 100px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-        }
-
-        .dialog-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        .dialog-button {
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dialog-button:hover {
-            background-color: var(--accent-color);
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-        }
-
-        #modal-report {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-
-        #modal-report .modal-content {
-            background-color: var(--secondary-color);
-            margin: 15% auto;
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            color: var(--text-color);
-            box-shadow: 0 0 20px var(--primary-color);
-        }
-
-        #modal-report textarea {
-            width: 100%;
-            min-height: 100px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-        }
-
-        #modal-report button {
-            margin-right: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 10% auto;
-                width: 95%;
-            }
-
-            #filtros {
-                flex-direction: column;
-            }
-
-            #filtros button, #filtros input[type="text"] {
-                width: 100%;
-            }
-
-            .script {
-                padding: 0.5rem;
-            }
-
-            .script button {
-                padding: 0.3rem 0.6rem;
-                font-size: 0.9rem;
-            }
+        
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'JetBrains Mono',monospace;background:var(--gr);color:var(--tx);min-height:100vh;}
+        
+        .head{text-align:center;padding:3rem;background:linear-gradient(45deg,#0008,#0000);border-bottom:3px solid var(--pc);position:relative;}
+        .title{font-size:3.5rem;text-shadow:var(--ns);background:linear-gradient(45deg,var(--pc),#0cf);-webkit-text-fill-color:transparent;-webkit-background-clip:text;}
+        
+        .filters{display:flex;justify-content:center;gap:1rem;padding:1.5rem;background:#0008;backdrop-filter:blur(5px);margin:1rem;border:2px solid var(--pc);border-radius:10px;}
+        .btn,.inp{padding:0.8rem 1.5rem;border:2px solid var(--pc);border-radius:8px;background:#0008;color:var(--tx);cursor:pointer;transition:all 0.3s;}
+        .btn:hover{background:var(--pc);color:var(--sc);transform:translateY(-3px);box-shadow:var(--ns);}
+        .inp{width:300px;background:#000c;}
+        
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;padding:3rem;}
+        .card{background:#0008;border:2px solid var(--pc);border-radius:15px;padding:1.5rem;transition:0.3s;backdrop-filter:blur(5px);}
+        .card:hover{transform:translateY(-10px);box-shadow:var(--ns);}
+        .card h2{font-size:1.4rem;margin-bottom:1rem;color:var(--ac);text-shadow:0 0 10px var(--ac);}
+        .card pre{background:#000c;padding:1rem;border-radius:8px;overflow-x:auto;border:1px solid var(--pc);}
+        
+        .modal{display:none;position:fixed;inset:0;background:#000c;backdrop-filter:blur(10px);}
+        .modal-box{background:var(--sc);margin:10vh auto;padding:2rem;border:3px solid var(--pc);width:90%;max-width:600px;border-radius:15px;box-shadow:var(--ns);}
+        
+        .glow{animation:glow 2s ease-in-out infinite alternate;}
+        @keyframes glow{from{filter:drop-shadow(0 0 5px var(--pc));}to{filter:drop-shadow(0 0 15px var(--pc));}}
+        
+        .particles{position:fixed;inset:0;pointer-events:none;z-index:-1;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");opacity:0.1;}
+        
+        @media (max-width:768px){
+            .title{font-size:2.5rem;}
+            .filters{flex-direction:column;width:90%;margin-inline:auto;}
+            .inp{width:100%;}
+            .grid{padding:1rem;grid-template-columns:1fr;}
         }
     </style>
-    <script async src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
-    <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "17e6df8e-6d4a-42af-8d1c-4c825efbdbf1",
-            });
-        });
-    </script>
 </head>
 <body>
-    <div class="loading-bar" id="loadingBar"></div>
-    <header>
-        <h1 id="mainTitle">OneCreatorX Scripts</h1>
-        <div class="floating-icon">🌟</div>
+    <div class="particles"></div>
+    
+    <header class="head">
+        <h1 class="title glow">OneCreatorX</h1>
+        <div class="btn glow"><i class="fas fa-bolt"></i></div>
     </header>
 
-    <nav id="filtros">
-        <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <button id="filtro-todos"><i class="fas fa-globe"></i> Todos</button>
-        <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
-        <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
-        <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
-        <button id="btn-apoyame" class="floating"><i class="fas fa-heart"></i> Apóyame</button>
-        <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
-        <button id="btn-sugerir-mejora"><i class="fas fa-lightbulb"></i> Sugerir Mejora</button>
-        <button id="btn-pedir-script"><i class="fas fa-code"></i> Pedir Script</button>
+    <nav class="filters">
+        <input type="text" class="inp" placeholder="Buscar...">
+        <button class="btn"><i class="fas fa-globe"></i> Todos</button>
+        <button class="btn"><i class="fas fa-unlock"></i> Bypass</button>
+        <button class="btn"><i class="fas fa-heart"></i> Donar</button>
     </nav>
 
-    <main>
-        <div id="scripts-principales"></div>
-        <div id="navegacion">
-            <button id="anterior"><i class="fas fa-chevron-left"></i> Anterior</button>
-            <span id="info-pagina"></span>
-            <button id="siguiente">Siguiente <i class="fas fa-chevron-right"></i></button>
-        </div>
+    <main class="grid">
+        <article class="card">
+            <h2>Script #1 <i class="fas fa-star"></i></h2>
+            <pre>loadstring(game:HttpGet('...'))()</pre>
+            <div class="btn-group">
+                <button class="btn"><i class="fas fa-copy"></i> Copiar</button>
+                <button class="btn"><i class="fas fa-play"></i> Ejecutar</button>
+            </div>
+        </article>
+        
+        <article class="card">
+            <h2>Script #2 <i class="fas fa-shield-alt"></i></h2>
+            <pre>-- Código premium aquí</pre>
+            <div class="btn-group">
+                <button class="btn"><i class="fas fa-lock"></i> Desbloquear</button>
+            </div>
+        </article>
     </main>
 
-    <footer>
-        <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
-        <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
-    </footer>
-
-    <div id="modal-apoyame" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-heart"></i> Apóyame</h2>
-            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
-            <ul>
-                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
-            </ul>
+    <div class="modal">
+        <div class="modal-box">
+            <span class="btn close">&times;</span>
+            <h2 class="glow"><i class="fas fa-unlock-alt"></i> Bypass Tool</h2>
+            <input type="text" class="inp" placeholder="URL aquí">
+            <button class="btn"><i class="fas fa-key"></i> Ejecutar</button>
         </div>
     </div>
 
-    <div id="modal-bypass" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
-            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
-            <div id="resultado"></div>
-        </div>
-    </div>
-
-    <div id="modal-sugerir-mejora" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-lightbulb"></i> Sugerir Mejora</h2>
-            <select id="scriptSelector">
-                <option value="">Selecciona un script</option>
-            </select>
-            <textarea id="sugerenciaTexto" placeholder="Describe tu sugerencia de mejora..."></textarea>
-            <button id="enviarSugerencia">Enviar Sugerencia</button>
-            <button id="cancelarSugerencia">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="modal-pedir-script" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-code"></i> Pedir Nuevo Script</h2>
-            <input type="text" id="gameInput" placeholder="ID del juego, URL o nombre">
-            <textarea id="descripcionScript" placeholder="Describe lo que quieres que haga el script..."></textarea>
-            <button id="enviarPeticion">Enviar Petición</button>
-            <button id="cancelarPeticion">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="modal-report" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2><i class="fas fa-flag"></i> Reportar Script</h2>
-            <textarea id="reportText" placeholder="Describe el problema con el script..."></textarea>
-            <button id="enviarReporte">Enviar Reporte</button>
-            <button id="cancelarReporte">Cancelar</button>
-        </div>
-    </div>
-
-    <div class="notification" id="notification">
-        <div class="notification-content">
-            <i class="fas fa-info-circle"></i>
-            <span class="notification-text"></span>
-        </div>
-    </div>
-
-    <div class="loading-animation" id="bypassLoading">
-        <div class="terminal-loader">
-            <div class="terminal-header">
-                [root@matrix] ~ # Executing bypass.sh</div>
-            <div class="terminal-body">
-                <div class="terminal-line"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="main.js"></script>
+    <script>
+        const D=document,Q=(s,e=document)=>e.querySelector(s),QA=(s,e=document)=>e.querySelectorAll(s);
+        
+        const modalHandler=(action,id)=>{
+            QA('.modal').forEach(m=>m.style.display='none');
+            if(action==='show') Q(`#${id}`).style.display='block';
+        };
+        
+        const notify=(msg,duration=3000)=>{
+            const n=Q('.notif')||D.createElement('div');
+            n.className='notif'; n.innerHTML=msg;
+            D.body.appendChild(n);
+            setTimeout(()=>n.remove(),duration);
+        };
+        
+        QA('.btn').forEach(b=>b.addEventListener('click',()=>{
+            if(b.classList.contains('close')) modalHandler('hide');
+            if(b.id==='bypassBtn') modalHandler('show','bypassModal');
+        }));
+        
+        Q('.inp').addEventListener('keypress',(e)=>{
+            if(e.key==='Enter') notify('🔍 Buscando...');
+        });
+    </script>
 </body>
 </html>
-
