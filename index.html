@@ -6,227 +6,185 @@
     <title>OneCreatorX Scripts</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
         :root {
-            --primary-color: #6C5CE7;
-            --secondary-color: #2D3436;
-            --accent-color: #FF7675;
-            --text-color: #FFFFFF;
-            --gradient-primary: linear-gradient(135deg, #6C5CE7 0%, #A363D9 100%);
-            --neon-shadow: 0 0 15px rgba(108,92,231,0.5);
+            --primary-color: #00ff9d;
+            --secondary-color: #0a1929;
+            --accent-color: #ff4655;
+            --text-color: #ffffff;
+            --neon-effect: 0 0 15px rgba(0,255,157,0.5);
+            --cyber-gradient: linear-gradient(45deg, #0a1929 0%, #122b42 100%);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--secondary-color);
+            font-family: 'Orbitron', sans-serif;
+            background: var(--cyber-gradient);
             color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
         }
-
         header {
             text-align: center;
             padding: 3rem 2rem;
-            background: var(--gradient-primary);
+            background: rgba(10,25,41,0.95);
+            border-bottom: 3px solid var(--primary-color);
             position: relative;
             overflow: hidden;
-            box-shadow: var(--neon-shadow);
+            box-shadow: var(--neon-effect);
         }
-
-        header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s infinite;
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 0 var(--accent-color); }
+            50% { text-shadow: -2px 0 0 var(--primary-color); }
+            100% { text-shadow: 2px 0 0 var(--accent-color); }
         }
-
         h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-            text-shadow: 0 0 10px rgba(108,92,231,0.8);
+            animation: glitch 1s infinite;
+            text-shadow: 0 0 10px var(--primary-color);
         }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
         .floating-icon {
             position: absolute;
             top: 20px;
             right: 20px;
-            font-size: 3.5rem;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+            font-size: 3rem;
+            filter: drop-shadow(0 0 5px var(--primary-color));
         }
-
         #filtros {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 1rem;
             padding: 1.5rem;
-            background: rgba(45,52,54,0.95);
+            background: rgba(10,25,41,0.9);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 2px solid var(--primary-color);
         }
-
         button, input[type="text"] {
             padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            background: rgba(0,0,0,0.3);
             color: var(--text-color);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
         }
-
         button:hover {
-            background: var(--gradient-primary);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: var(--neon-shadow);
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            box-shadow: var(--neon-effect);
+            transform: scale(1.05);
         }
-
         input[type="text"] {
             width: 250px;
-            background: rgba(0,0,0,0.3);
-            border: 2px solid var(--primary-color);
+            background: rgba(0,0,0,0.5);
         }
-
         #scripts-principales {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             padding: 3rem;
         }
-
         .script {
-            background: rgba(45,52,54,0.95);
-            border-radius: 20px;
+            background: rgba(10,25,41,0.9);
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
             padding: 1.5rem;
-            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(108,92,231,0.3);
+            overflow: visible;
+            transition: all 0.3s ease;
         }
-
+        .script:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--neon-effect);
+        }
         .script::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--primary-color), transparent 30%);
-            animation: rotate 4s linear infinite;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), transparent);
+            z-index: -1;
+            border-radius: 10px;
         }
-
-        .script:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(108,92,231,0.3);
-        }
-
         .script h2 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: var(--accent-color);
-            position: relative;
-            z-index: 1;
+            color: var(--primary-color);
+            text-shadow: 0 0 5px rgba(0,255,157,0.3);
         }
-
         .script pre {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: 5px;
             overflow-x: auto;
+            border: 1px solid var(--primary-color);
+            font-family: 'Courier New', monospace;
             position: relative;
             z-index: 1;
-            border: 1px solid rgba(108,92,231,0.2);
         }
-
+        .script-buttons {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        .script button {
+            padding: 0.5rem 1rem;
+            background: var(--accent-color);
+            border: none;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .script button:hover {
+            background: #ff2e3d;
+        }
         #navegacion {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 2rem;
+            gap: 1rem;
             padding: 2rem;
-            background: rgba(45,52,54,0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(10,25,41,0.9);
         }
-
         footer {
             text-align: center;
             padding: 2rem;
-            background: var(--gradient-primary);
-            position: relative;
+            background: rgba(10,25,41,0.9);
+            border-top: 2px solid var(--primary-color);
         }
-
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
             backdrop-filter: blur(5px);
+            z-index: 1000;
         }
-
         .modal-content {
             background: var(--secondary-color);
-            margin: 15% auto;
+            border: 2px solid var(--primary-color);
+            max-width: 500px;
+            margin: 2rem auto;
             padding: 2rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: var(--neon-effect);
             position: relative;
-            border: 2px solid var(--primary-color);
-            box-shadow: var(--neon-shadow);
         }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes shine {
-            100% { left: 100%; }
-        }
-
-        .notification {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(45,52,54,0.95);
-            border: 2px solid var(--primary-color);
-            padding: 2rem 3rem;
-            border-radius: 15px;
-            box-shadow: var(--neon-shadow);
-            z-index: 2000;
-            backdrop-filter: blur(10px);
-        }
-
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            #scripts-principales { padding: 1.5rem; grid-gap: 1.5rem; }
+            #scripts-principales { padding: 1.5rem; }
             .script { padding: 1rem; }
             button, input[type="text"] { padding: 0.6rem 1rem; }
         }
@@ -242,47 +200,53 @@
     </script>
 </head>
 <body>
-    <div class="loading-bar" id="loadingBar"></div>
     <header>
-        <h1 id="mainTitle">OneCreatorX Scripts</h1>
-        <div class="floating-icon">🚀</div>
+        <h1 id="mainTitle">ROBLOX SCRIPTS</h1>
+        <div class="floating-icon">⚡</div>
     </header>
 
     <nav id="filtros">
         <input type="text" id="busqueda" placeholder="Buscar scripts...">
-        <button id="filtro-todos"><i class="fas fa-globe"></i> Todos</button>
-        <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
+        <button id="filtro-todos"><i class="fas fa-dice-d20"></i> Todos</button>
+        <button id="filtro-universales"><i class="fas fa-infinity"></i> Universales</button>
         <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
-        <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
-        <button id="btn-apoyame" class="floating"><i class="fas fa-heart"></i> Apóyame</button>
-        <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
-        <button id="btn-sugerir-mejora"><i class="fas fa-lightbulb"></i> Sugerir Mejora</button>
+        <button id="btn-bypass-general"><i class="fas fa-terminal"></i> Bypass</button>
         <button id="btn-pedir-script"><i class="fas fa-code"></i> Pedir Script</button>
     </nav>
 
     <main>
-        <div id="scripts-principales"></div>
+        <div id="scripts-principales">
+            <div class="script">
+                <h2>AutoFarm Universal</h2>
+                <pre>loadstring(game:HttpGet("https://example.com/script1"))()</pre>
+                <div class="script-buttons">
+                    <button class="copy-btn"><i class="fas fa-copy"></i> Copiar</button>
+                    <button class="report-btn"><i class="fas fa-flag"></i> Reportar</button>
+                </div>
+            </div>
+        </div>
+
         <div id="navegacion">
             <button id="anterior"><i class="fas fa-chevron-left"></i> Anterior</button>
-            <span id="info-pagina"></span>
+            <span id="info-pagina">Página 1 de 5</span>
             <button id="siguiente">Siguiente <i class="fas fa-chevron-right"></i></button>
         </div>
     </main>
 
     <footer>
-        <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
-        <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
+        <button id="link-discord"><i class="fab fa-discord"></i> Soporte</button>
+        <button id="link-youtube"><i class="fab fa-youtube"></i> Tutoriales</button>
     </footer>
 
     <div id="modal-apoyame" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2><i class="fas fa-heart"></i> Apóyame</h2>
-            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
+            <p>Si quieres apoyarme para que siga creando contenido:</p>
             <ul>
-                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
-                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
-                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+                <li><i class="fas fa-link"></i> Usa los links de PasteDrop</li>
+                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Compra en mi juego de Roblox</a></li>
+                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Donación PayPal</a></li>
             </ul>
         </div>
     </div>
@@ -290,9 +254,9 @@
     <div id="modal-bypass" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
-            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
-            <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
+            <h2><i class="fas fa-unlock-alt"></i> Bypass</h2>
+            <input type="text" id="urlInput" placeholder="Ingresa la URL aquí">
+            <button id="btnBypass"><i class="fas fa-key"></i> Ejecutar</button>
             <div id="resultado"></div>
         </div>
     </div>
@@ -302,10 +266,10 @@
             <span class="close">&times;</span>
             <h2><i class="fas fa-lightbulb"></i> Sugerir Mejora</h2>
             <select id="scriptSelector">
-                <option value="">Selecciona un script</option>
+                <option value="">Selecciona script</option>
             </select>
-            <textarea id="sugerenciaTexto" placeholder="Describe tu sugerencia de mejora..."></textarea>
-            <button id="enviarSugerencia">Enviar Sugerencia</button>
+            <textarea id="sugerenciaTexto" placeholder="Describe tu sugerencia..."></textarea>
+            <button id="enviarSugerencia">Enviar</button>
             <button id="cancelarSugerencia">Cancelar</button>
         </div>
     </div>
@@ -313,10 +277,10 @@
     <div id="modal-pedir-script" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-code"></i> Pedir Nuevo Script</h2>
-            <input type="text" id="gameInput" placeholder="ID del juego, URL o nombre">
-            <textarea id="descripcionScript" placeholder="Describe lo que quieres que haga el script..."></textarea>
-            <button id="enviarPeticion">Enviar Petición</button>
+            <h2><i class="fas fa-code"></i> Pedir Script</h2>
+            <input type="text" id="gameInput" placeholder="ID/Nombre del juego">
+            <textarea id="descripcionScript" placeholder="Descripción del script"></textarea>
+            <button id="enviarPeticion">Enviar</button>
             <button id="cancelarPeticion">Cancelar</button>
         </div>
     </div>
@@ -324,9 +288,9 @@
     <div id="modal-report" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2><i class="fas fa-flag"></i> Reportar Script</h2>
-            <textarea id="reportText" placeholder="Describe el problema con el script..."></textarea>
-            <button id="enviarReporte">Enviar Reporte</button>
+            <h2><i class="fas fa-flag"></i> Reportar</h2>
+            <textarea id="reportText" placeholder="Describe el problema..."></textarea>
+            <button id="enviarReporte">Enviar</button>
             <button id="cancelarReporte">Cancelar</button>
         </div>
     </div>
@@ -340,8 +304,7 @@
 
     <div class="loading-animation" id="bypassLoading">
         <div class="terminal-loader">
-            <div class="terminal-header">
-                [root@matrix] ~ # Executing bypass.sh</div>
+            <div class="terminal-header">[root@matrix] ~ # Executing...</div>
             <div class="terminal-body">
                 <div class="terminal-line"></div>
             </div>
