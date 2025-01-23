@@ -6,25 +6,22 @@
     <title>OneCreatorX Scripts</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
         :root {
-            --primary-color: #00ff9d;
-            --secondary-color: #0a0a0a;
-            --accent-color: #ff3c7a;
-            --text-color: #ffffff;
-            --neon-glow: 0 0 15px var(--primary-color);
+            --primary-color: #6C5CE7;
+            --secondary-color: #2D3436;
+            --accent-color: #FF7675;
+            --text-color: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, #6C5CE7 0%, #A363D9 100%);
+            --neon-shadow: 0 0 15px rgba(108,92,231,0.5);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: radial-gradient(circle at center, #151515, #000);
+            font-family: 'Poppins', sans-serif;
+            background: var(--secondary-color);
             color: var(--text-color);
             min-height: 100vh;
             overflow-x: hidden;
@@ -33,71 +30,82 @@
         header {
             text-align: center;
             padding: 3rem 2rem;
-            background: linear-gradient(45deg, #000000dd, #00000000);
-            border-bottom: 3px solid var(--primary-color);
+            background: var(--gradient-primary);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--neon-shadow);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
         }
 
         h1 {
-            font-size: 3.2rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Orbitron', sans-serif;
-            text-shadow: var(--neon-glow);
-            background: linear-gradient(45deg, var(--primary-color), #00e1ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(108,92,231,0.8);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         .floating-icon {
             position: absolute;
             top: 20px;
-            right: 30px;
+            right: 20px;
             font-size: 3.5rem;
             animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 10px var(--primary-color));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
 
         #filtros {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             gap: 1.5rem;
             padding: 1.5rem;
-            background: #000000aa;
-            backdrop-filter: blur(8px);
-            margin: 2rem;
-            border-radius: 12px;
-            border: 2px solid var(--primary-color);
-            box-shadow: var(--neon-glow);
+            background: rgba(45,52,54,0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         button, input[type="text"] {
             padding: 0.8rem 1.5rem;
-            border: 2px solid var(--primary-color);
-            border-radius: 8px;
-            background: #00000055;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.1);
             color: var(--text-color);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'JetBrains Mono';
-            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         button:hover {
-            background: var(--primary-color);
-            color: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: var(--neon-glow);
+            background: var(--gradient-primary);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--neon-shadow);
         }
 
         input[type="text"] {
-            width: 280px;
-            background: #000000cc;
+            width: 250px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid var(--primary-color);
         }
 
         #scripts-principales {
@@ -108,82 +116,97 @@
         }
 
         .script {
-            background: #00000055;
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
+            background: rgba(45,52,54,0.95);
+            border-radius: 20px;
             padding: 1.5rem;
             transition: all 0.3s ease;
-            backdrop-filter: blur(6px);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(108,92,231,0.3);
+        }
+
+        .script::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--primary-color), transparent 30%);
+            animation: rotate 4s linear infinite;
         }
 
         .script:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--neon-glow);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(108,92,231,0.3);
         }
 
         .script h2 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-color);
+            position: relative;
+            z-index: 1;
         }
 
         .script pre {
-            background: #000000aa;
+            background: rgba(0,0,0,0.4);
             padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid var(--primary-color);
-            font-family: 'JetBrains Mono';
+            border-radius: 10px;
+            overflow-x: auto;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(108,92,231,0.2);
         }
 
         #navegacion {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 2rem;
             padding: 2rem;
-            background: #00000055;
-            backdrop-filter: blur(8px);
-            margin: 2rem;
-            border-radius: 12px;
-            border: 2px solid var(--primary-color);
+            background: rgba(45,52,54,0.95);
+            backdrop-filter: blur(10px);
         }
 
         footer {
             text-align: center;
             padding: 2rem;
-            background: #00000055;
-            border-top: 3px solid var(--primary-color);
-            backdrop-filter: blur(8px);
+            background: var(--gradient-primary);
+            position: relative;
         }
 
         .modal {
             display: none;
             position: fixed;
-            inset: 0;
-            background: #000000ee;
-            backdrop-filter: blur(12px);
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background: var(--secondary-color);
             margin: 15% auto;
-            padding: 20px;
-            border: 3px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 20px;
             width: 90%;
-            max-width: 500px;
-            border-radius: 10px;
-            box-shadow: var(--neon-glow);
+            max-width: 600px;
+            position: relative;
+            border: 2px solid var(--primary-color);
+            box-shadow: var(--neon-shadow);
         }
 
-        .close {
-            color: var(--text-color);
-            font-size: 28px;
-            transition: all 0.3s;
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
         }
 
-        .close:hover {
-            color: var(--accent-color);
-            transform: rotate(90deg);
+        @keyframes shine {
+            100% { left: 100%; }
         }
 
         .notification {
@@ -192,60 +215,20 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #000000aa;
+            background: rgba(45,52,54,0.95);
             border: 2px solid var(--primary-color);
-            padding: 20px 40px;
-            border-radius: 10px;
-            backdrop-filter: blur(8px);
-            box-shadow: var(--neon-glow);
+            padding: 2rem 3rem;
+            border-radius: 15px;
+            box-shadow: var(--neon-shadow);
             z-index: 2000;
-        }
-
-        .loading-animation {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-        }
-
-        .terminal-loader {
-            background: #000000aa;
-            border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 2rem;
-            min-width: 400px;
-            box-shadow: var(--neon-glow);
+            backdrop-filter: blur(10px);
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.4rem; }
-            #filtros { flex-direction: column; margin: 1rem; }
-            input[type="text"] { width: 100%; }
-            #scripts-principales { padding: 1.5rem; grid-template-columns: 1fr; }
+            h1 { font-size: 2.5rem; }
+            #scripts-principales { padding: 1.5rem; grid-gap: 1.5rem; }
             .script { padding: 1rem; }
-        }
-
-        .cyber-effect {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cyber-effect::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, 
-                transparent 48%, 
-                var(--primary-color) 50%, 
-                transparent 52%);
-            animation: scan 3s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+            button, input[type="text"] { padding: 0.6rem 1rem; }
         }
     </style>
     <script async src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
@@ -259,9 +242,10 @@
     </script>
 </head>
 <body>
-    <header class="cyber-effect">
+    <div class="loading-bar" id="loadingBar"></div>
+    <header>
         <h1 id="mainTitle">OneCreatorX Scripts</h1>
-        <div class="floating-icon">⚡</div>
+        <div class="floating-icon">🚀</div>
     </header>
 
     <nav id="filtros">
@@ -270,7 +254,7 @@
         <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
         <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
         <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
-        <button id="btn-apoyame"><i class="fas fa-heart"></i> Apóyame</button>
+        <button id="btn-apoyame" class="floating"><i class="fas fa-heart"></i> Apóyame</button>
         <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
         <button id="btn-sugerir-mejora"><i class="fas fa-lightbulb"></i> Sugerir Mejora</button>
         <button id="btn-pedir-script"><i class="fas fa-code"></i> Pedir Script</button>
@@ -290,12 +274,16 @@
         <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
     </footer>
 
-    <!-- Todos los modales originales se mantienen intactos -->
     <div id="modal-apoyame" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2><i class="fas fa-heart"></i> Apóyame</h2>
-            <!-- Contenido original -->
+            <p>Si quieres apoyarme para que siga creando contenido, puedes hacerlo de las siguientes formas:</p>
+            <ul>
+                <li><i class="fas fa-link"></i> Accede a los links de PasteDrop: Estos me ayudan a generar un pequeño ingreso.</li>
+                <li><i class="fas fa-gamepad"></i> <a href="https://www.roblox.com/games/17603437456" target="_blank">Haz tus compras en mi juego de Roblox</a></li>
+                <li><i class="fab fa-paypal"></i> <a href="https://www.paypal.com/donate?hosted_button_id=DTXNC6R42MJRA" target="_blank">Haz una donación directa a través de PayPal</a></li>
+            </ul>
         </div>
     </div>
 
@@ -303,11 +291,45 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
-            <!-- Contenido original -->
+            <input type="text" id="urlInput" placeholder="URL here e.g: https://gateway.platoboost.com/a/2569?id=123456789">
+            <button id="btnBypass"><i class="fas fa-key"></i> Bypass</button>
+            <div id="resultado"></div>
         </div>
     </div>
 
-    <!-- Resto de modales... -->
+    <div id="modal-sugerir-mejora" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-lightbulb"></i> Sugerir Mejora</h2>
+            <select id="scriptSelector">
+                <option value="">Selecciona un script</option>
+            </select>
+            <textarea id="sugerenciaTexto" placeholder="Describe tu sugerencia de mejora..."></textarea>
+            <button id="enviarSugerencia">Enviar Sugerencia</button>
+            <button id="cancelarSugerencia">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="modal-pedir-script" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-code"></i> Pedir Nuevo Script</h2>
+            <input type="text" id="gameInput" placeholder="ID del juego, URL o nombre">
+            <textarea id="descripcionScript" placeholder="Describe lo que quieres que haga el script..."></textarea>
+            <button id="enviarPeticion">Enviar Petición</button>
+            <button id="cancelarPeticion">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="modal-report" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-flag"></i> Reportar Script</h2>
+            <textarea id="reportText" placeholder="Describe el problema con el script..."></textarea>
+            <button id="enviarReporte">Enviar Reporte</button>
+            <button id="cancelarReporte">Cancelar</button>
+        </div>
+    </div>
 
     <div class="notification" id="notification">
         <div class="notification-content">
@@ -318,7 +340,8 @@
 
     <div class="loading-animation" id="bypassLoading">
         <div class="terminal-loader">
-            <div class="terminal-header">[root@onecreatorx] ~ # bypass_sequence</div>
+            <div class="terminal-header">
+                [root@matrix] ~ # Executing bypass.sh</div>
             <div class="terminal-body">
                 <div class="terminal-line"></div>
             </div>
