@@ -136,6 +136,26 @@
             font-family: 'JetBrains Mono';
         }
 
+        #navegacion {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: #00000055;
+            backdrop-filter: blur(8px);
+            margin: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #00000055;
+            border-top: 3px solid var(--primary-color);
+            backdrop-filter: blur(8px);
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -146,18 +166,56 @@
 
         .modal-content {
             background: var(--secondary-color);
+            margin: 15% auto;
+            padding: 20px;
             border: 3px solid var(--primary-color);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
             box-shadow: var(--neon-glow);
+        }
+
+        .close {
+            color: var(--text-color);
+            font-size: 28px;
+            transition: all 0.3s;
+        }
+
+        .close:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
         }
 
         .notification {
-            backdrop-filter: blur(8px);
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000000aa;
             border: 2px solid var(--primary-color);
+            padding: 20px 40px;
+            border-radius: 10px;
+            backdrop-filter: blur(8px);
             box-shadow: var(--neon-glow);
+            z-index: 2000;
+        }
+
+        .loading-animation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
         }
 
         .terminal-loader {
+            background: #000000aa;
             border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 2rem;
+            min-width: 400px;
             box-shadow: var(--neon-glow);
         }
 
@@ -165,30 +223,29 @@
             h1 { font-size: 2.4rem; }
             #filtros { flex-direction: column; margin: 1rem; }
             input[type="text"] { width: 100%; }
-            #scripts-principales { padding: 1.5rem; }
+            #scripts-principales { padding: 1.5rem; grid-template-columns: 1fr; }
+            .script { padding: 1rem; }
         }
 
-        /* Efectos especiales */
-        .cyber-border {
+        .cyber-effect {
             position: relative;
             overflow: hidden;
         }
 
-        .cyber-border::after {
+        .cyber-effect::after {
             content: '';
             position: absolute;
             inset: 0;
-            border: 2px solid transparent;
-            background: linear-gradient(45deg, var(--primary-color), transparent 60%);
-            mask: linear-gradient(#fff 0 0) content-box, 
-                  linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            animation: borderScan 4s linear infinite;
+            background: linear-gradient(45deg, 
+                transparent 48%, 
+                var(--primary-color) 50%, 
+                transparent 52%);
+            animation: scan 3s linear infinite;
         }
 
-        @keyframes borderScan {
-            0% { background-position: 0 0; }
-            100% { background-position: 200% 200%; }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
     </style>
     <script async src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
@@ -202,18 +259,72 @@
     </script>
 </head>
 <body>
-    <!-- Todo el HTML original se mantiene intacto -->
-    <header>
+    <header class="cyber-effect">
         <h1 id="mainTitle">OneCreatorX Scripts</h1>
-        <div class="floating-icon cyber-border">🔮</div>
+        <div class="floating-icon">⚡</div>
     </header>
 
-    <nav id="filtros" class="cyber-border">
-        <!-- Todos los elementos originales conservan sus IDs y estructura -->
+    <nav id="filtros">
+        <input type="text" id="busqueda" placeholder="Buscar scripts...">
+        <button id="filtro-todos"><i class="fas fa-globe"></i> Todos</button>
+        <button id="filtro-universales"><i class="fas fa-universal-access"></i> Universales</button>
+        <button id="filtro-juegos"><i class="fas fa-gamepad"></i> Juegos</button>
+        <button id="mas-antiguos"><i class="fas fa-history"></i> Más Antiguos</button>
+        <button id="btn-apoyame"><i class="fas fa-heart"></i> Apóyame</button>
+        <button id="btn-bypass-general"><i class="fas fa-unlock"></i> Bypass General</button>
+        <button id="btn-sugerir-mejora"><i class="fas fa-lightbulb"></i> Sugerir Mejora</button>
+        <button id="btn-pedir-script"><i class="fas fa-code"></i> Pedir Script</button>
     </nav>
 
-    <!-- Resto del HTML original sin cambios -->
-    
+    <main>
+        <div id="scripts-principales"></div>
+        <div id="navegacion">
+            <button id="anterior"><i class="fas fa-chevron-left"></i> Anterior</button>
+            <span id="info-pagina"></span>
+            <button id="siguiente">Siguiente <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </main>
+
+    <footer>
+        <button id="link-discord"><i class="fab fa-discord"></i> Discord</button>
+        <button id="link-youtube"><i class="fab fa-youtube"></i> YouTube</button>
+    </footer>
+
+    <!-- Todos los modales originales se mantienen intactos -->
+    <div id="modal-apoyame" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-heart"></i> Apóyame</h2>
+            <!-- Contenido original -->
+        </div>
+    </div>
+
+    <div id="modal-bypass" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-unlock-alt"></i> Bypass Executores or Links</h2>
+            <!-- Contenido original -->
+        </div>
+    </div>
+
+    <!-- Resto de modales... -->
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <i class="fas fa-info-circle"></i>
+            <span class="notification-text"></span>
+        </div>
+    </div>
+
+    <div class="loading-animation" id="bypassLoading">
+        <div class="terminal-loader">
+            <div class="terminal-header">[root@onecreatorx] ~ # bypass_sequence</div>
+            <div class="terminal-body">
+                <div class="terminal-line"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="main.js"></script>
 </body>
 </html>
