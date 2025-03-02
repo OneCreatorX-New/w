@@ -54,7 +54,7 @@ function setEL() {
             this.closest('.modal').style.display = 'none';
         });
     });
-    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/onecreatorx', '_blank'));
+    document.getElementById('link-discord').addEventListener('click', () => window.open('https://discord.gg/RCDQjQ9He6', '_blank'));
     document.getElementById('link-youtube').addEventListener('click', () => window.open('https://www.youtube.com/@OneCreatorX', '_blank'));
 }
 
